@@ -3,6 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1" metadata-complete="true">
+<!--初始化时加载文件-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring/applicationContext-dao.xml,classpath:spring/applicationContext-service.xml</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 
     <!-- 解决post乱码 -->
     <filter>
@@ -25,7 +33,7 @@
         <!-- contextConfigLocation不是必须的， 如果不配置contextConfigLocation， springmvc的配置文件默认在：WEB-INF/servlet的name+"-servlet.xml" -->
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:spring/applicationContext-*.xml</param-value>
+            <param-value>classpath:spring/applicationContext-web.xml</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>
