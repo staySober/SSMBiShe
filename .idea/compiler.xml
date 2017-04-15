@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="SoberGalleryBackend" />
+        <module name="SSMBiShe" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="SoberGalleryBackend" target="1.8" />
+      <module name="SSMBiShe" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

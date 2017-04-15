@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bishe.yuanye.dao.mapper.InitDTOMapper">
+    <resultMap id="question" type="com.bishe.yuanye.dao.dto.QuestionDTO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="chapter" property="chapter" jdbcType="INTEGER"/>
+        <result column="keyword_one" property="keywordOne" jdbcType="VARCHAR"/>
+        <result column="keyword_two" property="keywordTwo" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="question_text" property="questionText" jdbcType="VARCHAR"/>
+        <result column="pic_one_url" property="picOneUrl" jdbcType="VARCHAR"/>
+        <result column="pic_two_url" property="picTwoUrl" jdbcType="VARCHAR"/>
+        <result column="answer" property="answer" jdbcType="VARCHAR"/>
+        <result column="teacher_id" property="teacherId" jdbcType="INTEGER"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="INTEGER"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.bishe.yuanye.dao.dto.QuestionDTO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into bishe_question (chapter, keyword_one, keyword_two,
+                    type, question_text, pic_one_url, pic_two_url, answer,
+                    teacher_id, created_at, is_deleted)
+              value (#{chapter, jdbcType=INTEGER}, #{keywordOne, jdbcType=VARCHAR},
+                     #{keywordTwo, jdbcType=VARCHAR}, #{type, jdbcType=VARCHAR},
+                     #{questionText, jdbcType=VARCHAR}, #{picOneUrl, jdbcType=VARCHAR},
+                     #{picTwoUrl, jdbcType=VARCHAR}, #{answer, jdbcType=VARCHAR},
+                     #{teacherId, jdbcType=INTEGER}, #{createdAt, jdbcType=TIMESTAMP},
+                     #{isDeleted, jdbcType=INTEGER})
+    </insert>
+    <select id="selectById" resultMap="question">
+        select chapter, keyword_one, keyword_two,type, question_text, pic_one_url,
+         pic_two_url, answer, teacher_id
+         from bishe_question
+         where id = #{questionId}
+    </select>
+</mapper>

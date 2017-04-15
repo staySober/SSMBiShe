@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bishe.yuanye.dao.mapper.QuestionDTOMapper">
+  <resultMap id="BaseResultMap" type="com.bishe.yuanye.dao.dto.QuestionDTO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="chapter" jdbcType="INTEGER" property="chapter" />
+    <result column="keyword_one" jdbcType="VARCHAR" property="keywordOne" />
+    <result column="keyword_two" jdbcType="VARCHAR" property="keywordTwo" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="pic_one_url" jdbcType="VARCHAR" property="picOneUrl" />
+    <result column="pic_two_url" jdbcType="VARCHAR" property="picTwoUrl" />
+    <result column="answer" jdbcType="VARCHAR" property="answer" />
+    <result column="teacher_id" jdbcType="INTEGER" property="teacherId" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="is_deleted" jdbcType="SMALLINT" property="isDeleted" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.bishe.yuanye.dao.dto.QuestionDTO">
+    <result column="question_text" jdbcType="LONGVARCHAR" property="questionText" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, chapter, keyword_one, keyword_two, type, pic_one_url, pic_two_url, answer, teacher_id, 
+    created_at, is_deleted
+  </sql>
+  <sql id="Blob_Column_List">
+    question_text
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.bishe.yuanye.dao.dto.QuestionDTOExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from bishe_question
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.bishe.yuanye.dao.dto.QuestionDTOExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from bishe_question
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from bishe_question
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="com.bishe.yuanye.dao.dto.QuestionDTO">
+    insert into bishe_question (id, chapter, keyword_one, 
+      keyword_two, type, pic_one_url, 
+      pic_two_url, answer, teacher_id, 
+      created_at, is_deleted, question_text
+      )
+    values (#{id,jdbcType=INTEGER}, #{chapter,jdbcType=INTEGER}, #{keywordOne,jdbcType=VARCHAR}, 
+      #{keywordTwo,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{picOneUrl,jdbcType=VARCHAR}, 
+      #{picTwoUrl,jdbcType=VARCHAR}, #{answer,jdbcType=VARCHAR}, #{teacherId,jdbcType=INTEGER}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=SMALLINT}, #{questionText,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bishe.yuanye.dao.dto.QuestionDTO">
+    insert into bishe_question
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="chapter != null">
+        chapter,
+      </if>
+      <if test="keywordOne != null">
+        keyword_one,
+      </if>
+      <if test="keywordTwo != null">
+        keyword_two,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="picOneUrl != null">
+        pic_one_url,
+      </if>
+      <if test="picTwoUrl != null">
+        pic_two_url,
+      </if>
+      <if test="answer != null">
+        answer,
+      </if>
+      <if test="teacherId != null">
+        teacher_id,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="questionText != null">
+        question_text,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="chapter != null">
+        #{chapter,jdbcType=INTEGER},
+      </if>
+      <if test="keywordOne != null">
+        #{keywordOne,jdbcType=VARCHAR},
+      </if>
+      <if test="keywordTwo != null">
+        #{keywordTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="picOneUrl != null">
+        #{picOneUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="picTwoUrl != null">
+        #{picTwoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null">
+        #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherId != null">
+        #{teacherId,jdbcType=INTEGER},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=SMALLINT},
+      </if>
+      <if test="questionText != null">
+        #{questionText,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bishe.yuanye.dao.dto.QuestionDTOExample" resultType="java.lang.Integer">
+    select count(*) from bishe_question
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update bishe_question
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.chapter != null">
+        chapter = #{record.chapter,jdbcType=INTEGER},
+      </if>
+      <if test="record.keywordOne != null">
+        keyword_one = #{record.keywordOne,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keywordTwo != null">
+        keyword_two = #{record.keywordTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.picOneUrl != null">
+        pic_one_url = #{record.picOneUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.picTwoUrl != null">
+        pic_two_url = #{record.picTwoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.answer != null">
+        answer = #{record.answer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherId != null">
+        teacher_id = #{record.teacherId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdAt != null">
+        created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=SMALLINT},
+      </if>
+      <if test="record.questionText != null">
+        question_text = #{record.questionText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update bishe_question
+    set id = #{record.id,jdbcType=INTEGER},
+      chapter = #{record.chapter,jdbcType=INTEGER},
+      keyword_one = #{record.keywordOne,jdbcType=VARCHAR},
+      keyword_two = #{record.keywordTwo,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      pic_one_url = #{record.picOneUrl,jdbcType=VARCHAR},
+      pic_two_url = #{record.picTwoUrl,jdbcType=VARCHAR},
+      answer = #{record.answer,jdbcType=VARCHAR},
+      teacher_id = #{record.teacherId,jdbcType=INTEGER},
+      created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=SMALLINT},
+      question_text = #{record.questionText,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update bishe_question
+    set id = #{record.id,jdbcType=INTEGER},
+      chapter = #{record.chapter,jdbcType=INTEGER},
+      keyword_one = #{record.keywordOne,jdbcType=VARCHAR},
+      keyword_two = #{record.keywordTwo,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      pic_one_url = #{record.picOneUrl,jdbcType=VARCHAR},
+      pic_two_url = #{record.picTwoUrl,jdbcType=VARCHAR},
+      answer = #{record.answer,jdbcType=VARCHAR},
+      teacher_id = #{record.teacherId,jdbcType=INTEGER},
+      created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=SMALLINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bishe.yuanye.dao.dto.QuestionDTO">
+    update bishe_question
+    <set>
+      <if test="chapter != null">
+        chapter = #{chapter,jdbcType=INTEGER},
+      </if>
+      <if test="keywordOne != null">
+        keyword_one = #{keywordOne,jdbcType=VARCHAR},
+      </if>
+      <if test="keywordTwo != null">
+        keyword_two = #{keywordTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="picOneUrl != null">
+        pic_one_url = #{picOneUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="picTwoUrl != null">
+        pic_two_url = #{picTwoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null">
+        answer = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherId != null">
+        teacher_id = #{teacherId,jdbcType=INTEGER},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=SMALLINT},
+      </if>
+      <if test="questionText != null">
+        question_text = #{questionText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bishe.yuanye.dao.dto.QuestionDTO">
+    update bishe_question
+    set chapter = #{chapter,jdbcType=INTEGER},
+      keyword_one = #{keywordOne,jdbcType=VARCHAR},
+      keyword_two = #{keywordTwo,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      pic_one_url = #{picOneUrl,jdbcType=VARCHAR},
+      pic_two_url = #{picTwoUrl,jdbcType=VARCHAR},
+      answer = #{answer,jdbcType=VARCHAR},
+      teacher_id = #{teacherId,jdbcType=INTEGER},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=SMALLINT},
+      question_text = #{questionText,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bishe.yuanye.dao.dto.QuestionDTO">
+    update bishe_question
+    set chapter = #{chapter,jdbcType=INTEGER},
+      keyword_one = #{keywordOne,jdbcType=VARCHAR},
+      keyword_two = #{keywordTwo,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      pic_one_url = #{picOneUrl,jdbcType=VARCHAR},
+      pic_two_url = #{picTwoUrl,jdbcType=VARCHAR},
+      answer = #{answer,jdbcType=VARCHAR},
+      teacher_id = #{teacherId,jdbcType=INTEGER},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
