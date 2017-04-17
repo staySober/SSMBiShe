@@ -1,7 +1,9 @@
 package com.bishe.yuanye.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.util.List;
+
+import com.bishe.yuanye.dao.dto.PaperDTO;
+import com.bishe.yuanye.dao.dto.StudentAnswerMapDTO;
 
 /**
  * Created by sober on 2017/4/14.
@@ -12,5 +14,7 @@ import org.springframework.stereotype.Service;
 
 public interface PaperService {
 
+     List<PaperDTO> getPaperByTeacherId(int id);
 
+     List<StudentAnswerMapDTO> getStudentAnswerRelation(Integer studentId);
 }

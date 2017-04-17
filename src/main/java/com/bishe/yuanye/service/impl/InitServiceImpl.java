@@ -17,12 +17,14 @@ public class InitServiceImpl implements InitService {
     @Autowired
     InitDTOMapper initDTOMapper;
 
+    @Override
     public void submitQuestion(Question question) {
 
         QuestionDTO questionDTO = BuilderHelper.buildQuestionDTO(question);
         initDTOMapper.insert(questionDTO);
     }
 
+    @Override
     public Question getQuestionById(int questionId) {
         QuestionDTO questionDTO = initDTOMapper.selectById(questionId);
         Question question = BuilderHelper.buildQuestion(questionDTO);
