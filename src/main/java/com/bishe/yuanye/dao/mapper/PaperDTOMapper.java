@@ -2,9 +2,8 @@ package com.bishe.yuanye.dao.mapper;
 
 import com.bishe.yuanye.dao.dto.PaperDTO;
 import com.bishe.yuanye.dao.dto.PaperDTOExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface PaperDTOMapper {
     int countByExample(PaperDTOExample example);

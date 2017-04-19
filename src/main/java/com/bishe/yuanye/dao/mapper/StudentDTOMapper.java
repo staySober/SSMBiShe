@@ -2,9 +2,8 @@ package com.bishe.yuanye.dao.mapper;
 
 import com.bishe.yuanye.dao.dto.StudentDTO;
 import com.bishe.yuanye.dao.dto.StudentDTOExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface StudentDTOMapper {
     int countByExample(StudentDTOExample example);

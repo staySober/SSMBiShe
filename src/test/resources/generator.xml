@@ -21,18 +21,18 @@
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="com.bishe.production.dao.dto"
+        <javaModelGenerator targetPackage="com.bishe.yuanye.dao.dto"
                             targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="com.bishe.production.dao.mapper"
+        <sqlMapGenerator targetPackage="com.bishe.yuanye.dao.mapper"
                          targetProject="src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
-        <javaClientGenerator targetPackage="com.bishe.production.dao.mapper"
+        <javaClientGenerator targetPackage="com.bishe.yuanye.dao.mapper"
                              targetProject="src/main/java" type="XMLMAPPER">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>

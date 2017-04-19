@@ -65,7 +65,7 @@ public class PageController {
 		});
 		//返回视图
 		modelAndView.addObject("paperList",paperList);
-		modelAndView.setViewName("/paperList");
+		modelAndView.setViewName("paperList");
 		return modelAndView;
 	}
 
