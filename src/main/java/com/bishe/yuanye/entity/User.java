@@ -7,7 +7,7 @@ import java.util.Arrays;
  */
 public class User {
 
-	private Type type;
+	private Integer userType;
 
 	private String username;
 
@@ -15,9 +15,9 @@ public class User {
 
 	public enum Type{
 
-		Student(1),
+		STUDENT(1),
 
-		Admin(2);
+		TEACHER(2);
 
 		  int _value;
 
@@ -38,12 +38,12 @@ public class User {
          }
 	}
 
-	public Type getType() {
-		return type;
+	public Integer getUserType() {
+		return userType;
 	}
 
-	public void setType(Type type) {
-		this.type = type;
+	public void setUserType(Integer userType) {
+		this.userType = userType;
 	}
 
 	public String getUsername() {

@@ -59,4 +59,5 @@
             <bean class="com.bishe.yuanye.interceptor.SystemInitInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
+
 </beans>
