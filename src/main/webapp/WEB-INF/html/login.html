@@ -5,7 +5,7 @@
     <head>
 
         <meta charset="utf-8">
-        <title>Fullscreen Login</title>
+        <title>登录</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">
@@ -27,10 +27,19 @@
 
         <div class="page-container">
             <h1>Login</h1>
-            <form action="" method="post">
+            <form action="http://localhost:8080/user/loginUser" method="POST">
                 <input type="text" name="username" class="username" placeholder="Username">
                 <input type="password" name="password" class="password" placeholder="Password">
-                <button type="submit">Sign me in</button>
+                <br/>
+                <br/>
+                <div>
+                    登录用户类型：
+                    <select name="userType">
+                        <option value="1">学生登录</option>
+                        <option value="2">教师登录</option>
+                    </select>
+                </div>
+                <button type="submit">登录系统</button>
                 <div class="error"><span>+</span></div>
             </form>
             <div class="connect">
@@ -40,6 +49,9 @@
                     <a class="twitter" href=""></a>
                 </p>
             </div>
+        </div>
+        <div>
+            <a name="msg"></a>
         </div>
         <div align="center">Collect from <a  target="_blank" title="电路原理题库系统">电路原理题库系统</a></div>
 
