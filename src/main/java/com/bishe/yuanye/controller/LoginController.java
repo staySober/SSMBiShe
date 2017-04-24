@@ -21,7 +21,7 @@ public class LoginController {
 	private LoginService loginService;
 
 	@RequestMapping(value = "/loginUser")
-	public ModelAndView login(User user, HttpServletRequest request, HttpServletResponse response,ModelAndView modelAndView){
+	public ModelAndView login(User user, HttpServletRequest request,ModelAndView modelAndView){
 		if (user == null){
 			modelAndView.setViewName("redirect:/html/errorLogin.html");
 		}

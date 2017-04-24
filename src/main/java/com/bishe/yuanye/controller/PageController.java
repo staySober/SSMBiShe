@@ -23,7 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
  * Created by sober on 2017/4/13.
  */
 @Controller
-@RequestMapping(value = "/bishe")
+@RequestMapping(value = "/paper")
 public class PageController {
 
 	@Autowired
