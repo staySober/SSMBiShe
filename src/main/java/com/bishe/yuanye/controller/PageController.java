@@ -1,9 +1,12 @@
 package com.bishe.yuanye.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.bishe.yuanye.dao.dto.PaperDTO;
 import com.bishe.yuanye.dao.dto.StudentAnswerMapDTO;
@@ -11,6 +14,8 @@ import com.bishe.yuanye.dao.mapper.PaperDTOMapper;
 import com.bishe.yuanye.dao.mapper.StudentAnswerMapDTOMapper;
 import com.bishe.yuanye.dao.mapper.StudentDTOMapper;
 import com.bishe.yuanye.entity.Paper;
+import com.bishe.yuanye.entity.Question;
+import com.bishe.yuanye.entity.User;
 import com.bishe.yuanye.service.PaperService;
 import com.bishe.yuanye.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,4 +74,18 @@ public class PageController {
 	}
 
 
+	@RequestMapping("/getPaperContent")
+	@ResponseBody
+	public List<Question> getPaperContent(HttpServletRequest request){
+		User user = (User)request.getSession().getAttribute("user");
+		Cookie cookie = Arrays.stream(request.getCookies()).filter(x -> "paperId".equals(x.getName())).findAny().get();
+		List<Question> questions = paperService.getQuestionByPaperId(user.getTeacherId(),Integer.parseInt(cookie.getValue()));
+		return questions;
+	}
+
+	@RequestMapping("/getPaper")
+	public String getPaper(Integer paperId,HttpServletResponse response){
+		response.addCookie(new Cookie("paperId",paperId.toString()));
+		return "student/paperAnswer";
+	}
 }

@@ -2,13 +2,24 @@ package com.bishe.yuanye.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.bishe.yuanye.dao.dto.PaperDTO;
 import com.bishe.yuanye.dao.dto.PaperDTOExample;
+import com.bishe.yuanye.dao.dto.PaperQuestionMapDTO;
+import com.bishe.yuanye.dao.dto.PaperQuestionMapDTOExample;
+import com.bishe.yuanye.dao.dto.QuestionDTO;
+import com.bishe.yuanye.dao.dto.QuestionDTOExample;
 import com.bishe.yuanye.dao.dto.StudentAnswerMapDTO;
 import com.bishe.yuanye.dao.dto.StudentAnswerMapDTOExample;
+import com.bishe.yuanye.dao.dto.TeacherPaperMapDTO;
+import com.bishe.yuanye.dao.dto.TeacherPaperMapDTOExample;
 import com.bishe.yuanye.dao.mapper.PaperDTOMapper;
+import com.bishe.yuanye.dao.mapper.PaperQuestionMapDTOMapper;
+import com.bishe.yuanye.dao.mapper.QuestionDTOMapper;
 import com.bishe.yuanye.dao.mapper.StudentAnswerMapDTOMapper;
+import com.bishe.yuanye.dao.mapper.TeacherPaperMapDTOMapper;
+import com.bishe.yuanye.entity.Question;
 import com.bishe.yuanye.service.PaperService;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +40,15 @@ public class PaperServiceImpl implements PaperService {
     @Autowired
 	private StudentAnswerMapDTOMapper studentAnswerMapMapper;
 
+    @Autowired
+    private QuestionDTOMapper questionDTOMapper;
+
+    @Autowired
+    private PaperQuestionMapDTOMapper paperQuestionDTOMapper;
+
+    @Autowired
+    private TeacherPaperMapDTOMapper teacherPaperDTOMapper;
+
     @Override
     public List<PaperDTO> getPaperByTeacherId(int id) {
         PaperDTOExample example =new PaperDTOExample();
@@ -46,6 +66,38 @@ public class PaperServiceImpl implements PaperService {
             return answerMapDTOS;
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public List<Question> getQuestionByPaperId(Integer teacherId,Integer paperId) {
+        //paper和teacher的关系
+        TeacherPaperMapDTOExample ex1 = new TeacherPaperMapDTOExample();
+        ex1.createCriteria().andTeacherIdEqualTo(teacherId).andPaperIdEqualTo(paperId).andIsDeletedEqualTo((short)0);
+        List<TeacherPaperMapDTO> teacherPaperMapDTOS = teacherPaperDTOMapper.selectByExample(ex1);
+        List<Integer> refPaperId = teacherPaperMapDTOS.stream().map(x -> x.getPaperId()).collect(Collectors.toList());
+        //paper和question的关系
+        PaperQuestionMapDTOExample ex2 = new PaperQuestionMapDTOExample();
+        ex2.createCriteria().andPaperIdIn(refPaperId).andIsDeletedEqualTo((short)0);
+        List<PaperQuestionMapDTO> paperQuestionMapDTOS = paperQuestionDTOMapper.selectByExample(ex2);
+        List<Integer> questionIds = paperQuestionMapDTOS.stream().map(x -> x.getQuestionId()).collect(Collectors.toList());
+        //获取question
+        QuestionDTOExample example = new QuestionDTOExample();
+        example.createCriteria().andIdIn(questionIds).andIsDeletedEqualTo((short)0);
+        List<QuestionDTO> questionDTOS = questionDTOMapper.selectByExampleWithBLOBs(example);
+        List<Question> collect = questionDTOS.stream().map(x -> {
+            Question q = new Question();
+            q.setTeacherId(x.getTeacherId());
+            q.setAnswer(x.getAnswer());
+            q.setChapter(x.getChapter());
+            q.setKeywordOne(x.getKeywordOne());
+            q.setKeywordTwo(x.getKeywordTwo());
+            q.setPicOneUrl(x.getPicOneUrl());
+            q.setPicTwoUrl(x.getPicTwoUrl());
+            q.setQuestionText(x.getQuestionText());
+            q.setType(x.getType());
+            return q;
+        }).collect(Collectors.toList());
+        return collect;
     }
 
 }

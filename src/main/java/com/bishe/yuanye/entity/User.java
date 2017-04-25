@@ -15,6 +15,9 @@ public class User {
 
     private String password;
 
+    private Integer teacherId;
+
+
     public enum Type {
 
         STUDENT(1),
@@ -69,6 +72,14 @@ public class User {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(Integer teacherId) {
+        this.teacherId = teacherId;
     }
 
 }

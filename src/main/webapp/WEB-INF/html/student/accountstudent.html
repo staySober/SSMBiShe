@@ -53,19 +53,19 @@
                         <p>待完成试卷</p>
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="completepaper.html">
                         <i class="ti-save"></i>
                         <p>已完成试卷</p>
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="managerinfo.html">
                         <i class="ti-user"></i>
                         <p>个人信息管理</p>
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="accountstudent.html">
                         <i class="ti-user"></i>
                         <p>学生账号管理</p>
@@ -87,33 +87,33 @@
                     </button>
                     <a class="navbar-brand" href="#">学生账号管理</a>
                 </div>
-                <div class="collapse navbar-collapse">
+              <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="ti-panel"></i>
-								<p>Stats</p>
+                                <p id="userInfo"></p>
                             </a>
                         </li>
                         <li class="dropdown">
-                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="ti-bell"></i>
-                                    <p class="notification">5</p>
-									<p>Notifications</p>
-									<b class="caret"></b>
-                              </a>
-                              <ul class="dropdown-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="ti-bell"></i>
+                                <p class="notification">5</p>
+                                <p>Notifications</p>
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
                                 <li><a href="#">Notification 1</a></li>
                                 <li><a href="#">Notification 2</a></li>
                                 <li><a href="#">Notification 3</a></li>
                                 <li><a href="#">Notification 4</a></li>
                                 <li><a href="#">Another notification</a></li>
-                              </ul>
+                            </ul>
                         </li>
-						<li>
+                        <li>
                             <a href="#">
-								<i class="ti-settings"></i>
-								<p>Settings</p>
+                                <i class="ti-settings"></i>
+                                <p>退出登录</p>
                             </a>
                         </li>
                     </ul>
@@ -173,5 +173,22 @@
 	<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
 	<script src="../../assets/js/demo.js"></script>
 
+<script type="text/javascript">
+    $(function () {
+        <!--获取session信息  ajax异步请求(jquery不能直接操作session)-->
+        var url="/user/getUserSession";
+        $.ajax({
+            async: false,
+            url: url,
+            dataType: 'json',
+            success: function (user) {
+                if (typeof user == 'object') {
+                    $("#userInfo").append("欢迎您:"+user.username);
+                }
+            }
+        });
+
+    });
+</script>
 
 </html>

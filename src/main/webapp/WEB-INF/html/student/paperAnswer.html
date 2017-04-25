@@ -21,8 +21,6 @@
     <!--  Paper Dashboard core CSS    -->
     <link href="../../assets/css/paper-dashboard.css" rel="stylesheet"/>
 
-    <!--  CSS for Demo Purpose, don't include it in your project     -->
-    <link href="../../assets/css/demo.css" rel="stylesheet"/>
 
     <!--  Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -32,48 +30,8 @@
 <body>
 
 <div class="wrapper">
-    <div class="sidebar" data-background-color="white" data-active-color="danger">
 
-        <!--
-            Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
-            Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
-        -->
-
-        <div class="sidebar-wrapper">
-            <div class="logo">
-                <a href="#" class="simple-text">
-                    电路原理题库系统
-                </a>
-            </div>
-
-            <ul class="nav">
-                <li class="active">
-                    <a href="studenthome.html">
-                        <i class="ti-comment"></i>
-                        <p>待完成试卷</p>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="completepaper.html">
-                        <i class="ti-save"></i>
-                        <p>已完成试卷</p>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="managerinfo.html">
-                        <i class="ti-user"></i>
-                        <p>个人信息管理</p>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="accountstudent.html">
-                        <i class="ti-user"></i>
-                        <p>学生账号管理</p>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
+    <div class="copyrights">Collect from <a href="#" title="电路原理题库系统">电路原理题库系统</a></div>
 
     <div class="main-panel">
         <nav class="navbar navbar-default">
@@ -85,7 +43,7 @@
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#">个人信息管理</a>
+                    <a class="navbar-brand" href="#">作答试卷</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -120,37 +78,72 @@
 
                 </div>
             </div>
-    </nav>
+        </nav>
 
 
-    <div class="content">
-        <div class="container-fluid">
-            <div class="row">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h4 class="title">作答试卷</h4>
+                            <p class="category">24 Hours performance</p>
+                        </div>
+                        <div class="content">
+                            <div id="chartHours" class="ct-chart">
+                                <form method="post" href="/answer/setAnswer">
+                                <table id="answer" style="width: auto;height: auto;color:cornflowerblue;font-size: 20px;border-style: dashed" border="1px" align="center">
 
+                                </table>
+                                </form>
+                            </div>
+                            <div class="footer">
+                                <div class="chart-legend">
+                                    <i class="fa fa-circle text-info"></i> Open
+                                    <i class="fa fa-circle text-danger"></i> Click
+                                    <i class="fa fa-circle text-warning"></i> Click Second Time
+                                </div>
+                                <hr>
+                                <div class="stats">
+                                    <i class="ti-reload"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
+
+
+        <footer class="footer">
+            <div class="container-fluid">
+                <nav class="pull-left">
+                    <ul>
+
+                        <li>
+                            <a href="#">
+                                Creative Tim
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://blog.creative-tim.com">
+                                Blog
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#/license">
+                                Licenses
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="copyright pull-right">
+                </div>
+            </div>
+        </footer>
+
     </div>
-
-
-    <footer class="footer">
-        <div class="container-fluid">
-            <nav class="pull-left">
-                <ul>
-
-                    <li>
-                        <a href="#">
-                            Home
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="copyright pull-right">
-                电路原理题库系统
-            </div>
-        </div>
-    </footer>
-
-</div>
 </div>
 
 
@@ -169,15 +162,16 @@
 <!--  Notifications Plugin    -->
 <script src="../../assets/js/bootstrap-notify.js"></script>
 
+
 <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
 <script src="../../assets/js/paper-dashboard.js"></script>
 
-<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-<script src="../../assets/js/demo.js"></script>
 
 <script type="text/javascript">
     $(function () {
-        <!--获取session信息  ajax异步请求(jquery不能直接操作session)-->
+        <!--获取cookie信息  ajax异步请求(jquery不能直接操作session)-->
+        var studentId;
+
         var url="/user/getUserSession";
         $.ajax({
             async: false,
@@ -185,11 +179,37 @@
             dataType: 'json',
             success: function (user) {
                 if (typeof user == 'object') {
+                    studentId = user.id;
                     $("#userInfo").append("欢迎您:"+user.username);
                 }
             }
         });
+
+
+        $.post("/paper/getPaperContent",
+            function (data) {
+                $.each(data, function (index, obj) {
+                   $("#answer").append('<tr>obj.questionText</tr><tr>'+'<textarea rows=30 cols= 100></textarea></tr>');
+                });
+            });
     });
+
+    <!--获取session信息-->
+
+  /*  function getCookie(cookieName){
+        var cookieValue="";
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                 var cookie = cookies[i];
+                 if (cookie.substring(0, cookieName.length + 2).trim() == cookieName.trim() + "=") {
+                       cookieValue = cookie.substring(cookieName.length + 2, cookie.length);
+                       break;
+                 }
+             }
+        }
+        return cookieValue;
+    }*/
 </script>
 
 </html>

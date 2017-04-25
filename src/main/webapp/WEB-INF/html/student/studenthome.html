@@ -46,19 +46,19 @@
                         <p>待完成试卷</p>
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="completepaper.html">
                         <i class="ti-save"></i>
                         <p>已完成试卷</p>
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="managerinfo.html">
                         <i class="ti-user"></i>
                         <p>个人信息管理</p>
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="accountstudent.html">
                         <i class="ti-user"></i>
                         <p>学生账号管理</p>
@@ -86,7 +86,7 @@
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="ti-panel"></i>
-                                <p>Stats</p>
+                                <p id="userInfo"></p>
                             </a>
                         </li>
                         <li class="dropdown">
@@ -107,7 +107,7 @@
                         <li>
                             <a href="#">
                                 <i class="ti-settings"></i>
-                                <p>Settings</p>
+                                <p>退出登录</p>
                             </a>
                         </li>
                     </ul>
@@ -200,10 +200,8 @@
 <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
 <script src="../../assets/js/paper-dashboard.js"></script>
 
-<script src="../../js/jquerySession.js"></script>
 
 <script type="text/javascript">
-    var user = $.session.get('user');
     $(function () {
         <!--获取session信息  ajax异步请求(jquery不能直接操作session)-->
         var studentId;
@@ -216,15 +214,18 @@
             success: function (user) {
                 if (typeof user == 'object') {
                     studentId = user.id;
+                    $("#userInfo").append("欢迎您:"+user.username);
                 }
             }
         });
 
-        $.post("/paper/getPaperList?studentId=1",
+        $.post("/paper/getPaperList?studentId="+studentId,
             function (data) {
                 $.each(data, function (index, obj) {
                     if (obj.answer == false) {
-                        $("#paper").append('<tr>...<td>'+'试卷名称:'+obj.paperName+'</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是否作答:否</td>'+'<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/paper/getPaper?paperId='+obj.paperId+'">查看试卷</a>'+'</td></tr>');
+                        $("#paper").append('<tr>...<td>'+'试卷名称:'+obj.paperName+
+                            '</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作答情况:否</td>'+
+                            '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/paper/getPaper?paperId='+obj.paperId+'">作答试卷</a></td></tr>');
                     }
                 });
             });

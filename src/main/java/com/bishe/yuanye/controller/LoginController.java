@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,6 +23,7 @@ public class LoginController {
 	@Autowired
 	private LoginService loginService;
 
+
 	@RequestMapping(value = "/loginUser")
 	public ModelAndView login(User user, HttpServletRequest request,ModelAndView modelAndView){
 		if (user == null){
@@ -33,6 +35,7 @@ public class LoginController {
 		//往session设置user信息
 			request.getSession().setAttribute("user",loginUser);
 			if (User.Type.getType(user.getUserType()) == User.Type.STUDENT){
+
 				modelAndView.setViewName("redirect:/html/student/studenthome.html");
 			}
 			if (User.Type.getType(user.getUserType()) == User.Type.TEACHER){
