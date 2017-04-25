@@ -105,7 +105,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="/user/logout">
                                 <i class="ti-settings"></i>
                                 <p>退出登录</p>
                             </a>
@@ -127,7 +127,7 @@
                         </div>
                         <div class="content">
                             <div id="chartHours" class="ct-chart">
-                                <table id="paper" style="width: auto;height: auto;color:cornflowerblue;font-size: 20px;border-style: dashed" border="1px" align="center">
+                                <table id="paper" style="width: auto;height: auto;color:cornflowerblue;font-size: 20px;border-style: dashed" border="1px" align="left">
 
                                 </table>
                             </div>
@@ -222,7 +222,7 @@
             function (data) {
                 $.each(data, function (index, obj) {
                     if (obj.answer == true) {
-                        $("#paper").append('<tr>...<td>'+'试卷名称:'+obj.paperName+
+                        $("#paper").append('<tr>...<td>第'+(index+1)+'题:  试卷名称:'+obj.paperName+
                             '</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
                             '作答情况:是<a href="/paper/getStudentAnswer?studentId="+studentId+"&paperId="+obj.paperId></a></td>'+
                             '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
