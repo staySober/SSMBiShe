@@ -6,7 +6,7 @@
 	<link rel="icon" type="image/png" sizes="96x96" href="../../assets/img/favicon.png">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>Paper Dashboard by Creative Tim</title>
+	<title>电路原理题库系统</title>
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -39,65 +39,40 @@
 		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
 		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
 	-->
-
-    	<div class="sidebar-wrapper">
+        <div class="sidebar-wrapper">
             <div class="logo">
                 <a href="#" class="simple-text">
-                    Creative Tim
+                    电路原理题库系统
                 </a>
             </div>
 
             <ul class="nav">
-                <li>
-                    <a href="studenthome.html">
-                        <i class="ti-panel"></i>
-                        <p>Dashboard</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="user.html">
-                        <i class="ti-user"></i>
-                        <p>User Profile</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="table.html">
-                        <i class="ti-view-list-alt"></i>
-                        <p>Table List</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="typography.html">
-                        <i class="ti-text"></i>
-                        <p>Typography</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="icons.html">
-                        <i class="ti-pencil-alt2"></i>
-                        <p>Icons</p>
-                    </a>
-                </li>
                 <li class="active">
-                    <a href="maps.html">
-                        <i class="ti-map"></i>
-                        <p>Maps</p>
+                    <a href="studenthome.html">
+                        <i class="ti-comment"></i>
+                        <p>待完成试卷</p>
                     </a>
                 </li>
                 <li>
-                    <a href="notifications.html">
-                        <i class="ti-bell"></i>
-                        <p>Notifications</p>
+                    <a href="completepaper.html">
+                        <i class="ti-save"></i>
+                        <p>已完成试卷</p>
                     </a>
                 </li>
-				<li class="active-pro">
-                    <a href="upgrade.html">
-                        <i class="ti-export"></i>
-                        <p>Upgrade to PRO</p>
+                <li>
+                    <a href="managerinfo.html">
+                        <i class="ti-user"></i>
+                        <p>个人信息管理</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="accountstudent.html">
+                        <i class="ti-user"></i>
+                        <p>学生账号管理</p>
                     </a>
                 </li>
             </ul>
-    	</div>
+        </div>
     </div>
 
     <div class="main-panel">
@@ -110,7 +85,7 @@
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Maps</a>
+                    <a class="navbar-brand" href="#">已完成试卷</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -147,44 +122,29 @@
             </div>
         </nav>
 
-		<div class="content">
-            <div class="container-fluid">
-                <div class="card card-map">
-					<div class="header">
-                        <h4 class="title">Google Maps</h4>
-                    </div>
-					<div class="map">
-						<div id="map"></div>
-					</div>
-				</div>
-			</div>
-		</div>
 
-		<footer class="footer">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+
+                </div>
+            </div>
+        </div>
+
+
+        <footer class="footer">
             <div class="container-fluid">
                 <nav class="pull-left">
                     <ul>
 
                         <li>
                             <a href="#">
-                                Creative Tim
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://blog.creative-tim.com">
-                               Blog
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#/license">
-                                Licenses
+                                Home
                             </a>
                         </li>
                     </ul>
                 </nav>
-				<div class="copyright pull-right">
-                    &copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="#">Creative Tim</a>. More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
-                </div>
+                电路原理题库系统
             </div>
         </footer>
 
@@ -207,19 +167,11 @@
     <!--  Notifications Plugin    -->
     <script src="../../assets/js/bootstrap-notify.js"></script>
 
-    <!--  Google Maps Plugin    -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
-
     <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
 	<script src="../../assets/js/paper-dashboard.js"></script>
 
 	<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
 	<script src="../../assets/js/demo.js"></script>
 
-    <script>
-        $().ready(function(){
-            demo.initGoogleMaps();
-        });
-    </script>
 
 </html>
