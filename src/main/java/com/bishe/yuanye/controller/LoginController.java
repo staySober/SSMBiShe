@@ -4,7 +4,9 @@ import com.bishe.yuanye.entity.User;
 import com.bishe.yuanye.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,5 +43,11 @@ public class LoginController {
 		}
 		//返回视图
 		return modelAndView;
+	}
+
+	@RequestMapping(value = "/getUserSession")
+	@ResponseBody
+	public User getUserSession(HttpServletRequest request){
+		return (User)request.getSession().getAttribute("user");
 	}
 }

@@ -37,6 +37,7 @@ public class LoginServiceImpl implements LoginService {
             List<StudentDTO> studentDTOS = studentDTOMapper.selectByExample(example);
              return CollectionUtils.isEmpty(studentDTOS) ? null: studentDTOS.stream().map(x->{
                  User user1 = new User();
+                 user1.setId(x.getId());
                  user1.setUsername(x.getUsername());
                  user1.setPassword(x.getPassword());
                  user1.setUserType(User.Type.STUDENT.value());
@@ -52,6 +53,7 @@ public class LoginServiceImpl implements LoginService {
                 user1.setUsername(x.getUsername());
                 user1.setPassword(x.getPassword());
                 user1.setUserType(User.Type.STUDENT.value());
+                user1.setId(x.getId());
                 return user1;
             }).collect(Collectors.toList()).get(0);
         }

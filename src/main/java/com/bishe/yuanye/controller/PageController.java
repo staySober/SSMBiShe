@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -36,8 +37,9 @@ public class PageController {
 	/**
 	 * 获取试卷集的方法
 	 */
-	@RequestMapping(value = "/getPaperList",method = RequestMethod.GET)
-	public ModelAndView getPaperList(ModelAndView modelAndView, HttpServletRequest request) {
+	@ResponseBody
+	@RequestMapping(value = "/getPaperList")
+	public List<Paper> getPaperList(HttpServletRequest request) {
 		Integer studentId = Integer.valueOf(request.getParameter("studentId"));
 		//通过studentId 找到对应teacherId
 		Integer teacherId = studentService.getTeacherIdByStudentId(studentId);
@@ -49,24 +51,21 @@ public class PageController {
 		List<Paper> paperList = paperDTOList.stream().map(x -> {
 				Paper paper = new Paper();
 				paper.setId(x.getId());
-				paper.setPapaerName(x.getName());
+				paper.setPaperName(x.getName());
 				paper.setPaperId(x.getId());
 				paper.setStudentId(studentId);
 				return paper;
 			}
 		).collect(Collectors.toList());
 
-		paperDTOList.forEach(paper->{
-			paperList.forEach(y->{
-				if (paper.getId().equals(y.getPaperId())){
-					y.setAnswer(true);
+		paperList.forEach(paper->{
+			answerMapDTOS.forEach(y->{
+				if (paper.getPaperId() == y.getPaperId()){
+					paper.setAnswer(true);
 				}
 			});
 		});
-		//返回视图
-		modelAndView.addObject("paperList",paperList);
-		modelAndView.setViewName("paperList");
-		return modelAndView;
+		return paperList;
 	}
 
 

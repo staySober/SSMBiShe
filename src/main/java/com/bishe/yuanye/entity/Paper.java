@@ -7,7 +7,7 @@ public class Paper {
 
 	private int id;
 
-	private String papaerName;
+	private String paperName;
 
 	private int studentId;
 
@@ -23,12 +23,12 @@ public class Paper {
 		this.id = id;
 	}
 
-	public String getPapaerName() {
-		return papaerName;
+	public String getPaperName() {
+		return paperName;
 	}
 
-	public void setPapaerName(String papaerName) {
-		this.papaerName = papaerName;
+	public void setPaperName(String paperName) {
+		this.paperName = paperName;
 	}
 
 	public int getStudentId() {

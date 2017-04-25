@@ -7,60 +7,70 @@ import java.util.Arrays;
  */
 public class User {
 
-	private Integer userType;
+    private Integer id;
 
-	private String username;
+    private Integer userType;
 
-	private String password;
+    private String username;
 
-	public enum Type{
+    private String password;
 
-		STUDENT(1),
+    public enum Type {
 
-		TEACHER(2);
+        STUDENT(1),
 
-		  int _value;
+        TEACHER(2);
 
-          public int value(){
-             return _value;
-          }
+        int _value;
 
-          Type(int value){
-              _value = value;
-          }
+        public int value() {
+            return _value;
+        }
 
-         public static Type getType(int _value)
-         {
+        Type(int value) {
+            _value = value;
+        }
+
+        public static Type getType(int _value) {
             Type[] types = Type.values();
             return Arrays.stream(types)
-                    .filter(type -> type.value() == _value)
-                    .findAny().get();
-         }
-	}
+                .filter(type -> type.value() == _value)
+                .findAny().get();
+        }
+    }
 
-	public Integer getUserType() {
-		return userType;
-	}
+    public Integer getUserType() {
+        return userType;
+    }
 
-	public void setUserType(Integer userType) {
-		this.userType = userType;
-	}
+    public void setUserType(Integer userType) {
+        this.userType = userType;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
 }
 
 
