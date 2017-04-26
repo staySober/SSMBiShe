@@ -7,6 +7,8 @@ import java.io.Serializable;
  */
 public class Question implements Serializable{
 
+    private Integer id;
+
     private Integer chapter;
 
     private String keywordOne;
@@ -95,5 +97,13 @@ public class Question implements Serializable{
 
     public void setTeacherId(int teacherId) {
         this.teacherId = teacherId;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

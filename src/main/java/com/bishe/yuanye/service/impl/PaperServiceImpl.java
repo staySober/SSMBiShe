@@ -95,6 +95,7 @@ public class PaperServiceImpl implements PaperService {
             q.setPicTwoUrl(x.getPicTwoUrl());
             q.setQuestionText(x.getQuestionText());
             q.setType(x.getType());
+            q.setId(x.getId());
             return q;
         }).collect(Collectors.toList());
         return collect;

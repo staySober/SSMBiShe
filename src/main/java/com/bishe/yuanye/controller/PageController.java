@@ -10,9 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bishe.yuanye.dao.dto.PaperDTO;
 import com.bishe.yuanye.dao.dto.StudentAnswerMapDTO;
-import com.bishe.yuanye.dao.mapper.PaperDTOMapper;
-import com.bishe.yuanye.dao.mapper.StudentAnswerMapDTOMapper;
-import com.bishe.yuanye.dao.mapper.StudentDTOMapper;
 import com.bishe.yuanye.entity.Paper;
 import com.bishe.yuanye.entity.Question;
 import com.bishe.yuanye.entity.User;
@@ -21,9 +18,7 @@ import com.bishe.yuanye.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created by sober on 2017/4/13.
@@ -86,6 +81,6 @@ public class PageController {
 	@RequestMapping("/getPaper")
 	public String getPaper(Integer paperId,HttpServletResponse response){
 		response.addCookie(new Cookie("paperId",paperId.toString()));
-		return "student/paperAnswer";
+		return "redirect:/html/student/paperAnswer.html";
 	}
 }
