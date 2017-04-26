@@ -81,7 +81,7 @@
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#">作答试卷</a>
+                    <a class="navbar-brand" href="#">参考情况</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -124,7 +124,7 @@
                 <div class="col-md-12" style="width: 1583px; height: auto" >
                     <div class="card">
                         <div class="header">
-                            <h4 class="title">作答试卷</h4>
+                            <h4 class="title">参考答案</h4>
                             <p class="category">24 Hours performance</p>
                         </div>
                         <div class="content" style="height: 1000px">
@@ -183,10 +183,10 @@
         });
 
 
-        $.post("/paper/getPaperContent",
+        $.post("/paper/getStudentAnswerInfo",
             function (data) {
                 $.each(data, function (index, obj) {
-                   $("#answer").append('<form method="post" action="/paper/setAnswer">第'+(index+1)+'题:' + obj.questionText + '<textarea id="answer" name="answer" style="width: 700px; height: 60px"></textarea><input type="hidden" name="questionId" value="'+obj.id+'"><input type="submit" value="提交答案" style="border: 0px;background: white"><form><br/>');
+                   $("#answer").append('第'+(index+1)+'题:' + obj.question.questionText + '<textarea contenteditable="false" style="width: 700px; height: 60px">'+obj.question.answer+'</textarea><br/>');
                 });
             });
     });

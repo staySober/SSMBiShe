@@ -7,4 +7,10 @@ package com.bishe.yuanye.service;
  * @date 2017/04/14
  */
 public interface AnswerService {
+
+    public void setAnswer(Integer studentId,Integer paperId,Integer questionId,String answer);
+
+    public void delAnswer(Integer studentId,Integer paperId,Integer questionId);
+
+    String queryAnswer(Integer questionId, Integer paperId, Integer studentId);
 }

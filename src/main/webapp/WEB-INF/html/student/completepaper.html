@@ -224,9 +224,9 @@
                     if (obj.answer == true) {
                         $("#paper").append('<tr>...<td>第'+(index+1)+'题:  试卷名称:'+obj.paperName+
                             '</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-                            '作答情况:是<a href="/paper/getStudentAnswer?studentId="+studentId+"&paperId="+obj.paperId></a></td>'+
+                            '<a href="/paper/getStudentAnswer?paperId='+obj.paperId+'">作答情况</a></td>'+
                             '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-                            '<a href="/paper/getPaper?paperId='+obj.paperId+'">参考答案</a>'+'</td></tr>');
+                            '<a href="/paper/getTrueAnswer?paperId='+obj.paperId+'">参考答案</a>'+'</td></tr>');
                     }
                 });
             });

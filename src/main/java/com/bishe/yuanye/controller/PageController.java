@@ -69,6 +69,15 @@ public class PageController {
 	}
 
 
+
+	@RequestMapping("/getPaper")
+	public String getPaper(Integer paperId,HttpServletResponse response){
+		Cookie cookie = new Cookie("paperId", paperId.toString());
+		cookie.setPath("/");
+		response.addCookie(cookie);
+		return "student/paperAnswer";
+	}
+
 	@RequestMapping("/getPaperContent")
 	@ResponseBody
 	public List<Question> getPaperContent(HttpServletRequest request){
@@ -78,9 +87,23 @@ public class PageController {
 		return questions;
 	}
 
-	@RequestMapping("/getPaper")
-	public String getPaper(Integer paperId,HttpServletResponse response){
-		response.addCookie(new Cookie("paperId",paperId.toString()));
-		return "redirect:/html/student/paperAnswer.html";
+
+	@RequestMapping("/getStudentAnswer")
+	public String getStudentAnswer(HttpServletRequest request,HttpServletResponse response){
+		String paperId = request.getParameter("paperId");
+		Cookie cookie = new Cookie("paperId", paperId.toString());
+		cookie.setPath("/");
+		response.addCookie(cookie);
+		return "student/answerInfo";
 	}
+
+	@RequestMapping("/getTrueAnswer")
+	public String getTrueAnswer(HttpServletRequest request,HttpServletResponse response){
+		String paperId = request.getParameter("paperId");
+		Cookie cookie = new Cookie("paperId", paperId.toString());
+		cookie.setPath("/");
+		response.addCookie(cookie);
+		return "student/trueAnswer";
+	}
+
 }
