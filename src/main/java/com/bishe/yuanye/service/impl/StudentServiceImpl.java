@@ -58,7 +58,7 @@ public class StudentServiceImpl implements StudentService {
     public Student getStudentInfo(Integer id) {
         Student student = new Student();
         StudentDTO studentDTO = studentMapper.selectByPrimaryKey(id);
-        student.setId(student.getId());
+        student.setId(studentDTO.getId());
         student.setUsername(studentDTO.getUsername());
         student.setName(studentDTO.getName());
         student.setPassword(studentDTO.getPassword());
@@ -101,5 +101,19 @@ public class StudentServiceImpl implements StudentService {
             return t;
         }).collect(Collectors.toList());
         return collect;
+    }
+
+    @Override
+    public void updateInfo(String username, Integer id, String name, String password, Integer stClass,
+                           Integer studentNum, Integer teacher) {
+        StudentDTO dto = new StudentDTO();
+        dto.setId(id);
+        dto.setUsername(username);
+        dto.setName(name);
+        dto.setPassword(password);
+        dto.setClassId(stClass);
+        dto.setTeacherId(teacher);
+        dto.setStudentNum(studentNum);
+        studentMapper.updateByPrimaryKeySelective(dto);
     }
 }

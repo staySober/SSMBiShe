@@ -24,4 +24,6 @@ public interface StudentService {
 
     List<Teacher> getAllTeacher();
 
+    void updateInfo(String username, Integer id, String name, String password, Integer stClass, Integer studentNum,
+                    Integer teacher);
 }

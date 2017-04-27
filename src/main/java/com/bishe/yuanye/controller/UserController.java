@@ -48,4 +48,10 @@ public class UserController {
     public List<Teacher> getAllTeacher(){
        return studentService.getAllTeacher();
     }
+
+    @RequestMapping("/updateInfo")
+    public String updateInfo(String username,Integer studentId,String name,String password,Integer stClass,Integer studentNum,Integer teacher){
+        studentService.updateInfo(username,studentId,name,password,stClass,studentNum,teacher);
+        return "redirect:/html/student/managerinfo.html";
+    }
 }

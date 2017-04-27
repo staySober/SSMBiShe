@@ -204,7 +204,7 @@
                     '班级:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="stClass" id="stClass"><option value="">--默认--</option></select></br>' +
                     '老师:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="teacher" id="teacher"><option value="">--默认--</option></select></br></br>' +
                     '学生编号:<input type="text" name="studentNum" value="' + data.studentNum + '"></br>' +
-                    '<input type="submit" value="提交修改" style="color: deepskyblue;"></form>');
+                    '<input type="submit" value="提交修改" style="color: deepskyblue;"><input type="hidden" name="studentId" value='+data.id+'></form>');
                 className = data.stClass;
                 teacher = data.teacher;
             }
