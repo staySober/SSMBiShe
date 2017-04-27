@@ -3,7 +3,7 @@
 <mapper namespace="com.bishe.yuanye.dao.mapper.InitDTOMapper">
     <resultMap id="question" type="com.bishe.yuanye.dao.dto.QuestionDTO">
         <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="chapter" property="chapter" jdbcType="INTEGER"/>
+        <result column="chapterId" property="chapterId" jdbcType="INTEGER"/>
         <result column="keyword_one" property="keywordOne" jdbcType="VARCHAR"/>
         <result column="keyword_two" property="keywordTwo" jdbcType="VARCHAR"/>
         <result column="type" property="type" jdbcType="VARCHAR"/>
@@ -17,10 +17,10 @@
     </resultMap>
     <insert id="insert" parameterType="com.bishe.yuanye.dao.dto.QuestionDTO"
             useGeneratedKeys="true" keyProperty="id">
-        insert into bishe_question (chapter, keyword_one, keyword_two,
+        insert into bishe_question (chapterId, keyword_one, keyword_two,
                     type, question_text, pic_one_url, pic_two_url, answer,
                     teacher_id, created_at, is_deleted)
-              value (#{chapter, jdbcType=INTEGER}, #{keywordOne, jdbcType=VARCHAR},
+              value (#{chapterId, jdbcType=INTEGER}, #{keywordOne, jdbcType=VARCHAR},
                      #{keywordTwo, jdbcType=VARCHAR}, #{type, jdbcType=VARCHAR},
                      #{questionText, jdbcType=VARCHAR}, #{picOneUrl, jdbcType=VARCHAR},
                      #{picTwoUrl, jdbcType=VARCHAR}, #{answer, jdbcType=VARCHAR},
@@ -28,7 +28,7 @@
                      #{isDeleted, jdbcType=INTEGER})
     </insert>
     <select id="selectById" resultMap="question">
-        select chapter, keyword_one, keyword_two,type, question_text, pic_one_url,
+        select chapterId, keyword_one, keyword_two,type, question_text, pic_one_url,
          pic_two_url, answer, teacher_id
          from bishe_question
          where id = #{questionId}

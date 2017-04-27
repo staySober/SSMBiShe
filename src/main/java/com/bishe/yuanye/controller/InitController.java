@@ -28,12 +28,12 @@ public class InitController {
 
     @RequestMapping(value = "/display", method = RequestMethod.GET)
     @ResponseBody
-    public Question displayQuestion(Model model, @RequestParam(value = "questionId") Integer questionId) {
+    public Question displayQuestion(@RequestParam(value = "questionId") Integer questionId) {
 
         Question question = initService.getQuestionById(questionId);
 //        String json = JSON.toJSONString(question);
 //        model.addAttribute(json);
 //        return "display";
-        return question ;
+        return question;
     }
 }

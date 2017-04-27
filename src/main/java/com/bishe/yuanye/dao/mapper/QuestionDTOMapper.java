@@ -1,8 +1,11 @@
 package com.bishe.yuanye.dao.mapper;
 
+import com.bishe.yuanye.dao.dto.QueryConditionDTO;
 import com.bishe.yuanye.dao.dto.QuestionDTO;
 import com.bishe.yuanye.dao.dto.QuestionDTOExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface QuestionDTOMapper {
@@ -29,4 +32,6 @@ public interface QuestionDTOMapper {
     int updateByPrimaryKeyWithBLOBs(QuestionDTO record);
 
     int updateByPrimaryKey(QuestionDTO record);
+
+    List<QuestionDTO> queryQuestionByCondition(QueryConditionDTO queryConditionDTO);
 }

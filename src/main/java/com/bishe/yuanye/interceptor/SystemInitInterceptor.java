@@ -46,7 +46,7 @@ public class SystemInitInterceptor implements HandlerInterceptor {
             HttpSession session=request.getSession();  
             Object obj=session.getAttribute("user");  
             if(obj==null||"".equals(obj.toString())){  
-                response.sendRedirect("error.jsp");  
+                response.sendRedirect("/html/errorLogin.html");
             }  
         }  
         return true;  

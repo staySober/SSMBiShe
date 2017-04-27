@@ -21,12 +21,11 @@
         var var1 = $("#questionId").val();
         $.ajax({
             type: 'GET',
-            url: '/bishe/questionDB/display',
+            url: '/questionDB/display',
             async: false,
             dataType: "json",
             data: {questionId: var1},
             success: function (result) {
-                alert(result.questionText);
                 $("#content").html(result.questionText);
             }
         });
@@ -36,11 +35,11 @@
     <!--<form id="queryQuestion" action="/bishe/questionDB/display" method="get" onsubmit="return query()">-->
     <input id="questionId" type="text" name="questionId">请输入题号</input>
     <!--<input type="submit">查询-->
-<button onclick="query()">查询</button>
-<!--</form>-->
+    <button onclick="query()">查询</button>
+    <!--</form>-->
 </p>
 <p>
-    <div id="content" contentEditable="false" class="editDemo">
+<div id="content" contentEditable="false" class="editDemo">
 </div>
 </p>
 </body>

@@ -34,7 +34,7 @@ public class LoginController {
 				modelAndView.setViewName("redirect:/html/student/studenthome.html");
 			}
 			if (User.Type.getType(user.getUserType()) == User.Type.TEACHER){
-				modelAndView.setViewName("redirect:/html/student/teacherboard.html");
+				modelAndView.setViewName("redirect:/html/teacher/teacherboard.html");
 			}
 		}else {
 			modelAndView.setViewName("redirect:/html/errorLogin.html");

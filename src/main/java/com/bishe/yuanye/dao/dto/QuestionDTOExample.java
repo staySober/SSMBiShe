@@ -166,62 +166,62 @@ public class QuestionDTOExample {
         }
 
         public Criteria andChapterIsNull() {
-            addCriterion("chapter is null");
+            addCriterion("chapterId is null");
             return (Criteria) this;
         }
 
         public Criteria andChapterIsNotNull() {
-            addCriterion("chapter is not null");
+            addCriterion("chapterId is not null");
             return (Criteria) this;
         }
 
         public Criteria andChapterEqualTo(Integer value) {
-            addCriterion("chapter =", value, "chapter");
+            addCriterion("chapterId =", value, "chapterId");
             return (Criteria) this;
         }
 
         public Criteria andChapterNotEqualTo(Integer value) {
-            addCriterion("chapter <>", value, "chapter");
+            addCriterion("chapterId <>", value, "chapterId");
             return (Criteria) this;
         }
 
         public Criteria andChapterGreaterThan(Integer value) {
-            addCriterion("chapter >", value, "chapter");
+            addCriterion("chapterId >", value, "chapterId");
             return (Criteria) this;
         }
 
         public Criteria andChapterGreaterThanOrEqualTo(Integer value) {
-            addCriterion("chapter >=", value, "chapter");
+            addCriterion("chapterId >=", value, "chapterId");
             return (Criteria) this;
         }
 
         public Criteria andChapterLessThan(Integer value) {
-            addCriterion("chapter <", value, "chapter");
+            addCriterion("chapterId <", value, "chapterId");
             return (Criteria) this;
         }
 
         public Criteria andChapterLessThanOrEqualTo(Integer value) {
-            addCriterion("chapter <=", value, "chapter");
+            addCriterion("chapterId <=", value, "chapterId");
             return (Criteria) this;
         }
 
         public Criteria andChapterIn(List<Integer> values) {
-            addCriterion("chapter in", values, "chapter");
+            addCriterion("chapterId in", values, "chapterId");
             return (Criteria) this;
         }
 
         public Criteria andChapterNotIn(List<Integer> values) {
-            addCriterion("chapter not in", values, "chapter");
+            addCriterion("chapterId not in", values, "chapterId");
             return (Criteria) this;
         }
 
         public Criteria andChapterBetween(Integer value1, Integer value2) {
-            addCriterion("chapter between", value1, value2, "chapter");
+            addCriterion("chapterId between", value1, value2, "chapterId");
             return (Criteria) this;
         }
 
         public Criteria andChapterNotBetween(Integer value1, Integer value2) {
-            addCriterion("chapter not between", value1, value2, "chapter");
+            addCriterion("chapterId not between", value1, value2, "chapterId");
             return (Criteria) this;
         }
 

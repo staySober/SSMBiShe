@@ -6,7 +6,9 @@ import java.util.Date;
 public class QuestionDTO implements Serializable {
     private Integer id;
 
-    private Integer chapter;
+    private Integer chapterId;
+
+    private String chapterName;
 
     private String keywordOne;
 
@@ -28,6 +30,8 @@ public class QuestionDTO implements Serializable {
 
     private String questionText;
 
+    private String teacherName;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -38,12 +42,20 @@ public class QuestionDTO implements Serializable {
         this.id = id;
     }
 
-    public Integer getChapter() {
-        return chapter;
+    public Integer getChapterId() {
+        return chapterId;
     }
 
-    public void setChapter(Integer chapter) {
-        this.chapter = chapter;
+    public void setChapterId(Integer chapterId) {
+        this.chapterId = chapterId;
+    }
+
+    public String getChapterName() {
+        return chapterName;
+    }
+
+    public void setChapterName(String chapterName) {
+        this.chapterName = chapterName;
     }
 
     public String getKeywordOne() {
@@ -124,5 +136,13 @@ public class QuestionDTO implements Serializable {
 
     public void setQuestionText(String questionText) {
         this.questionText = questionText == null ? null : questionText.trim();
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 }
