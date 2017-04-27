@@ -217,7 +217,7 @@
             success: function (user) {
                 if (typeof user == 'object') {
                     studentId = user.id;
-                    $("#userInfo").append("欢迎您:"+user.username);
+                    $("#userInfo").append("欢迎您:"+user.name);
                 }
             }
         });

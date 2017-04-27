@@ -185,7 +185,7 @@
             dataType: 'json',
             success: function (user) {
                 if (typeof user == 'object') {
-                    $("#userInfo").append("欢迎您:" + user.username);
+                    $("#userInfo").append("欢迎您:" + user.name);
                 }
             }
         });

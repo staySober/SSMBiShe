@@ -11,6 +11,8 @@ public class User {
 
     private Integer userType;
 
+    private String name;
+
     private String username;
 
     private String password;
@@ -22,7 +24,9 @@ public class User {
 
         STUDENT(1),
 
-        TEACHER(2);
+        TEACHER(2),
+
+        ADMIN(3);
 
         int _value;
 
@@ -79,9 +83,17 @@ public class User {
     }
 
     public void setTeacherId(Integer teacherId) {
+
         this.teacherId = teacherId;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
 
 

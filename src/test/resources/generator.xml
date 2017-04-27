@@ -42,6 +42,7 @@
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->
 
+        <table tableName="bishe_admin"  domainObjectName="AdminDTO" enableDeleteByPrimaryKey="false" enableDeleteByExample="false"/>
         <table tableName="bishe_question" domainObjectName="QuestionDTO" enableDeleteByPrimaryKey="false" enableDeleteByExample="false"/>
         <table tableName="bishe_class" domainObjectName="ClassDTO" enableDeleteByPrimaryKey="false" enableDeleteByExample="false"/>
         <table tableName="bishe_paper" domainObjectName="PaperDTO" enableDeleteByPrimaryKey="false" enableDeleteByExample="false"/>
@@ -50,6 +51,7 @@
         <table tableName="bishe_teacher" domainObjectName="TeacherDTO" enableDeleteByPrimaryKey="false" enableDeleteByExample="false"/>
         <table tableName="bishe_teacher_paper_map" domainObjectName="TeacherPaperMapDTO" enableDeleteByPrimaryKey="false" enableDeleteByExample="false"/>
         <table tableName="bishe_student_answer_map" domainObjectName="StudentAnswerMapDTO" enableDeleteByPrimaryKey="false" enableDeleteByExample="false"/>
+
             <!--<columnRenamingRule searchString="^D_"
                                 replaceString=""/>-->
     </context>

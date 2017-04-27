@@ -1,6 +1,7 @@
 package com.bishe.yuanye.controller;
 
 import com.bishe.yuanye.entity.User;
+import com.bishe.yuanye.entity.User.Type;
 import com.bishe.yuanye.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,8 +35,7 @@ public class LoginController {
 		if (loginUser != null ){
 		//往session设置user信息
 			request.getSession().setAttribute("user",loginUser);
-			if (User.Type.getType(user.getUserType()) == User.Type.STUDENT){
-
+			if (User.Type.getType(user.getUserType()) == User.Type.STUDENT || User.Type.getType(user.getUserType()) == Type.ADMIN){
 				modelAndView.setViewName("redirect:/html/student/studenthome.html");
 			}
 			if (User.Type.getType(user.getUserType()) == User.Type.TEACHER){
