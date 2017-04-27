@@ -369,35 +369,5 @@
       is_deleted = #{isDeleted,jdbcType=SMALLINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-    <select id="queryQuestionByCondition" resultMap="ResultMapWithTeacherName">
-        select bq.id, bq.chapter_id as chapterId, bc.name as chapterName, bq.keyword_one as keywordOne, bq.keyword_two as keywordTwo,
-        bq.type, bq.pic_one_url as picOneUrl, bq.pic_two_url as picTwoUrl, bq.answer, bq.teacher_id as teacherId,
-        bt.name as teacherName, bq.created_at as createdAt, bq.question_text as questionText
-        from bishe_question bq
-        inner join bishe_teacher bt on bq.teacher_id = bt.id
-        inner join bishe_chapter bc on bq.chapter_id = bc.id
-        <where>
-            <if test="id!=null">
-                bq.id = #{id}
-            </if>
-            <if test="chapterId!=null">
-                and bq.chapter_id ={chapterId}
-            </if>
-            <if test="keyword!=null">
-                and (bq.keyword_one = #{keyword} or bq.keyword_two = #{keyword})
-            </if>
-            <if test="type!=null">
-                and bq.type = #{type}
-            </if>
-            <if test="teacherName">
-                and bt.name = #{teacherName}
-            </if>
-            <if test="startTime!=null">
-                and bt.created_at between #{startTime} and #{endTime}
-            </if>
-            and bq.is_deleted = 0
-            order by bq.created_at desc
-            limit #{offset},#{pageSize}
-        </where>
-    </select>
+
 </mapper>
