@@ -113,44 +113,44 @@
                         <li>
                             <a href="/user/logout">
                                 <i class="ti-settings"></i>
-                                 <p>退出登录</p>
+                                <p>退出登录</p>
                             </a>
                         </li>
                     </ul>
 
                 </div>
             </div>
-    </nav>
+        </nav>
 
 
-    <div class="content">
-        <div class="container-fluid">
-            <div class="row">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row" id="content">
 
+                </div>
             </div>
         </div>
+
+
+        <footer class="footer">
+            <div class="container-fluid">
+                <nav class="pull-left">
+                    <ul>
+
+                        <li>
+                            <a href="#">
+                                Home
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="copyright pull-right">
+                    电路原理题库系统
+                </div>
+            </div>
+        </footer>
+
     </div>
-
-
-    <footer class="footer">
-        <div class="container-fluid">
-            <nav class="pull-left">
-                <ul>
-
-                    <li>
-                        <a href="#">
-                            Home
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="copyright pull-right">
-                电路原理题库系统
-            </div>
-        </div>
-    </footer>
-
-</div>
 </div>
 
 
@@ -178,18 +178,70 @@
 <script type="text/javascript">
     $(function () {
         <!--获取session信息  ajax异步请求(jquery不能直接操作session)-->
-        var url="/user/getUserSession";
+        var url = "/user/getUserSession";
         $.ajax({
             async: false,
             url: url,
             dataType: 'json',
             success: function (user) {
                 if (typeof user == 'object') {
-                    $("#userInfo").append("欢迎您:"+user.username);
+                    $("#userInfo").append("欢迎您:" + user.username);
                 }
             }
         });
+
+
+        var className = '';
+        var teacher = '';
+        $.ajax({
+            async: false,
+            url: "/user/getStudentInfo",
+            dataType: 'json',
+            success: function (data) {
+                $("#content").append('<form method="post" action="/user/updateInfo">用户名:&nbsp;&nbsp;<input type="text" name="username" value="' + data.username + '"></br>' +
+                    '密码:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="password" value="' + data.password + '"></br>' +
+                    '姓名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="name" value="' + data.name + '"></br>' +
+                    '班级:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="stClass" id="stClass"><option value="">--默认--</option></select></br>' +
+                    '老师:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="teacher" id="teacher"><option value="">--默认--</option></select></br></br>' +
+                    '学生编号:<input type="text" name="studentNum" value="' + data.studentNum + '"></br>' +
+                    '<input type="submit" value="提交修改" style="color: deepskyblue;"></form>');
+                className = data.stClass;
+                teacher = data.teacher;
+            }
+        });
+
+        $.ajax({
+            async: false,
+            url: "/user/getAllClass",
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (index, obj) {
+                    $("#stClass").append('<option value="' + obj.id + '">' + obj.name + '</option>');
+                    if (className == obj.name) {
+                        $('#stClass').val(obj.id);
+                    }
+                });
+            }
+        });
+
+
+        $.ajax({
+            async: false,
+            url: "/user/getAllTeacher",
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (index, obj) {
+                    $("#teacher").append('<option value="' + obj.id + '">' + obj.name + '</option>');
+                    if (teacher == obj.name) {
+                        $('#teacher').val(obj.id);
+                    }
+                });
+            }
+        });
+
     });
+
+
 </script>
 
 </html>
