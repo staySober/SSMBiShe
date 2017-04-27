@@ -3,8 +3,8 @@ package com.bishe.yuanye.service.impl;
 import com.alibaba.fastjson.JSON;
 
 import com.bishe.yuanye.common.BuilderHelper;
-import com.bishe.yuanye.dao.dto.QueryConditionDTO;
-import com.bishe.yuanye.dao.dto.QuestionDTO;
+import com.bishe.yuanye.dao.dto.*;
+import com.bishe.yuanye.dao.mapper.PaperQuestionMapDTOMapper;
 import com.bishe.yuanye.dao.mapper.QuestionDTOMapper;
 import com.bishe.yuanye.entity.request.QueryQuestionRequest;
 import com.bishe.yuanye.entity.response.QueryQuestionResponse;
@@ -27,6 +27,9 @@ public class QuestionServiceImpl implements QuestionService {
     @Autowired
     QuestionDTOMapper questionDTOMapper;
 
+    @Autowired
+    PaperQuestionMapDTOMapper paperQuestionDTOMapper;
+
     private static final Logger logger = LoggerFactory.getLogger(QuestionServiceImpl.class);
 
     @Override
@@ -47,5 +50,14 @@ public class QuestionServiceImpl implements QuestionService {
             logger.error("题库查询失败,查询条件:{}", JSON.toJSONString(request), e);
             return new QueryQuestionResponse("查询失败");
         }
+    }
+
+    @Override
+    public List<Integer> getQuestionIdListByPaperId(int paperId) {
+        PaperQuestionMapDTOExample example = new PaperQuestionMapDTOExample();
+        example.createCriteria().andIsDeletedEqualTo((short)0).andPaperIdEqualTo(paperId);
+        List<PaperQuestionMapDTO> paperQuestionMapDTOS = paperQuestionDTOMapper.selectByExample(example);
+        List<Integer> collect = paperQuestionMapDTOS.stream().mapToInt(x -> x.getQuestionId()).boxed().collect(Collectors.toList());
+        return collect;
     }
 }

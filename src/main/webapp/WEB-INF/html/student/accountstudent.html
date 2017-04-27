@@ -126,7 +126,7 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-
+                    <span  id="content"></span>
                 </div>
             </div>
         </div>
@@ -193,9 +193,83 @@
         if(userType != 3){
             alert("您不是超级管理员,无法查看该页面");
         }else {
-            alert("欢迎,超级管理员");
+
+            var className = '';
+            var teacher = '';
+            $.ajax({
+                async: false,
+                url: "/user/getAllStudentInfo",
+                dataType: 'json',
+                success: function (data) {
+                   $.each(data,function (index,obj) {
+
+                       $("#content").append('<span style="width:180px;float:left;border-left: 20px"><form method="post" action="/user/updateInfoSuper">用户名:&nbsp;&nbsp;<input type="text" name="username" value="' + data[index].username + '"></br>' +
+                           '密码:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="password" value="' + data[index].password + '"></br>' +
+                           '姓名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="name" value="' + data[index].name + '"></br>' +
+                           '班级:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="stClass" id="stClass"><option value="">--默认--</option></select></br>' +
+                           '老师:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="teacher" id="teacher"><option value="">--默认--</option></select></br></br>' +
+                           '学生编号:<input type="text" name="studentNum" value="' + data[index].studentNum + '"></br>' +
+                           '<input type="submit" value="提交修改" style="color: deepskyblue;">&nbsp;<input type="button" value="删除用户" style="color: deepskyblue; " onclick="confirmDel('+data[index].id+')"><input type="hidden" name="studentId" value='+data[index].id+'><input type="hidden" name="userType" value="'+data[index].userType+'"></form></span>');
+                       className = data.stClass;
+                       teacher = data.teacher;
+                   })
+                }
+            });
+
+
+            $.ajax({
+                async: false,
+                url: "/user/getAllClass",
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (index, obj) {
+                        $("#stClass").append('<option value="' + obj.id + '">' + obj.name + '</option>');
+                        if (className == obj.name) {
+                            $('#stClass').val(obj.id);
+                        }
+                    });
+                }
+            });
+
+
+            $.ajax({
+                async: false,
+                url: "/user/getAllTeacher",
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (index, obj) {
+                        $("#teacher").append('<option value="' + obj.id + '">' + obj.name + '</option>');
+                        if (teacher == obj.name) {
+                            $('#teacher').val(obj.id);
+                        }
+                    });
+                }
+            });
+
+
+
+
         }
     });
+
+    function confirmDel(id){
+        var flag = confirm("确定要删除该用户吗？(由于浏览器兼容性问题，如果发现确认删除没有刷新页面，请手动刷新!)");
+        if(flag) {
+            $.ajax({
+                async: false,
+                url: "/user/delUser",
+                data:{studentId:id},
+                dataType: 'json',
+                success: function (data) {
+                       if (data == "success"){
+                           history.go(0);
+                       }
+                }
+            });
+        }
+    };
+
+
 </script>
 
 </html>

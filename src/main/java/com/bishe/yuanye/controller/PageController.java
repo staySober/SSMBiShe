@@ -13,7 +13,9 @@ import com.bishe.yuanye.dao.dto.StudentAnswerMapDTO;
 import com.bishe.yuanye.entity.Paper;
 import com.bishe.yuanye.entity.Question;
 import com.bishe.yuanye.entity.User;
+import com.bishe.yuanye.service.AnswerService;
 import com.bishe.yuanye.service.PaperService;
+import com.bishe.yuanye.service.QuestionService;
 import com.bishe.yuanye.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +35,8 @@ public class PageController {
 	@Autowired
 	private StudentService studentService;
 
+	@Autowired
+	private QuestionService questionService;
 
 	/**
 	 * 获取试卷集的方法
@@ -59,11 +63,12 @@ public class PageController {
 		).collect(Collectors.toList());
 
 		paperList.forEach(paper->{
-			answerMapDTOS.forEach(y->{
-				if (paper.getPaperId() == y.getPaperId()){
-					paper.setAnswer(true);
-				}
-			});
+			//todo 重构已完成为完成试卷判断逻辑
+			List<Integer> questionIds = questionService.getQuestionIdListByPaperId(paper.getId());
+			long paperAnswerCount = answerMapDTOS.stream().filter(x -> x.getPaperId() == paper.getId() && paper.getStudentId() ==x.getStudentId()).count();
+			if (questionIds.size() <= paperAnswerCount){
+				paper.setAnswer(true);
+			}
 		});
 		return paperList;
 	}

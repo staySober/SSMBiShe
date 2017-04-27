@@ -1,6 +1,7 @@
 package com.bishe.yuanye.service.impl;
 
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.bishe.yuanye.dao.dto.ClassDTO;
@@ -114,6 +115,37 @@ public class StudentServiceImpl implements StudentService {
         dto.setClassId(stClass);
         dto.setTeacherId(teacher);
         dto.setStudentNum(studentNum);
+        studentMapper.updateByPrimaryKeySelective(dto);
+    }
+
+    @Override
+    public List<Student> getAllStudent() {
+        StudentDTOExample example = new StudentDTOExample();
+        example.createCriteria().andIsDeletedEqualTo((short)0);
+        List<StudentDTO> studentDTOS = studentMapper.selectByExample(example);
+        List<Student> collect = studentDTOS.stream().map(x -> {
+            Student student = new Student();
+            student.setId(x.getId());
+            student.setUsername(x.getUsername());
+            student.setName(x.getName());
+            student.setPassword(x.getPassword());
+            student.setStudentNum(x.getStudentNum());
+
+            ClassDTO classDTO = classMapper.selectByPrimaryKey(x.getClassId());
+            student.setStClass(classDTO.getName());
+
+            TeacherDTO teacherDTO = teacherMapper.selectByPrimaryKey(x.getTeacherId());
+            student.setTeacher(teacherDTO.getName());
+            return student;
+        }).collect(Collectors.toList());
+        return collect;
+    }
+
+    @Override
+    public void delStudent(Integer studentId) {
+        StudentDTO dto = new StudentDTO();
+        dto.setIsDeleted((short)1);
+        dto.setId(studentId);
         studentMapper.updateByPrimaryKeySelective(dto);
     }
 }
