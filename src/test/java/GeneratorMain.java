@@ -19,7 +19,7 @@ public class GeneratorMain {
     public static void deleteXmlFiles() {
         try {
             File directory = new File("");
-            String str = directory.getCanonicalPath() + "/dao/src/main/resources/com/bishe/production/dao/mapper";
+            String str = directory.getCanonicalPath() + "/dao/src/main/resources/com/bishe/yuanye/dao/mapper";
             File file = new File(str);
             if(file.isDirectory() && null != file.listFiles() && file.listFiles().length > 0){
                 for (File f : file.listFiles()) {

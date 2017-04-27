@@ -53,11 +53,29 @@
     <!--设置登录拦截器 -->
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/*.htm" />
-            <mvc:mapping path="/*/*.htm"/>
-            <mvc:exclude-mapping path="/admin/**"/>
-            <bean class="com.bishe.yuanye.interceptor.SystemInitInterceptor"/>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/assets/**"/>
+            <mvc:exclude-mapping path="/css/**"/>
+            <bean class="com.bishe.yuanye.interceptor.MyHandlerInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 
+    <!-- @ResponseBody注解支持-开始 -->
+	   <bean id="messageAdapter" class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+       <property name="messageConverters">
+           <list>
+               <!-- Support JSON -->
+               <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+           </list>
+       </property>
+   </bean>
+    <bean id="exceptionMessageAdapter" class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver">
+       <property name="messageConverters">
+           <list>
+               <!-- Support JSON -->
+               <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+           </list>
+       </property>
+   </bean>
+	<!-- @ResponseBody注解支持-结束 -->
 </beans>

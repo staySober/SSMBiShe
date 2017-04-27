@@ -10,8 +10,9 @@
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
     <meta name="viewport" content="width=device-width"/>
-
-
+    <link href="../../css/default.css" rel="stylesheet" media="screen" type="text/css"/>
+    <script src="../../assets/js/jquery-1.10.2.js" type="text/javascript"></script>
+    <script src="../../js/JMEditor/JMEditor.js" type="text/javascript"></script>
     <!-- Bootstrap core CSS     -->
     <link href="../../assets/css/bootstrap.min.css" rel="stylesheet"/>
 
@@ -30,7 +31,8 @@
 <body>
 
 <div class="wrapper">
-    <div class="sidebar" data-background-color="white" data-active-color="danger">
+
+     <div class="sidebar" data-background-color="white" data-active-color="danger">
 
         <div class="sidebar-wrapper">
             <div class="logo">
@@ -41,25 +43,25 @@
 
             <ul class="nav">
                 <li class="active">
-                    <a href="studenthome.html">
+                    <a href="/html/student/studenthome.html">
                         <i class="ti-comment"></i>
                         <p>待完成试卷</p>
                     </a>
                 </li>
                 <li class="active">
-                    <a href="completepaper.html">
+                    <a href="/html/student/completepaper.html">
                         <i class="ti-save"></i>
                         <p>已完成试卷</p>
                     </a>
                 </li>
                 <li class="active">
-                    <a href="managerinfo.html">
+                    <a href="/html/student/managerinfo.html">
                         <i class="ti-user"></i>
                         <p>个人信息管理</p>
                     </a>
                 </li>
                 <li class="active">
-                    <a href="accountstudent.html">
+                    <a href="/html/student/accountstudent.html">
                         <i class="ti-user"></i>
                         <p>学生账号管理</p>
                     </a>
@@ -79,7 +81,7 @@
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#">待完成试卷  (Tips:试卷中只要有一道问题作答便视为已完成试卷--->允许放弃作答部分题)</a>
+                    <a class="navbar-brand" href="#">作答试卷</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -117,29 +119,18 @@
         </nav>
 
 
-        <div class="content">
-            <div class="container-fluid">
-                <div class="col-md-12">
+        <div >
+            <div class="container-fluid" style="height: 1000px">
+                <div class="col-md-12" style="width: 1583px; height: auto" >
                     <div class="card">
                         <div class="header">
-                            <h4 class="title">未完成试卷</h4>
+                            <h4 class="title">作答试卷</h4>
                             <p class="category">24 Hours performance</p>
                         </div>
-                        <div class="content">
+                        <div class="content" style="height: 1000px">
                             <div id="chartHours" class="ct-chart">
-                                <table id="paper" style="width: auto;height: auto;color:cornflowerblue;font-size: 20px;border-style: dashed" border="1px" align="left">
+                                <div id="answer"  contentEditable="false" class="editDemo" style="width: 1000px;height: auto">
 
-                                </table>
-                            </div>
-                            <div class="footer">
-                                <div class="chart-legend">
-                                    <i class="fa fa-circle text-info"></i> Open
-                                    <i class="fa fa-circle text-danger"></i> Click
-                                    <i class="fa fa-circle text-warning"></i> Click Second Time
-                                </div>
-                                <hr>
-                                <div class="stats">
-                                    <i class="ti-reload"></i>
                                 </div>
                             </div>
                         </div>
@@ -149,34 +140,6 @@
 
         </div>
 
-
-        <footer class="footer">
-            <div class="container-fluid">
-                <nav class="pull-left">
-                    <ul>
-
-                        <li>
-                            <a href="#">
-                                Creative Tim
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://blog.creative-tim.com">
-                                Blog
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#/license">
-                                Licenses
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <div class="copyright pull-right">
-                </div>
-            </div>
-        </footer>
-
     </div>
 </div>
 
@@ -184,7 +147,7 @@
 </body>
 
 <!--   Core JS Files   -->
-<script src="../../assets/js/jquery-1.10.2.js" type="text/javascript"></script>
+
 <script src="../../assets/js/bootstrap.min.js" type="text/javascript"></script>
 
 <!--  Checkbox, Radio & Switch Plugins -->
@@ -203,7 +166,7 @@
 
 <script type="text/javascript">
     $(function () {
-        <!--获取session信息  ajax异步请求(jquery不能直接操作session)-->
+        <!--获取cookie信息  ajax异步请求(jquery不能直接操作session)-->
         var studentId;
 
         var url="/user/getUserSession";
@@ -219,17 +182,31 @@
             }
         });
 
-        $.post("/paper/getPaperList?studentId="+studentId,
+
+        $.post("/paper/getPaperContent",
             function (data) {
                 $.each(data, function (index, obj) {
-                    if (obj.answer == false) {
-                        $("#paper").append('<tr>...<td>第'+index+'题'+'试卷名称:'+obj.paperName+
-                            '</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作答情况:否</td>'+
-                            '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/paper/getPaper?paperId='+obj.paperId+'">作答试卷</a></td></tr>');
-                    }
+                   $("#answer").append('<form method="post" action="/paper/setAnswer">第'+(index+1)+'题:' + obj.questionText + '<textarea id="answer" name="answer" style="width: 700px; height: 60px"></textarea><input type="hidden" name="questionId" value="'+obj.id+'"><input type="submit" value="提交答案" style="border: 0px;background: white"><form><br/>');
                 });
             });
     });
+
+    <!--获取session信息-->
+
+  /*  function getCookie(cookieName){
+        var cookieValue="";
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                 var cookie = cookies[i];
+                 if (cookie.substring(0, cookieName.length + 2).trim() == cookieName.trim() + "=") {
+                       cookieValue = cookie.substring(cookieName.length + 2, cookie.length);
+                       break;
+                 }
+             }
+        }
+        return cookieValue;
+    }*/
 </script>
 
 </html>

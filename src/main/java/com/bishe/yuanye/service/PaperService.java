@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.bishe.yuanye.dao.dto.PaperDTO;
 import com.bishe.yuanye.dao.dto.StudentAnswerMapDTO;
+import com.bishe.yuanye.entity.Question;
 
 /**
  * Created by sober on 2017/4/14.
@@ -17,4 +18,6 @@ public interface PaperService {
      List<PaperDTO> getPaperByTeacherId(int id);
 
      List<StudentAnswerMapDTO> getStudentAnswerRelation(Integer studentId);
+
+     List<Question> getQuestionByPaperId(Integer teacherId,Integer paperId);
 }
