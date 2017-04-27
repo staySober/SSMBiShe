@@ -1,7 +1,9 @@
 package com.bishe.yuanye.controller;
 
-import com.bishe.yuanye.entity.QuestionQueryCondition;
+import com.bishe.yuanye.entity.request.QueryQuestionRequest;
 import com.bishe.yuanye.entity.response.QueryQuestionResponse;
+import com.bishe.yuanye.service.QuestionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,11 +15,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/questionBase")
 public class QuestionController {
 
+    @Autowired
+    QuestionService questionService;
+
     @RequestMapping(value = "/queryQuestion")
     @ResponseBody
-    public QueryQuestionResponse queryQuestion(QuestionQueryCondition condition) {
+    public QueryQuestionResponse queryQuestion(QueryQuestionRequest request) {
 
-
-        return null;
+        QueryQuestionResponse response = questionService.queryQuestion(request);
+        return response;
     }
 }

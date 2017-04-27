@@ -1,6 +1,7 @@
 package com.bishe.yuanye.service.impl;
 
 import com.alibaba.fastjson.JSON;
+
 import com.bishe.yuanye.common.BuilderHelper;
 import com.bishe.yuanye.dao.dto.QueryConditionDTO;
 import com.bishe.yuanye.dao.dto.QuestionDTO;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by yuanye on 2017/4/24.
@@ -35,8 +37,9 @@ public class QuestionServiceImpl implements QuestionService {
             queryConditionDTO.setPageSize(request.pageSize);
             queryConditionDTO.setOffset((request.pageIndex - 1) * request.pageSize);
             List<QuestionDTO> questionDTOList = questionDTOMapper.queryQuestionByCondition(queryConditionDTO);
-
-            return null;
+            response.questionList = questionDTOList.stream().map(
+                questionDTO -> BuilderHelper.buildQuestionWithDetail(questionDTO)).collect(Collectors.toList());
+            return response;
         } catch (ParseException pe) {
             logger.error("查询题库时转化时间格式失败,查询条件:{}", JSON.toJSONString(request), pe);
             return new QueryQuestionResponse("查询条件异常");

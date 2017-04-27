@@ -85,6 +85,8 @@ public class BuilderHelper {
         questionWithDetail.questionText = questionDTO.getQuestionText();
         questionWithDetail.teacherId = questionDTO.getTeacherId();
         questionWithDetail.teacherName = questionDTO.getTeacherName();
+        questionWithDetail.picOneUrl = questionDTO.getPicOneUrl();
+        questionWithDetail.answer = questionDTO.getAnswer();
         questionWithDetail.allKeyword = questionDTO.getKeywordOne();
         if (!StringUtils.isEmpty(questionDTO.getKeywordTwo())) {
             questionWithDetail.allKeyword += ("," + questionDTO.getKeywordTwo());

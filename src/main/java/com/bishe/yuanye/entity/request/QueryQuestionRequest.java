@@ -9,9 +9,8 @@ public class QueryQuestionRequest {
 
     public int pageIndex = 1;
 
-    public int pageSize = 5;
+    public int pageSize = 10;
 
     public QuestionQueryCondition questionQueryCondition;
-
 
 }
