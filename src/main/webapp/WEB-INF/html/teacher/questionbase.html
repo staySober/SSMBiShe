@@ -83,7 +83,7 @@
                         <p>导入班级</p>
                     </a>
                 </li>
-                 <li>
+                <li>
                     <a href="accountTeacher.html">
                         <i class="ti-import"></i>
                         <p>教师账号管理</p>
@@ -198,6 +198,7 @@
     $(function () {
 
         var url = "/user/getUserSession";
+        var userType = '';
         $.ajax({
             async: false,
             url: url,
@@ -205,10 +206,20 @@
             success: function (user) {
                 if (typeof user == 'object') {
                     studentId = user.id;
+                    userType = user.userType;
                     $("#userInfo").append("欢迎您:" + user.name);
                 }
             }
         });
+
+        if (userType != 3 || userType != 2) {
+
+            alert("您不是教师用户或超级管理员,无法查看该页面");
+        } else {
+            //todo js业务逻辑在这个里面写
+
+
+        }
     })
 </script>
 </html>
