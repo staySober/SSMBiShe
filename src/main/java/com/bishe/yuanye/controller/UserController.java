@@ -8,6 +8,7 @@ import com.bishe.yuanye.entity.Class;
 import com.bishe.yuanye.entity.Student;
 import com.bishe.yuanye.entity.Teacher;
 import com.bishe.yuanye.entity.User;
+import com.bishe.yuanye.service.LoginService;
 import com.bishe.yuanye.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,8 @@ public class UserController {
     @Autowired
     private StudentService studentService;
 
+    @Autowired
+    private LoginService loginService;
 
     @RequestMapping("/getStudentInfo")
     @ResponseBody
@@ -35,6 +38,12 @@ public class UserController {
         User user = (User)request.getSession().getAttribute("user");
         Student student = studentService.getStudentInfo(user.getId());
         return student;
+    }
+
+    @RequestMapping("/getAllStudentInfo")
+    @ResponseBody
+    public List<Student> getAllStudentInfo(HttpServletRequest request){
+        return studentService.getAllStudent();
     }
 
     @RequestMapping("/getAllClass")
@@ -50,8 +59,34 @@ public class UserController {
     }
 
     @RequestMapping("/updateInfo")
-    public String updateInfo(String username,Integer studentId,String name,String password,Integer stClass,Integer studentNum,Integer teacher){
+    public String updateInfo(String username,Integer studentId,String name,String password,Integer stClass,Integer studentNum,Integer teacher,HttpServletRequest request){
         studentService.updateInfo(username,studentId,name,password,stClass,studentNum,teacher);
+        //刷新 session
+        User user = new User();
+        user.setUserType(User.Type.STUDENT.value());
+        user.setUsername(username);
+        user.setPassword(password);
+        User loginUser = loginService.Login(user);
+        if (loginUser != null){
+            request.getSession().setAttribute("user",loginUser);
+        }
         return "redirect:/html/student/managerinfo.html";
+    }
+
+
+    /**
+     * 超级管理员的api
+     */
+    @RequestMapping("/updateInfoSuper")
+    public String updateInfoSuper(String username,Integer studentId,String name,String password,Integer stClass,Integer studentNum,Integer teacher,HttpServletRequest request){
+        studentService.updateInfo(username,studentId,name,password,stClass,studentNum,teacher);
+        //不刷新 session
+        return "redirect:/html/student/accountstudent.html";
+    }
+
+    @RequestMapping("/delUser")
+    public String delUser(Integer studentId){
+        studentService.delStudent(studentId);
+        return "success";
     }
 }

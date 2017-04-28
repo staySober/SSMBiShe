@@ -26,4 +26,8 @@ public interface StudentService {
 
     void updateInfo(String username, Integer id, String name, String password, Integer stClass, Integer studentNum,
                     Integer teacher);
+
+    List<Student> getAllStudent();
+
+    void delStudent(Integer studentId);
 }

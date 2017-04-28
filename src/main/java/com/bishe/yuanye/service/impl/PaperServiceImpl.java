@@ -86,16 +86,16 @@ public class PaperServiceImpl implements PaperService {
         List<QuestionDTO> questionDTOS = questionDTOMapper.selectByExampleWithBLOBs(example);
         List<Question> collect = questionDTOS.stream().map(x -> {
             Question q = new Question();
-            q.setTeacherId(x.getTeacherId());
-            q.setAnswer(x.getAnswer());
-            q.setChapter(x.getChapter());
-            q.setKeywordOne(x.getKeywordOne());
-            q.setKeywordTwo(x.getKeywordTwo());
-            q.setPicOneUrl(x.getPicOneUrl());
-            q.setPicTwoUrl(x.getPicTwoUrl());
-            q.setQuestionText(x.getQuestionText());
-            q.setType(x.getType());
-            q.setId(x.getId());
+            q.teacherId=x.getTeacherId();
+            q.answer=x.getAnswer();
+            q.chapterId=x.getChapterId();
+            q.keywordOne=x.getKeywordOne();
+            q.keywordTwo=x.getKeywordTwo();
+            q.picOneUrl=x.getPicOneUrl();
+            q.picTwoUrl=x.getPicTwoUrl();
+            q.questionText=x.getQuestionText();
+            q.type=x.getType();
+            q.id=x.getId();
             return q;
         }).collect(Collectors.toList());
         return collect;

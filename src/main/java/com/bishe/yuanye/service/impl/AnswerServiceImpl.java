@@ -49,4 +49,5 @@ public class AnswerServiceImpl implements AnswerService {
         List<StudentAnswerMapDTO> studentAnswerMapDTOS = studentAnswerDTOMapper.selectByExampleWithBLOBs(ex);
         return CollectionUtils.isNotEmpty(studentAnswerMapDTOS)? studentAnswerMapDTOS.get(0).getAnswer() : "";
     }
+
 }

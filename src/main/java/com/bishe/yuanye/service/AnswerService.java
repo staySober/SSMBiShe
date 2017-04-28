@@ -1,5 +1,7 @@
 package com.bishe.yuanye.service;
 
+import java.util.List;
+
 /**
  * Created by sober on 2017/4/14.
  *
@@ -13,4 +15,6 @@ public interface AnswerService {
     public void delAnswer(Integer studentId,Integer paperId,Integer questionId);
 
     String queryAnswer(Integer questionId, Integer paperId, Integer studentId);
+
+
 }

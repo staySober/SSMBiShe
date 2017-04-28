@@ -64,7 +64,7 @@ public class AnswerController {
         List<QuestionAnswer> collect = questions.stream().map(x -> {
             QuestionAnswer q = new QuestionAnswer();
             q.setQuestion(x);
-            String answer = answerService.queryAnswer(x.getId(), Integer.parseInt(cookie.getValue()),user.getId());
+            String answer = answerService.queryAnswer(x.id, Integer.parseInt(cookie.getValue()),user.getId());
             q.setStudentAnswer(answer == null ? "" : answer);
             return q;
         }).collect(Collectors.toList());
