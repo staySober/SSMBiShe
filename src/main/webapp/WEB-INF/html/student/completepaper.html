@@ -40,7 +40,7 @@
             </div>
 
             <ul class="nav">
-                <li class="active">
+                <li>
                     <a href="studenthome.html">
                         <i class="ti-comment"></i>
                         <p>待完成试卷</p>
@@ -52,13 +52,13 @@
                         <p>已完成试卷</p>
                     </a>
                 </li>
-                <li class="active">
+                <li >
                     <a href="managerinfo.html">
                         <i class="ti-user"></i>
                         <p>个人信息管理</p>
                     </a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="accountstudent.html">
                         <i class="ti-user"></i>
                         <p>学生账号管理</p>
@@ -127,7 +127,9 @@
                         </div>
                         <div class="content">
                             <div id="chartHours" class="ct-chart">
-                                <table id="paper" style="width: auto;height: auto;color:cornflowerblue;font-size: 20px;border-style: dashed" border="1px" align="left">
+                                <table id="paper"
+                                       style="width: auto;height: auto;color:cornflowerblue;font-size: 20px;border-style: dashed"
+                                       border="1px" align="left">
 
                                 </table>
                             </div>
@@ -204,8 +206,8 @@
     $(function () {
         <!--获取session信息  ajax异步请求(jquery不能直接操作session)-->
         var studentId;
-
-        var url="/user/getUserSession";
+        var userType = '';
+        var url = "/user/getUserSession";
         $.ajax({
             async: false,
             url: url,
@@ -213,23 +215,29 @@
             success: function (user) {
                 if (typeof user == 'object') {
                     studentId = user.id;
-                    $("#userInfo").append("欢迎您:"+user.name);
+                    userType = user.userType;
+                    $("#userInfo").append("欢迎您:" + user.name);
                 }
             }
         });
 
-        $.post("/paper/getPaperList?studentId="+studentId,
-            function (data) {
-                $.each(data, function (index, obj) {
-                    if (obj.answer == true) {
-                        $("#paper").append('<tr>...<td>第'+(index+1)+'题:  试卷名称:'+obj.paperName+
-                            '</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-                            '<a href="/paper/getStudentAnswer?paperId='+obj.paperId+'">作答情况</a></td>'+
-                            '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-                            '<a href="/paper/getTrueAnswer?paperId='+obj.paperId+'">参考答案</a>'+'</td></tr>');
-                    }
+
+        if (userType != 3 || userType != 1) {
+            alert("您不是学生用户或超级管理员,无法查看该页面");
+        } else {
+            $.post("/paper/getPaperList?studentId=" + studentId,
+                function (data) {
+                    $.each(data, function (index, obj) {
+                        if (obj.answer == true) {
+                            $("#paper").append('<tr>...<td>第' + (index + 1) + '题:  试卷名称:' + obj.paperName +
+                                '</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+                                '<a href="/paper/getStudentAnswer?paperId=' + obj.paperId + '">作答情况</a></td>' +
+                                '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+                                '<a href="/paper/getTrueAnswer?paperId=' + obj.paperId + '">参考答案</a>' + '</td></tr>');
+                        }
+                    });
                 });
-            });
+        }
     });
 </script>
 

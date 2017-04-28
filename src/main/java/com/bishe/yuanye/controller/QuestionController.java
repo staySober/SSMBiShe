@@ -25,7 +25,7 @@ public class QuestionController {
     @Autowired
     QuestionService questionService;
 
-    @Value("imageUrl")
+    @Value("${imageUrl}")
     private String imageUrl;
 
     @RequestMapping(value = "/queryQuestion")

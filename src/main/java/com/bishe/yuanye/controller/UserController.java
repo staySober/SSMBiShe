@@ -10,6 +10,7 @@ import com.bishe.yuanye.entity.Teacher;
 import com.bishe.yuanye.entity.User;
 import com.bishe.yuanye.service.LoginService;
 import com.bishe.yuanye.service.StudentService;
+import com.bishe.yuanye.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,9 @@ public class UserController {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private TeacherService teacherService;
 
     @RequestMapping("/getStudentInfo")
     @ResponseBody
@@ -87,6 +91,12 @@ public class UserController {
     @RequestMapping("/delUser")
     public String delUser(Integer studentId){
         studentService.delStudent(studentId);
+        return "success";
+    }
+
+    @RequestMapping("/delTeacher")
+    public String delTeacher(Integer teacherId){
+        teacherService.delTeacher(teacherId);
         return "success";
     }
 }

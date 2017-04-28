@@ -25,8 +25,6 @@
     <link href="../../assets/css/demo.css" rel="stylesheet"/>
 
     <!--  Fonts and icons     -->
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="../../assets/css/themify-icons.css" rel="stylesheet">
 
 </head>
@@ -84,6 +82,12 @@
                         <p>导入班级</p>
                     </a>
                 </li>
+                <li>
+                    <a href="accountTeacher.html">
+                        <i class="ti-import"></i>
+                        <p>教师账号管理</p>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -139,8 +143,7 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <form id="creatquestion" method="post" enctype="multipart/form-data"
-                          onsubmit="return savePicture()">
+                    <form id="creatquestion" method="post" action="/questionBase/savePicture" enctype="multipart/form-data">
                         <input type="file" id="file" name="file"/>
                         <input type="submit" value="上传文件">
                     </form>
@@ -161,11 +164,6 @@
                     </ul>
                 </nav>
                 <div class="copyright pull-right">
-                    &copy;
-                    <script>document.write(new Date().getFullYear())</script>
-                    , made with <i class="fa fa-heart heart"></i> by <a href="#">Creative Tim</a>. More Templates <a
-                        href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a
-                        href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
                 </div>
             </div>
         </footer>
@@ -219,6 +217,8 @@
             dataType: 'json',
             success: function (data) {
                 if (data.errorMsg != null) {
+                    alert(data.errorMsg);
+                } else {
 
                 }
             }

@@ -31,7 +31,7 @@
 
 <div class="wrapper">
 
-     <div class="sidebar" data-background-color="white" data-active-color="danger">
+    <div class="sidebar" data-background-color="white" data-active-color="danger">
 
         <div class="sidebar-wrapper">
             <div class="logo">
@@ -41,7 +41,7 @@
             </div>
 
             <ul class="nav">
-                <li class="active">
+                <li>
                     <a href="/html/student/studenthome.html">
                         <i class="ti-comment"></i>
                         <p>待完成试卷</p>
@@ -53,13 +53,13 @@
                         <p>已完成试卷</p>
                     </a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="/html/student/managerinfo.html">
                         <i class="ti-user"></i>
                         <p>个人信息管理</p>
                     </a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="/html/student/accountstudent.html">
                         <i class="ti-user"></i>
                         <p>学生账号管理</p>
@@ -108,7 +108,7 @@
                         <li>
                             <a href="/user/logout">
                                 <i class="ti-settings"></i>
-                                 <p>退出登录</p>
+                                <p>退出登录</p>
                             </a>
                         </li>
                     </ul>
@@ -129,9 +129,9 @@
                         <div class="content">
                             <div id="chartHours" class="ct-chart">
                                 <form method="post" href="/answer/setAnswer">
-                                <div id="answer" align="left">
+                                    <div id="answer" align="left">
 
-                                </div>
+                                    </div>
                                 </form>
                             </div>
                             <div class="footer">
@@ -208,8 +208,9 @@
     $(function () {
         <!--获取cookie信息  ajax异步请求(jquery不能直接操作session)-->
         var studentId;
+        var userType = '';
 
-        var url="/user/getUserSession";
+        var url = "/user/getUserSession";
         $.ajax({
             async: false,
             url: url,
@@ -217,36 +218,41 @@
             success: function (user) {
                 if (typeof user == 'object') {
                     studentId = user.id;
-                    $("#userInfo").append("欢迎您:"+user.name);
+                    userType = user.userType;
+                    $("#userInfo").append("欢迎您:" + user.name);
                 }
             }
         });
 
+        if (userType != 3) {
+            alert("您不是学生用户或超级管理员,无法查看该页面");
+        } else {
 
-        $.post("/answer/getReferenceAnswer",
-            function (data) {
-                $.each(data, function (index, obj) {
-                   $("#answer").append('第'+(index+1)+'题:' + obj.questionText);
+            $.post("/answer/getReferenceAnswer",
+                function (data) {
+                    $.each(data, function (index, obj) {
+                        $("#answer").append('第' + (index + 1) + '题:' + obj.questionText);
+                    });
                 });
-            });
+        }
     });
 
     <!--获取session信息-->
 
-  /*  function getCookie(cookieName){
-        var cookieValue="";
-        if (document.cookie && document.cookie != '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                 var cookie = cookies[i];
-                 if (cookie.substring(0, cookieName.length + 2).trim() == cookieName.trim() + "=") {
-                       cookieValue = cookie.substring(cookieName.length + 2, cookie.length);
-                       break;
-                 }
-             }
-        }
-        return cookieValue;
-    }*/
+    /*  function getCookie(cookieName){
+     var cookieValue="";
+     if (document.cookie && document.cookie != '') {
+     var cookies = document.cookie.split(';');
+     for (var i = 0; i < cookies.length; i++) {
+     var cookie = cookies[i];
+     if (cookie.substring(0, cookieName.length + 2).trim() == cookieName.trim() + "=") {
+     cookieValue = cookie.substring(cookieName.length + 2, cookie.length);
+     break;
+     }
+     }
+     }
+     return cookieValue;
+     }*/
 </script>
 
 </html>
