@@ -83,7 +83,7 @@
                         <p>导入班级</p>
                     </a>
                 </li>
-                 <li>
+                <li>
                     <a href="accountTeacher.html">
                         <i class="ti-import"></i>
                         <p>教师账号管理</p>
@@ -118,11 +118,11 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="ti-bell"></i>
                                 <p class="notification">5</p>
-                                <p>Notifications</p>
+                                <p>快捷入口</p>
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Notification 1</a></li>
+                                <li><a href="../student/studenthome.html">学生管理系统</a></li>
                                 <li><a href="#">Notification 2</a></li>
                                 <li><a href="#">Notification 3</a></li>
                                 <li><a href="#">Notification 4</a></li>
@@ -386,18 +386,27 @@
             timer: 4000
         });
 
-        var url="/user/getUserSession";
+        var url = "/user/getUserSession";
+        var userType = '';
         $.ajax({
             async: false,
             url: url,
             dataType: 'json',
             success: function (user) {
-                if (typeof user == 'object') {
-                    studentId = user.id;
-                    $("#userInfo").append("欢迎您:"+user.name);
-                }
+                    userType = user.userType;
+                    $("#userInfo").append("欢迎您:" + user.name);
             }
         });
+
+
+        if (userType != 3 && userType != 2) {
+
+            alert("您不是教师用户或超级管理员,无法查看该页面");
+        } else {
+            //todo js业务逻辑在这个里面写
+
+
+        }
     });
 </script>
 

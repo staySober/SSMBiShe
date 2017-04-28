@@ -60,7 +60,7 @@ public class LoginServiceImpl implements LoginService {
                 User user1 = new User();
                 user1.setUsername(x.getUsername());
                 user1.setPassword(x.getPassword());
-                user1.setUserType(User.Type.STUDENT.value());
+                user1.setUserType(Type.TEACHER.value());
                 user1.setId(x.getId());
                 user1.setName(x.getName());
                 return user1;
