@@ -208,7 +208,7 @@
                            '姓名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="name" value="' + data[index].name + '"></br>' +
                            '班级:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="stClass" id="stClass"><option value="">--默认--</option></select></br>' +
                            '老师:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="teacher" id="teacher"><option value="">--默认--</option></select></br></br>' +
-                           '学生编号:<input type="text" name="studentNum" value="' + data[index].studentNum + '"></br>' +
+                           '学号:<input type="text" name="studentNum" value="' + data[index].studentNum + '"></br>' +
                            '<input type="submit" value="提交修改" style="color: deepskyblue;">&nbsp;<input type="button" value="删除用户" style="color: deepskyblue; " onclick="confirmDel('+data[index].id+')"><input type="hidden" name="studentId" value='+data[index].id+'><input type="hidden" name="userType" value="'+data[index].userType+'"></form></span>');
                        className = data.stClass;
                        teacher = data.teacher;
