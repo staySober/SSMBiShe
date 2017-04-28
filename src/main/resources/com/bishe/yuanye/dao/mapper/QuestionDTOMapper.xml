@@ -3,7 +3,7 @@
 <mapper namespace="com.bishe.yuanye.dao.mapper.QuestionDTOMapper">
     <resultMap id="BaseResultMap" type="com.bishe.yuanye.dao.dto.QuestionDTO">
         <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="chapterId" jdbcType="INTEGER" property="chapterId"/>
+        <result column="chapter_Id" jdbcType="INTEGER" property="chapterId"/>
         <result column="keyword_one" jdbcType="VARCHAR" property="keywordOne"/>
         <result column="keyword_two" jdbcType="VARCHAR" property="keywordTwo"/>
         <result column="type" jdbcType="VARCHAR" property="type"/>
@@ -369,7 +369,7 @@
       is_deleted = #{isDeleted,jdbcType=SMALLINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-    <select id="queryQuestionByCondition" resultMap="ResultMapWithTeacherName">
+    <select id="queryQuestionByCondition" resultType="com.bishe.yuanye.dao.dto.QuestionDTO">
         select bq.id, bq.chapter_id as chapterId, bc.name as chapterName, bq.keyword_one as keywordOne, bq.keyword_two as keywordTwo,
         bq.type, bq.pic_one_url as picOneUrl, bq.pic_two_url as picTwoUrl, bq.answer, bq.teacher_id as teacherId,
         bt.name as teacherName, bq.created_at as createdAt, bq.question_text as questionText
