@@ -5,6 +5,7 @@ import com.bishe.yuanye.dao.dto.QuestionDTO;
 import com.bishe.yuanye.entity.Question;
 import com.bishe.yuanye.entity.QuestionQueryCondition;
 import com.bishe.yuanye.entity.response.QuestionWithDetail;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
@@ -12,9 +13,13 @@ import java.util.Date;
 
 /**
  * Created by yuanye on 2017/3/17.
+ *
  * @author yuanye
  */
 public class BuilderHelper {
+
+    @Value("imageUrl")
+    private static String imageUrl;
 
     public static QuestionDTO buildQuestionDTO(Question question) {
 
@@ -85,7 +90,7 @@ public class BuilderHelper {
         questionWithDetail.questionText = questionDTO.getQuestionText();
         questionWithDetail.teacherId = questionDTO.getTeacherId();
         questionWithDetail.teacherName = questionDTO.getTeacherName();
-        questionWithDetail.picOneUrl = questionDTO.getPicOneUrl();
+        questionWithDetail.picOneUrl = imageUrl + questionDTO.getPicOneUrl();
         questionWithDetail.answer = questionDTO.getAnswer();
         questionWithDetail.allKeyword = questionDTO.getKeywordOne();
         if (!StringUtils.isEmpty(questionDTO.getKeywordTwo())) {

@@ -6,6 +6,7 @@ import com.bishe.yuanye.entity.User;
 import com.bishe.yuanye.service.AnswerService;
 import com.bishe.yuanye.service.PaperService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,6 +35,7 @@ public class AnswerController {
 
     @Autowired
     private PaperService paperService;
+
 
     @RequestMapping(value = "/setAnswer", method = RequestMethod.POST)
     public String setAnswer(HttpServletRequest request){

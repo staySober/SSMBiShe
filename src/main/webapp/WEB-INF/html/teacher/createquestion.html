@@ -105,7 +105,7 @@
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="ti-panel"></i>
-								<p>Stats</p>
+                                <p id="userInfo"></p>
                             </a>
                         </li>
                         <li class="dropdown">
@@ -124,9 +124,9 @@
                               </ul>
                         </li>
 						<li>
-                            <a href="#">
-								<i class="ti-settings"></i>
-								<p>Settings</p>
+                            <a href="/user/logout">
+                                <i class="ti-settings"></i>
+                                <p>退出登录</p>
                             </a>
                         </li>
                     </ul>
@@ -166,7 +166,6 @@
     </div>
 </div>
 
-
 </body>
 
     <!--   Core JS Files   -->
@@ -188,5 +187,21 @@
 	<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
 	<script src="../../assets/js/demo.js"></script>
 
+<script type="text/javascript">
+    $(function () {
 
+        var url="/user/getUserSession";
+        $.ajax({
+            async: false,
+            url: url,
+            dataType: 'json',
+            success: function (user) {
+                if (typeof user == 'object') {
+                    studentId = user.id;
+                    $("#userInfo").append("欢迎您:"+user.name);
+                }
+            }
+        });
+    })
+</script>
 </html>

@@ -7,7 +7,7 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
-      <!-- 自定义参数类型绑定 -->
+    <!-- 自定义参数类型绑定 -->
     <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
         <property name="converters">
             <!-- 日期类型绑定 -->
@@ -18,20 +18,20 @@
     <context:property-placeholder location="classpath:properties/resource.properties"/>
     <!--扫描controller层的包-->
     <context:component-scan base-package="com.bishe">
-           <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
     </context:component-scan>
 
     <!--配置处理器映射器  和 处理器适配器-->
-    <mvc:annotation-driven conversion-service="conversionService" />
+    <mvc:annotation-driven conversion-service="conversionService"/>
 
-   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/html/" />
-        <property name="suffix" value=".html" />
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/html/"/>
+        <property name="suffix" value=".html"/>
     </bean>
 
-      <!-- 访问静态资源文件 -->
+    <!-- 访问静态资源文件 -->
     <!-- <mvc:default-servlet-handler/> 需要在web.xml中配置-->
     <mvc:resources mapping="/images/**" location="/WEB-INF/images/"/>
     <mvc:resources mapping="/css/**" location="/WEB-INF/css/"/>
@@ -56,26 +56,32 @@
             <mvc:mapping path="/**"/>
             <mvc:exclude-mapping path="/assets/**"/>
             <mvc:exclude-mapping path="/css/**"/>
+            <mvc:exclude-mapping path="/files/**"/>
+            <mvc:exclude-mapping path="/images/**"/>
+            <mvc:exclude-mapping path="/js/**"/>
+            <mvc:exclude-mapping path="/html/errorLogin.html"/>
+            <mvc:exclude-mapping path="/html/login.html"/>
             <bean class="com.bishe.yuanye.interceptor.MyHandlerInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 
     <!-- @ResponseBody注解支持-开始 -->
-	   <bean id="messageAdapter" class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-       <property name="messageConverters">
-           <list>
-               <!-- Support JSON -->
-               <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
-           </list>
-       </property>
-   </bean>
-    <bean id="exceptionMessageAdapter" class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver">
-       <property name="messageConverters">
-           <list>
-               <!-- Support JSON -->
-               <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
-           </list>
-       </property>
-   </bean>
-	<!-- @ResponseBody注解支持-结束 -->
+    <bean id="messageAdapter" class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <!-- Support JSON -->
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="exceptionMessageAdapter"
+          class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver">
+        <property name="messageConverters">
+            <list>
+                <!-- Support JSON -->
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+    <!-- @ResponseBody注解支持-结束 -->
 </beans>

@@ -21,43 +21,41 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/user")
 public class LoginController {
 
-	@Autowired
-	private LoginService loginService;
+    @Autowired
+    private LoginService loginService;
 
+    @RequestMapping(value = "/loginUser")
+    public String login(User user, HttpServletRequest request) {
+        if (user == null) {
+            return "redirect:/html/errorLogin.html";
+        }
 
-	@RequestMapping(value = "/loginUser")
-	public ModelAndView login(User user, HttpServletRequest request,ModelAndView modelAndView){
-		if (user == null){
-			modelAndView.setViewName("redirect:/html/errorLogin.html");
-		}
+        User loginUser = loginService.Login(user);
+        if (loginUser != null) {
+            //往session设置user信息
+            request.getSession().setAttribute("user", loginUser);
+            if (User.Type.getType(user.getUserType()) == User.Type.STUDENT || User.Type.getType(user.getUserType())
+                == Type.ADMIN) {
+                return "redirect:/html/student/studenthome.html";
+            } else if (User.Type.getType(user.getUserType()) == User.Type.TEACHER) {
+                return "redirect:/html/teacher/teacherboard.html";
+            } else {
+                return "redirect:/html/errorLogin.html";
+            }
+        } else {
+            return "redirect:/html/errorLogin.html";
+        }
+    }
 
-		User loginUser = loginService.Login(user);
-		if (loginUser != null ){
-		//往session设置user信息
-			request.getSession().setAttribute("user",loginUser);
-			if (User.Type.getType(user.getUserType()) == User.Type.STUDENT || User.Type.getType(user.getUserType()) == Type.ADMIN){
-				modelAndView.setViewName("redirect:/html/student/studenthome.html");
-			}
-			if (User.Type.getType(user.getUserType()) == User.Type.TEACHER){
-				modelAndView.setViewName("redirect:/html/teacher/teacherboard.html");
-			}
-		}else {
-			modelAndView.setViewName("redirect:/html/errorLogin.html");
-		}
-		//返回视图
-		return modelAndView;
-	}
+    @RequestMapping(value = "/getUserSession")
+    @ResponseBody
+    public User getUserSession(HttpServletRequest request) {
+        return (User)request.getSession().getAttribute("user");
+    }
 
-	@RequestMapping(value = "/getUserSession")
-	@ResponseBody
-	public User getUserSession(HttpServletRequest request){
-		return (User)request.getSession().getAttribute("user");
-	}
-
-
-	@RequestMapping(value = "/logout")
-	public String logout(HttpServletRequest request){
-		request.getSession().removeAttribute("user");
-		return "html/login";
-	}
+    @RequestMapping(value = "/logout")
+    public String logout(HttpServletRequest request) {
+        request.getSession().removeAttribute("user");
+        return "html/login";
+    }
 }

@@ -107,7 +107,7 @@
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="ti-panel"></i>
-                                <p>Stats</p>
+                                <p id="userInfo"></p>
                             </a>
                         </li>
                         <li class="dropdown">
@@ -126,9 +126,9 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="/user/logout">
                                 <i class="ti-settings"></i>
-                                <p>Settings</p>
+                                <p>退出登录</p>
                             </a>
                         </li>
                     </ul>
@@ -340,13 +340,6 @@
                         </li>
                     </ul>
                 </nav>
-                <div class="copyright pull-right">
-                    &copy;
-                    <script>document.write(new Date().getFullYear())</script>
-                    , made with <i class="fa fa-heart heart"></i> by <a href="#">Creative Tim</a>. More Templates <a
-                        href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a
-                        href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
-                </div>
             </div>
         </footer>
 
@@ -389,6 +382,18 @@
             timer: 4000
         });
 
+        var url="/user/getUserSession";
+        $.ajax({
+            async: false,
+            url: url,
+            dataType: 'json',
+            success: function (user) {
+                if (typeof user == 'object') {
+                    studentId = user.id;
+                    $("#userInfo").append("欢迎您:"+user.name);
+                }
+            }
+        });
     });
 </script>
 
