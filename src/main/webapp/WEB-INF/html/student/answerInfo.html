@@ -95,11 +95,11 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="ti-bell"></i>
                                 <p class="notification">5</p>
-                                <p>Notifications</p>
+                                <p>快捷入口</p>
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Notification 1</a></li>
+                                <li><a href="../teacher/teacherboard.html">教师管理系统</a></li>
                                 <li><a href="#">Notification 2</a></li>
                                 <li><a href="#">Notification 3</a></li>
                                 <li><a href="#">Notification 4</a></li>
@@ -186,7 +186,7 @@
         });
 
 
-        if (userType != 3 || userType!= 1) {
+        if (userType != 3 && userType!= 1) {
             alert("您不是学生用户或超级管理员,无法查看该页面");
         } else {
 
