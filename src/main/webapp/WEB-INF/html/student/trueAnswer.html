@@ -32,7 +32,7 @@
 
 <div class="wrapper">
 
-     <div class="sidebar" data-background-color="white" data-active-color="danger">
+    <div class="sidebar" data-background-color="white" data-active-color="danger">
 
         <div class="sidebar-wrapper">
             <div class="logo">
@@ -42,7 +42,7 @@
             </div>
 
             <ul class="nav">
-                <li class="active">
+                <li>
                     <a href="/html/student/studenthome.html">
                         <i class="ti-comment"></i>
                         <p>待完成试卷</p>
@@ -54,13 +54,13 @@
                         <p>已完成试卷</p>
                     </a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="/html/student/managerinfo.html">
                         <i class="ti-user"></i>
                         <p>个人信息管理</p>
                     </a>
                 </li>
-                <li class="active">
+                <li >
                     <a href="/html/student/accountstudent.html">
                         <i class="ti-user"></i>
                         <p>学生账号管理</p>
@@ -109,7 +109,7 @@
                         <li>
                             <a href="/user/logout">
                                 <i class="ti-settings"></i>
-                                 <p>退出登录</p>
+                                <p>退出登录</p>
                             </a>
                         </li>
                     </ul>
@@ -119,9 +119,9 @@
         </nav>
 
 
-        <div >
+        <div>
             <div class="container-fluid" style="height: 1000px">
-                <div class="col-md-12" style="width: 1583px; height: auto" >
+                <div class="col-md-12" style="width: 1583px; height: auto">
                     <div class="card">
                         <div class="header">
                             <h4 class="title">参考答案</h4>
@@ -129,7 +129,8 @@
                         </div>
                         <div class="content" style="height: 1000px">
                             <div id="chartHours" class="ct-chart">
-                                <div id="answer"  contentEditable="false" class="editDemo" style="width: 1000px;height: auto">
+                                <div id="answer" contentEditable="false" class="editDemo"
+                                     style="width: 1000px;height: auto">
 
                                 </div>
                             </div>
@@ -168,8 +169,8 @@
     $(function () {
         <!--获取cookie信息  ajax异步请求(jquery不能直接操作session)-->
         var studentId;
-
-        var url="/user/getUserSession";
+        var userType = '';
+        var url = "/user/getUserSession";
         $.ajax({
             async: false,
             url: url,
@@ -177,36 +178,41 @@
             success: function (user) {
                 if (typeof user == 'object') {
                     studentId = user.id;
-                    $("#userInfo").append("欢迎您:"+user.name);
+                    userType = user.userType;
+                    $("#userInfo").append("欢迎您:" + user.name);
                 }
             }
         });
 
 
-        $.post("/paper/getStudentAnswerInfo",
-            function (data) {
-                $.each(data, function (index, obj) {
-                   $("#answer").append('第'+(index+1)+'题:' + obj.question.questionText + '<textarea contenteditable="false" style="width: 700px; height: 60px">'+obj.question.answer+'</textarea><br/>');
+        if (userType != 3) {
+            alert("您不是学生用户或超级管理员,无法查看该页面");
+        } else {
+            $.post("/paper/getStudentAnswerInfo",
+                function (data) {
+                    $.each(data, function (index, obj) {
+                        $("#answer").append('第' + (index + 1) + '题:' + obj.question.questionText + '<textarea contenteditable="false" style="width: 700px; height: 60px">' + obj.question.answer + '</textarea><br/>');
+                    });
                 });
-            });
+        }
     });
 
     <!--获取session信息-->
 
-  /*  function getCookie(cookieName){
-        var cookieValue="";
-        if (document.cookie && document.cookie != '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                 var cookie = cookies[i];
-                 if (cookie.substring(0, cookieName.length + 2).trim() == cookieName.trim() + "=") {
-                       cookieValue = cookie.substring(cookieName.length + 2, cookie.length);
-                       break;
-                 }
-             }
-        }
-        return cookieValue;
-    }*/
+    /*  function getCookie(cookieName){
+     var cookieValue="";
+     if (document.cookie && document.cookie != '') {
+     var cookies = document.cookie.split(';');
+     for (var i = 0; i < cookies.length; i++) {
+     var cookie = cookies[i];
+     if (cookie.substring(0, cookieName.length + 2).trim() == cookieName.trim() + "=") {
+     cookieValue = cookie.substring(cookieName.length + 2, cookie.length);
+     break;
+     }
+     }
+     }
+     return cookieValue;
+     }*/
 </script>
 
 </html>

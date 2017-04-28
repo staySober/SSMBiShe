@@ -47,13 +47,13 @@
             </div>
 
             <ul class="nav">
-                <li class="active">
+                <li>
                     <a href="studenthome.html">
                         <i class="ti-comment"></i>
                         <p>待完成试卷</p>
                     </a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="completepaper.html">
                         <i class="ti-save"></i>
                         <p>已完成试卷</p>
@@ -65,7 +65,7 @@
                         <p>个人信息管理</p>
                     </a>
                 </li>
-                <li class="active">
+                <li >
                     <a href="accountstudent.html">
                         <i class="ti-user"></i>
                         <p>学生账号管理</p>
@@ -179,6 +179,7 @@
     $(function () {
         <!--获取session信息  ajax异步请求(jquery不能直接操作session)-->
         var url = "/user/getUserSession";
+        var userType = '';
         $.ajax({
             async: false,
             url: url,
@@ -186,58 +187,64 @@
             success: function (user) {
                 if (typeof user == 'object') {
                     $("#userInfo").append("欢迎您:" + user.name);
+                    userType = user.userType;
                 }
             }
         });
 
 
-        var className = '';
-        var teacher = '';
-        $.ajax({
-            async: false,
-            url: "/user/getStudentInfo",
-            dataType: 'json',
-            success: function (data) {
-                $("#content").append('<form method="post" action="/user/updateInfo">用户名:&nbsp;&nbsp;<input type="text" name="username" value="' + data.username + '"></br>' +
-                    '密码:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="password" value="' + data.password + '"></br>' +
-                    '姓名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="name" value="' + data.name + '"></br>' +
-                    '班级:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="stClass" id="stClass"><option value="">--默认--</option></select></br>' +
-                    '老师:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="teacher" id="teacher"><option value="">--默认--</option></select></br></br>' +
-                    '学号:<input type="text" name="studentNum" value="' + data.studentNum + '"></br>' +
-                    '<input type="submit" value="提交修改" style="color: deepskyblue;"><input type="hidden" name="studentId" value='+data.id+'></form>');
-                className = data.stClass;
-                teacher = data.teacher;
-            }
-        });
+        if (userType != 3) {
+            alert("您不是学生用户或超级管理员,无法查看该页面");
+        } else {
 
-        $.ajax({
-            async: false,
-            url: "/user/getAllClass",
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, function (index, obj) {
-                    $("#stClass").append('<option value="' + obj.id + '">' + obj.name + '</option>');
-                    if (className == obj.name) {
-                        $('#stClass').val(obj.id);
-                    }
-                });
-            }
-        });
+            var className = '';
+            var teacher = '';
+            $.ajax({
+                async: false,
+                url: "/user/getStudentInfo",
+                dataType: 'json',
+                success: function (data) {
+                    $("#content").append('<form method="post" action="/user/updateInfo">用户名:&nbsp;&nbsp;<input type="text" name="username" value="' + data.username + '"></br>' +
+                        '密码:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="password" value="' + data.password + '"></br>' +
+                        '姓名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="name" value="' + data.name + '"></br>' +
+                        '班级:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="stClass" id="stClass"><option value="">--默认--</option></select></br>' +
+                        '老师:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="teacher" id="teacher"><option value="">--默认--</option></select></br></br>' +
+                        '学号:<input type="text" name="studentNum" value="' + data.studentNum + '"></br>' +
+                        '<input type="submit" value="提交修改" style="color: deepskyblue;"><input type="hidden" name="studentId" value=' + data.id + '></form>');
+                    className = data.stClass;
+                    teacher = data.teacher;
+                }
+            });
+
+            $.ajax({
+                async: false,
+                url: "/user/getAllClass",
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (index, obj) {
+                        $("#stClass").append('<option value="' + obj.id + '">' + obj.name + '</option>');
+                        if (className == obj.name) {
+                            $('#stClass').val(obj.id);
+                        }
+                    });
+                }
+            });
 
 
-        $.ajax({
-            async: false,
-            url: "/user/getAllTeacher",
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, function (index, obj) {
-                    $("#teacher").append('<option value="' + obj.id + '">' + obj.name + '</option>');
-                    if (teacher == obj.name) {
-                        $('#teacher').val(obj.id);
-                    }
-                });
-            }
-        });
+            $.ajax({
+                async: false,
+                url: "/user/getAllTeacher",
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (index, obj) {
+                        $("#teacher").append('<option value="' + obj.id + '">' + obj.name + '</option>');
+                        if (teacher == obj.name) {
+                            $('#teacher').val(obj.id);
+                        }
+                    });
+                }
+            });
+        }
 
     });
 
