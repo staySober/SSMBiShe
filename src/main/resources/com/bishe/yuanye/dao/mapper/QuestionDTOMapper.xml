@@ -9,7 +9,7 @@
         <result column="type" jdbcType="VARCHAR" property="type"/>
         <result column="pic_one_url" jdbcType="VARCHAR" property="picOneUrl"/>
         <result column="pic_two_url" jdbcType="VARCHAR" property="picTwoUrl"/>
-        <result column="answer" jdbcType="VARCHAR" property="answer"/>
+        <result column="answer" jdbcType="LONGVARCHAR" property="answer"/>
         <result column="teacher_id" jdbcType="INTEGER" property="teacherId"/>
         <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
         <result column="is_deleted" jdbcType="SMALLINT" property="isDeleted"/>
