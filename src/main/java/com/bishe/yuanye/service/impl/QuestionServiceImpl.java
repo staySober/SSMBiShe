@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSON;
 
 import com.bishe.yuanye.common.BuilderHelper;
 import com.bishe.yuanye.dao.dto.*;
+import com.bishe.yuanye.dao.mapper.ChapterDTOMapper;
 import com.bishe.yuanye.dao.mapper.PaperQuestionMapDTOMapper;
 import com.bishe.yuanye.dao.mapper.QuestionDTOMapper;
+import com.bishe.yuanye.entity.ChapterInfo;
 import com.bishe.yuanye.entity.request.QueryQuestionRequest;
 import com.bishe.yuanye.entity.response.QueryQuestionResponse;
 import com.bishe.yuanye.service.QuestionService;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +32,9 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Autowired
     PaperQuestionMapDTOMapper paperQuestionDTOMapper;
+
+    @Autowired
+    ChapterDTOMapper chapterDTOMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(QuestionServiceImpl.class);
 
@@ -57,7 +63,23 @@ public class QuestionServiceImpl implements QuestionService {
         PaperQuestionMapDTOExample example = new PaperQuestionMapDTOExample();
         example.createCriteria().andIsDeletedEqualTo((short)0).andPaperIdEqualTo(paperId);
         List<PaperQuestionMapDTO> paperQuestionMapDTOS = paperQuestionDTOMapper.selectByExample(example);
-        List<Integer> collect = paperQuestionMapDTOS.stream().mapToInt(x -> x.getQuestionId()).boxed().collect(Collectors.toList());
+        List<Integer> collect = paperQuestionMapDTOS.stream().mapToInt(x -> x.getQuestionId()).boxed().collect(
+            Collectors.toList());
         return collect;
     }
+
+    @Override
+    public List<ChapterInfo> getAllChapters() {
+
+        ChapterDTOExample example = new ChapterDTOExample();
+        example.createCriteria().andIsDeletedEqualTo((short)0);
+        List<ChapterDTO> chapterDTOList = chapterDTOMapper.selectByExample(example);
+        if (!chapterDTOList.isEmpty()) {
+            return chapterDTOList.stream().map(chapterDTO -> BuilderHelper.buildChapterInfo(chapterDTO)).collect(
+                Collectors.toList());
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
 }

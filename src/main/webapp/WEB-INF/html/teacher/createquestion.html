@@ -11,7 +11,7 @@
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
     <meta name="viewport" content="width=device-width"/>
 
-
+    <link href="../../css/default.css" rel="stylesheet" media="screen" type="text/css"/>
     <!-- Bootstrap core CSS     -->
     <link href="../../assets/css/bootstrap.min.css" rel="stylesheet"/>
 
@@ -143,12 +143,27 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <p>章节<select id="chapter">
-                        <option value="1">第一章</option>
-                        <option value="2">第二章</option>
+                    <p>章节:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select id="chapter"></select></p>
+                    <p>关键词一:<input type="text" id="keywordOne"/></p>
+                    <p>关键词二:<input type="text" id="keywordTwo"/></p>
+                    <p>题目类型:<select id="type">
+                        <option>选择题</option>
+                        <option>填空题</option>
+                        <option>计算题</option>
                     </select></p>
-                    <p>题目配图<input type="file" id="file" name="file"/></p>
+                    <p>题目内容:
+                    <div id="content1" contentEditable="true" class="editDemo"></div>
+                    </p>
+                    <p>题目答案:
+                    <div id="content2" contentEditable="true" class="editDemo"></div>
+                    </p>
+                    <p>题目配图:<input type="file" id="file" name="file"/></p>
+                    <p id="fileName" style="display:block"></p>
                     <input type="button" onclick="savePicture()" value="上传文件">
+                    <div style="text-align: center">
+                        <button type="submit" class="btn btn-info btn-fill btn-wd" onclick="createQuestion()">新建题目
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -159,7 +174,7 @@
                 <nav class="pull-left">
                     <ul>
                         <li>
-                            <a href="#">
+                            <a href="teacherboard.html">
                                 Home
                             </a>
                         </li>
@@ -177,6 +192,9 @@
 
 <!--   Core JS Files   -->
 <script src="../../assets/js/jquery-1.10.2.js" type="text/javascript"></script>
+<!-- 编辑器js-->
+<script src="../../js/JMEditor/JMEditor.js" type="text/javascript"></script>
+<!--上传文件js-->
 <script src="../../js/ajaxfileupload.js" type="text/javascript"></script>
 <script src="../../assets/js/bootstrap.min.js" type="text/javascript"></script>
 
@@ -216,8 +234,14 @@
         } else {
             //todo js业务逻辑在这个里面写
             $.ajax({
-                async:false,
-                url:
+                async: false,
+                url: '/questionBase/getAllChapters',
+                dataType: 'json',
+                success: function (list) {
+                    $.each(list, function (index, obj) {
+                        $("#chapter").append('<option value="' + obj.id + '">' + obj.chapterName + '</option>')
+                    })
+                }
             });
         }
 
@@ -236,16 +260,47 @@
                     dataType: 'json', //返回值类型 一般设置为json
                     success: function (data, status)  //服务器成功响应处理函数
                     {
-                        alert('成功');
-                    },
-                    error: function (data, status, e)//服务器响应失败处理函数
-                    {
-                        alert(e);
+                        if (data.errorMsg == null) {
+                            $("fileName").val(data.fileName);
+                            alert('上传图片成功');
+                        } else {
+                            alert(data.errorMsg);
+                        }
                     }
                 }
             )
             return false;
         }
+    }
+
+    function createQuestion() {
+        var chapterId = $("#chapter option:selected").val();
+        var keywordOne = $("#keywordOne").val();
+        var keywordTwo = $("#keywordTwo").val();
+        var type = $("#type option:selected").text();
+        var questionText = $("#content1").html();
+        var answer = $("#content2").html();
+        var picOneUrl = $("#fileName").val();
+        $.ajax({
+            async: false,
+            url: '/questionBase/createQuestion',
+            dataType: 'json',
+            type:"post",
+            data: {
+                question: {
+                    chapterId: chapterId,
+                    keywordOne: keywordOne,
+                    keywordTwo: keywordTwo,
+                    type: type,
+                    questionText: questionText,
+                    answer: answer,
+                    picOneUrl: picOneUrl
+                }
+            },
+            success: function (data) {
+                alert("新建题目成功");
+            }
+        })
     }
 </script>
 </html>

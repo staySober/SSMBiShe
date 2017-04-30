@@ -1,10 +1,13 @@
 package com.bishe.yuanye.controller;
 
 import java.io.File;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.bishe.yuanye.common.CommonUtil;
+import com.bishe.yuanye.entity.ChapterInfo;
+import com.bishe.yuanye.entity.Question;
 import com.bishe.yuanye.entity.request.QueryQuestionRequest;
 import com.bishe.yuanye.entity.response.QueryQuestionResponse;
 import com.bishe.yuanye.entity.response.SavePictureResponse;
@@ -29,8 +32,8 @@ public class QuestionController {
     @Autowired
     QuestionService questionService;
 
-    @Value("${imageUrl}")
-    private String imageUrl;
+    @Value("${saveImageUrl}")
+    private String saveImageUrl;
 
     @RequestMapping(value = "/queryQuestion")
     @ResponseBody
@@ -48,7 +51,7 @@ public class QuestionController {
         SavePictureResponse response = new SavePictureResponse();
         String fileName = file.getOriginalFilename();
         if (CommonUtil.isRightPictureFormat(fileName)) {
-            String path = request.getSession().getServletContext().getRealPath(imageUrl) + "/" + fileName;
+            String path = request.getSession().getServletContext().getRealPath(saveImageUrl) + "/" + fileName;
             File newFile = new File(path);
             if (newFile.exists()) {
                 response.errorMsg = "文件已存在,请重命名";
@@ -66,5 +69,21 @@ public class QuestionController {
         return response;
     }
 
+    @RequestMapping(value = "/getAllChapters")
+    @ResponseBody
+    public List<ChapterInfo> getAllChapters() {
 
+        List<ChapterInfo> chapterInfoList = questionService.getAllChapters();
+        return chapterInfoList;
+    }
+
+    @RequestMapping(value = "/createQuestion")
+    @ResponseBody
+    public String createQuestion(HttpServletRequest request) {
+
+        String json = request.getParameter("question");
+        request.getSession().getAttribute("user");
+
+        return "";
+    }
 }

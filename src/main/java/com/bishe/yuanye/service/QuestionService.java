@@ -1,5 +1,6 @@
 package com.bishe.yuanye.service;
 
+import com.bishe.yuanye.entity.ChapterInfo;
 import com.bishe.yuanye.entity.QuestionQueryCondition;
 import com.bishe.yuanye.entity.request.QueryQuestionRequest;
 import com.bishe.yuanye.entity.response.QueryQuestionResponse;
@@ -14,4 +15,6 @@ public interface QuestionService {
     QueryQuestionResponse queryQuestion(QueryQuestionRequest request);
 
     List<Integer> getQuestionIdListByPaperId(int id);
+
+    List<ChapterInfo> getAllChapters();
 }

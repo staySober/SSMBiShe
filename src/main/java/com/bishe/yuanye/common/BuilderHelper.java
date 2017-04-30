@@ -1,7 +1,9 @@
 package com.bishe.yuanye.common;
 
+import com.bishe.yuanye.dao.dto.ChapterDTO;
 import com.bishe.yuanye.dao.dto.QueryConditionDTO;
 import com.bishe.yuanye.dao.dto.QuestionDTO;
+import com.bishe.yuanye.entity.ChapterInfo;
 import com.bishe.yuanye.entity.Question;
 import com.bishe.yuanye.entity.QuestionQueryCondition;
 import com.bishe.yuanye.entity.response.QuestionWithDetail;
@@ -97,5 +99,13 @@ public class BuilderHelper {
             questionWithDetail.allKeyword += ("," + questionDTO.getKeywordTwo());
         }
         return questionWithDetail;
+    }
+
+    public static ChapterInfo buildChapterInfo(ChapterDTO chapterDTO) {
+
+        ChapterInfo chapterInfo = new ChapterInfo();
+        chapterInfo.id = chapterDTO.getId();
+        chapterInfo.chapterName = chapterDTO.getName();
+        return chapterInfo;
     }
 }
