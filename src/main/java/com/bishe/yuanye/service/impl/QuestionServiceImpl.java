@@ -8,6 +8,7 @@ import com.bishe.yuanye.dao.mapper.ChapterDTOMapper;
 import com.bishe.yuanye.dao.mapper.PaperQuestionMapDTOMapper;
 import com.bishe.yuanye.dao.mapper.QuestionDTOMapper;
 import com.bishe.yuanye.entity.ChapterInfo;
+import com.bishe.yuanye.entity.Question;
 import com.bishe.yuanye.entity.request.QueryQuestionRequest;
 import com.bishe.yuanye.entity.response.QueryQuestionResponse;
 import com.bishe.yuanye.service.QuestionService;
@@ -79,6 +80,17 @@ public class QuestionServiceImpl implements QuestionService {
                 Collectors.toList());
         } else {
             return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public int createQuestion(Question question) {
+        try {
+            QuestionDTO questionDTO = BuilderHelper.buildQuestionDTO(question);
+            return questionDTOMapper.insert(questionDTO);
+        } catch (Exception e) {
+            logger.error("新建题目失败,题目:{}", JSON.toJSONString(question), e);
+            return 0;
         }
     }
 

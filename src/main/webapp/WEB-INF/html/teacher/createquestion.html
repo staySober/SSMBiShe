@@ -261,7 +261,7 @@
                     success: function (data, status)  //服务器成功响应处理函数
                     {
                         if (data.errorMsg == null) {
-                            $("fileName").val(data.fileName);
+                            $("#fileName").val(data.fileName);
                             alert('上传图片成功');
                         } else {
                             alert(data.errorMsg);
@@ -282,7 +282,7 @@
         var answer = $("#content2").html();
         var picOneUrl = $("#fileName").val();
         $.ajax({
-                async: false,
+                async: true,
                 url: '/questionBase/createQuestion',
                 dataType: 'json',
                 data: {

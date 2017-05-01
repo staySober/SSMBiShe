@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.bishe.yuanye.common.CommonUtil;
 import com.bishe.yuanye.entity.ChapterInfo;
 import com.bishe.yuanye.entity.Question;
+import com.bishe.yuanye.entity.User;
 import com.bishe.yuanye.entity.request.QueryQuestionRequest;
 import com.bishe.yuanye.entity.response.QueryQuestionResponse;
 import com.bishe.yuanye.entity.response.SavePictureResponse;
@@ -15,10 +16,7 @@ import com.bishe.yuanye.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -80,10 +78,15 @@ public class QuestionController {
 
     @RequestMapping(value = "/createQuestion")
     @ResponseBody
-    public String createQuestion(Question question, HttpServletRequest request) {
+    public String createQuestion(Question question, HttpServletRequest request) throws Exception {
 
-        request.getSession().getAttribute("user");
-
-        return "";
+        User user = (User)request.getSession().getAttribute("user");
+        question.teacherId = user.getId();
+        int i = questionService.createQuestion(question);
+        if (i == 1) {
+            return "redirect:/teacher/createquestion";
+        } else {
+            throw new Exception();
+        }
     }
 }
