@@ -137,11 +137,9 @@
                             <!--浮动窗口-->
                             <div align="left" id="commentListDiv" onmouseover="showThis(this);" onmouseout="hideThis(this);" style="width:500px;height:300px;border:solid 1px #a1bece;position:absolute;z-index:10000;display:none;background-color:#EEF7EA;">
                                 <p><b>在下面填入答案并提交</b></p>
-                                <form method="post" action="/paper/setAnswer">
-                                    <input type="hidden" name="questionId" >
-                                    <div id="answer" name = "answer" contentEditable="true" class="editDemo"></div>
-                                    <input type="submit" value="提交答案">
-                                </form>
+                                    <input type="hidden" name="questionId" id="questionId"/>
+                                    <div id="answer"  name="answer" contentEditable="true" class="editDemo"></div>
+                                    <input type="button" value="提交答案" onclick="submitAnswer()">
                             </div>
 
 
@@ -204,7 +202,12 @@
 
 
         if (userType != 3 && userType!= 1) {
-            alert("您不是学生用户或超级管理员,无法查看该页面");
+            if (userType == 1){
+                window.location.href ="shiroPage.html";
+            }
+            if(userType ==2){
+                window.location.href ="../teacher/shiroPage.html";
+            }
         } else {
 
 
@@ -234,6 +237,17 @@
      }
      return cookieValue;
      }*/
+
+
+    function submitAnswer() {
+        var questionId = $("#questionId").val();
+        var answer = $("#answer").html();
+
+        $.post("/paper/setAnswer",{"questionId":questionId,"answer":answer},
+            function (data) {
+                alert("答题成功!");
+            });
+    }
 </script>
 
 
@@ -245,7 +259,7 @@
         var top = $(obj).offset().top;
         var left = $(obj).offset().left + $(obj).width() - 7;
         $("#commentListDiv").css({'top':top + "px",'left':left+"px"}).show("slow");
-        $("#questionId").val(questionId);
+        $("#questionId").attr("value",questionId);
     }
 
     function showThis(obj) {

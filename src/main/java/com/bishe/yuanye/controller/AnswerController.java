@@ -37,7 +37,7 @@ public class AnswerController {
     private PaperService paperService;
 
 
-    @RequestMapping(value = "/setAnswer", method = RequestMethod.POST)
+    @RequestMapping(value = "/setAnswer")
     public String setAnswer(HttpServletRequest request){
         String questionId = request.getParameter("questionId");
 

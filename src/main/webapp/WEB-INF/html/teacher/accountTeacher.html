@@ -70,7 +70,7 @@
                         <p>其他试卷</p>
                     </a>
                 </li>
-                <li class="active">
+                <li >
                     <a href="myclass.html">
                         <i class="ti-user"></i>
                         <p>我的班级</p>
@@ -82,7 +82,7 @@
                         <p>导入班级</p>
                     </a>
                 </li>
-                 <li>
+                 <li class="active">
                     <a href="accountTeacher.html">
                         <i class="ti-import"></i>
                         <p>教师账号管理</p>
@@ -208,7 +208,12 @@
         });
 
         if(userType != 3){
-            alert("您不是超级管理员,无法查看该页面");
+            if (userType == 2){
+                window.location.href ="shiroPage.html";
+            }
+            if(userType ==1){
+                window.location.href ="../student/shiroPage.html";
+            }
         }else {
             $.ajax({
                 async: false,

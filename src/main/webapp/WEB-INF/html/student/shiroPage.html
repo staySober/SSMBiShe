@@ -1,19 +1,19 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <link rel="apple-touch-icon" sizes="76x76" href="../../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" sizes="96x96" href="../../assets/img/favicon.png">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
     <title>电路原理题库系统</title>
 
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
-    <meta name="viewport" content="width=device-width"/>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
 
 
     <!-- Bootstrap core CSS     -->
-    <link href="../../assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../../assets/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Animation library for notifications   -->
     <link href="../../assets/css/animate.min.css" rel="stylesheet"/>
@@ -22,22 +22,16 @@
     <link href="../../assets/css/paper-dashboard.css" rel="stylesheet"/>
 
     <!--  CSS for Demo Purpose, don't include it in your project     -->
-    <link href="../../assets/css/demo.css" rel="stylesheet"/>
+    <link href="../../assets/css/demo.css" rel="stylesheet" />
 
     <!--  Fonts and icons     -->
-
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="../../assets/css/themify-icons.css" rel="stylesheet">
-
 </head>
 <body>
 
 <div class="wrapper">
     <div class="sidebar" data-background-color="white" data-active-color="danger">
-
-        <!--
-            Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
-            Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
-        -->
 
         <div class="sidebar-wrapper">
             <div class="logo">
@@ -47,51 +41,34 @@
             </div>
 
             <ul class="nav">
-                <li class="active">
-                    <a href="questionbase.html">
-                        <i class="ti-list"></i>
-                        <p>查询题库</p>
+                <li >
+                    <a href="studenthome.html">
+                        <i class="ti-comment"></i>
+                        <p>待完成试卷</p>
                     </a>
                 </li>
                 <li>
-                    <a href="createquestion.html">
-                        <i class="ti-pencil-alt2"></i>
-                        <p>新建题目</p>
+                    <a href="completepaper.html">
+                        <i class="ti-save"></i>
+                        <p>已完成试卷</p>
                     </a>
                 </li>
                 <li>
-                    <a href="mypaper.html">
-                        <i class="ti-map"></i>
-                        <p>我的试卷</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="otherpaper.html">
-                        <i class="ti-list-ol"></i>
-                        <p>其他试卷</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="myclass.html">
+                    <a href="managerinfo.html">
                         <i class="ti-user"></i>
-                        <p>我的班级</p>
+                        <p>个人信息管理</p>
                     </a>
                 </li>
                 <li>
-                    <a href="importclass.html">
-                        <i class="ti-import"></i>
-                        <p>导入班级</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="accountTeacher.html">
-                        <i class="ti-import"></i>
-                        <p>教师账号管理</p>
+                    <a href="accountstudent.html">
+                        <i class="ti-user"></i>
+                        <p>学生账号管理</p>
                     </a>
                 </li>
             </ul>
         </div>
     </div>
+    <div class="copyrights">Collect from <a href="#" title="电路原理题库系统">电路原理题库系统</a></div>
 
     <div class="main-panel">
         <nav class="navbar navbar-default">
@@ -103,7 +80,7 @@
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#">题库</a>
+                    <a class="navbar-brand" href="#">权限跳转页面</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -121,7 +98,7 @@
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                               <li><a href="../student/studenthome.html">学生管理系统</a></li>
+                               <li><a href="../teacher/teacherboard.html">教师管理系统</a></li>
                                 <li><a href="#">Notification 2</a></li>
                                 <li><a href="#">Notification 3</a></li>
                                 <li><a href="#">Notification 4</a></li>
@@ -143,10 +120,32 @@
 
         <div class="content">
             <div class="container-fluid">
-                <div class="row">
-
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h4 class="title">权限跳转页面</h4>
+                            <p class="category">24 Hours performance</p>
+                        </div>
+                        <div class="content">
+                            <div id="chartHours" class="ct-chart">
+                              <h3>您登陆的为学生账号，已帮您自动跳转到学生管理系统页面！</h3>
+                            </div>
+                            <div class="footer">
+                                <div class="chart-legend">
+                                    <i class="fa fa-circle text-info"></i> Open
+                                    <i class="fa fa-circle text-danger"></i> Click
+                                    <i class="fa fa-circle text-warning"></i> Click Second Time
+                                </div>
+                                <hr>
+                                <div class="stats">
+                                    <i class="ti-reload"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
 
 
@@ -157,13 +156,22 @@
 
                         <li>
                             <a href="#">
-                                Home
+                                Creative Tim
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://blog.creative-tim.com">
+                                Blog
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#/license">
+                                Licenses
                             </a>
                         </li>
                     </ul>
                 </nav>
                 <div class="copyright pull-right">
-
                 </div>
             </div>
         </footer>
@@ -194,34 +202,29 @@
 <script src="../../assets/js/demo.js"></script>
 
 <script type="text/javascript">
+        $(document).ready(function () {
 
-    $(function () {
 
-        var url = "/user/getUserSession";
-        var userType = '';
-        $.ajax({
-            async: false,
-            url: url,
-            dataType: 'json',
-            success: function (user) {
+            $.notify({
+                icon: 'ti-gift',
+                message: "欢迎光临 <b>电路原理题库系统</b>"
+
+            }, {
+                type: 'success',
+                timer: 4000
+            });
+
+            var url = "/user/getUserSession";
+            var userType = '';
+            $.ajax({
+                async: false,
+                url: url,
+                dataType: 'json',
+                success: function (user) {
                     userType = user.userType;
                     $("#userInfo").append("欢迎您:" + user.name);
-            }
+                }
+            });
         });
-
-        if (userType != 3 && userType != 2) {
-
-            if (userType == 2){
-                window.location.href ="shiroPage.html";
-            }
-            if(userType ==1){
-                window.location.href ="../student/shiroPage.html";
-            }
-        } else {
-            //todo js业务逻辑在这个里面写
-
-
-        }
-    })
 </script>
 </html>

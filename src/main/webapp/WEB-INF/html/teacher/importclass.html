@@ -212,7 +212,12 @@
 
         if (userType != 3 && userType != 2) {
 
-            alert("您不是教师用户或超级管理员,无法查看该页面");
+            if (userType == 2){
+                window.location.href ="shiroPage.html";
+            }
+            if(userType ==1){
+                window.location.href ="../student/shiroPage.html";
+            }
         } else {
             //todo js业务逻辑在这个里面写
 
