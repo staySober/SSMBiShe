@@ -129,7 +129,7 @@
                         </div>
                         <div class="content" style="height: 1000px">
                             <div id="chartHours" class="ct-chart">
-                                <div id="answer" contentEditable="false" class="editDemo"
+                                <div id="answer" class="editDemo"
                                      style="width: 1000px;height: auto">
 
                                 </div>
@@ -193,7 +193,7 @@
             $.post("/paper/getStudentAnswerInfo",
                 function (data) {
                     $.each(data, function (index, obj) {
-                        $("#answer").append('第' + (index + 1) + '题:' + obj.question.questionText + '<textarea contenteditable="false" style="width: 700px; height: 60px">' + obj.studentAnswer + '</textarea><br/>');
+                        $("#answer").append('第' + (index + 1) + '题:' + obj.question.questionText +'<div id="content1" contentEditable="true" class="editDemo">'+obj.studentAnswer+'</div><br/>');
                     });
                 });
         }
