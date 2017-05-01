@@ -282,12 +282,10 @@
         var answer = $("#content2").html();
         var picOneUrl = $("#fileName").val();
         $.ajax({
-            async: false,
-            url: '/questionBase/createQuestion',
-            dataType: 'json',
-            type:"post",
-            data: {
-                question: {
+                async: false,
+                url: '/questionBase/createQuestion',
+                dataType: 'json',
+                data: {
                     chapterId: chapterId,
                     keywordOne: keywordOne,
                     keywordTwo: keywordTwo,
@@ -295,12 +293,12 @@
                     questionText: questionText,
                     answer: answer,
                     picOneUrl: picOneUrl
+                },
+                success: function (data) {
+                    alert("新建题目成功");
                 }
-            },
-            success: function (data) {
-                alert("新建题目成功");
             }
-        })
+        )
     }
 </script>
 </html>
