@@ -325,7 +325,7 @@
                     $.each(data.questionList, function (index, obj) {
                         $("#questionList").append('<div class="card"><div class="row" style="margin-left: 10px">' +
                             '<span>' + (index + 1) + '.</span><span><b>创建人:</b></span><span>' + obj.teacherName + '</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><b>创建时间:</b></span><span>' + obj.createdAt + '</span></div>' +
-                            '<div id="content" contentEditable="false" class="editDemo">' + obj.questionText + '</div></div>');
+                            '<div id="content">' + obj.questionText + '</div></div>');
                     })
                 }
             }
