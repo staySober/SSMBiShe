@@ -18,6 +18,7 @@ import com.bishe.yuanye.service.PaperService;
 import com.bishe.yuanye.service.QuestionService;
 import com.bishe.yuanye.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,6 +38,9 @@ public class PageController {
 
 	@Autowired
 	private QuestionService questionService;
+
+	@Value("${saveImageUrl}")
+    private String saveImageUrl;
 
 	/**
 	 * 获取试卷集的方法
@@ -89,6 +93,9 @@ public class PageController {
 		User user = (User)request.getSession().getAttribute("user");
 		Cookie cookie = Arrays.stream(request.getCookies()).filter(x -> "paperId".equals(x.getName())).findAny().get();
 		List<Question> questions = paperService.getQuestionByPaperId(user.getTeacherId(),Integer.parseInt(cookie.getValue()));
+		questions.stream().forEach(x->{
+			x.setPicOneUrl("../../files/" + x.getPicOneUrl());
+		});
 		return questions;
 	}
 
