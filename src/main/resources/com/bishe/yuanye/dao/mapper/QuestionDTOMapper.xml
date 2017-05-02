@@ -3,7 +3,7 @@
 <mapper namespace="com.bishe.yuanye.dao.mapper.QuestionDTOMapper">
     <resultMap id="BaseResultMap" type="com.bishe.yuanye.dao.dto.QuestionDTO">
         <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="chapter_Id" jdbcType="INTEGER" property="chapter_id"/>
+        <result column="chapter_Id" jdbcType="INTEGER" property="chapterId"/>
         <result column="keyword_one" jdbcType="VARCHAR" property="keywordOne"/>
         <result column="keyword_two" jdbcType="VARCHAR" property="keywordTwo"/>
         <result column="type" jdbcType="VARCHAR" property="type"/>
@@ -130,7 +130,7 @@
       pic_two_url, answer, teacher_id, 
       created_at, is_deleted, question_text
       )
-    values (#{id,jdbcType=INTEGER}, #{chapter_id,jdbcType=INTEGER}, #{keywordOne,jdbcType=VARCHAR},
+    values (#{id,jdbcType=INTEGER}, #{chapterId,jdbcType=INTEGER}, #{keywordOne,jdbcType=VARCHAR},
       #{keywordTwo,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{picOneUrl,jdbcType=VARCHAR}, 
       #{picTwoUrl,jdbcType=VARCHAR}, #{answer,jdbcType=VARCHAR}, #{teacherId,jdbcType=INTEGER}, 
       #{createdAt,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=SMALLINT}, #{questionText,jdbcType=LONGVARCHAR}
@@ -142,7 +142,7 @@
             <if test="id != null">
                 id,
             </if>
-            <if test="chapter_id != null">
+            <if test="chapterId != null">
                 chapter_id,
             </if>
             <if test="keywordOne != null">
@@ -180,8 +180,8 @@
             <if test="id != null">
                 #{id,jdbcType=INTEGER},
             </if>
-            <if test="chapter_id != null">
-                #{chapter_id,jdbcType=INTEGER},
+            <if test="chapterId != null">
+                #{chapterId,jdbcType=INTEGER},
             </if>
             <if test="keywordOne != null">
                 #{keywordOne,jdbcType=VARCHAR},
@@ -228,8 +228,8 @@
             <if test="record.id != null">
                 id = #{record.id,jdbcType=INTEGER},
             </if>
-            <if test="record.chapter_id != null">
-                chapter_id = #{record.chapter_id,jdbcType=INTEGER},
+            <if test="record.chapterId != null">
+                chapter_id = #{record.chapterId,jdbcType=INTEGER},
             </if>
             <if test="record.keywordOne != null">
                 keyword_one = #{record.keywordOne,jdbcType=VARCHAR},
@@ -269,7 +269,7 @@
     <update id="updateByExampleWithBLOBs" parameterType="map">
         update bishe_question
         set id = #{record.id,jdbcType=INTEGER},
-        chapter_id = #{record.chapter_id,jdbcType=INTEGER},
+        chapterId = #{record.chapterId,jdbcType=INTEGER},
         keyword_one = #{record.keywordOne,jdbcType=VARCHAR},
         keyword_two = #{record.keywordTwo,jdbcType=VARCHAR},
         type = #{record.type,jdbcType=VARCHAR},
@@ -287,7 +287,7 @@
     <update id="updateByExample" parameterType="map">
         update bishe_question
         set id = #{record.id,jdbcType=INTEGER},
-        chapter_id = #{record.chapter_id,jdbcType=INTEGER},
+        chapterId = #{record.chapterId,jdbcType=INTEGER},
         keyword_one = #{record.keywordOne,jdbcType=VARCHAR},
         keyword_two = #{record.keywordTwo,jdbcType=VARCHAR},
         type = #{record.type,jdbcType=VARCHAR},
@@ -304,8 +304,8 @@
     <update id="updateByPrimaryKeySelective" parameterType="com.bishe.yuanye.dao.dto.QuestionDTO">
         update bishe_question
         <set>
-            <if test="chapter_id != null">
-                chapter_id = #{chapter_id,jdbcType=INTEGER},
+            <if test="chapterId != null">
+                chapter_id = #{chapterId,jdbcType=INTEGER},
             </if>
             <if test="keywordOne != null">
                 keyword_one = #{keywordOne,jdbcType=VARCHAR},
@@ -342,7 +342,7 @@
     </update>
     <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bishe.yuanye.dao.dto.QuestionDTO">
     update bishe_question
-    set chapter_id = #{chapter_id,jdbcType=INTEGER},
+    set chapterId = #{chapterId,jdbcType=INTEGER},
       keyword_one = #{keywordOne,jdbcType=VARCHAR},
       keyword_two = #{keywordTwo,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
@@ -357,7 +357,7 @@
   </update>
     <update id="updateByPrimaryKey" parameterType="com.bishe.yuanye.dao.dto.QuestionDTO">
     update bishe_question
-    set chapter_id = #{chapter_id,jdbcType=INTEGER},
+    set chapterId = #{chapterId,jdbcType=INTEGER},
       keyword_one = #{keywordOne,jdbcType=VARCHAR},
       keyword_two = #{keywordTwo,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
@@ -370,7 +370,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
     <select id="queryQuestionByCondition" resultType="com.bishe.yuanye.dao.dto.QuestionDTO">
-        select bq.id, bq.chapter_id as chapter_id, bc.name as chapterName, bq.keyword_one as keywordOne, bq.keyword_two
+        select bq.id, bq.chapter_Id as chapterId, bc.name as chapterName, bq.keyword_one as keywordOne, bq.keyword_two
         as keywordTwo,
         bq.type, bq.pic_one_url as picOneUrl, bq.pic_two_url as picTwoUrl, bq.answer, bq.teacher_id as teacherId,
         bt.name as teacherName, bq.created_at as createdAt, bq.question_text as questionText
@@ -381,8 +381,8 @@
             <if test="id!=null">
                 bq.id = #{id}
             </if>
-            <if test="chapter_id!=null">
-                and bq.chapter_id =#{chapter_id}
+            <if test="chapterId!=null">
+                and bq.chapter_id =#{chapterId}
             </if>
             <if test="keyword!=null">
                 and (bq.keyword_one = #{keyword} or bq.keyword_two = #{keyword})
@@ -415,8 +415,8 @@
             <if test="id!=null">
                 bq.id = #{id}
             </if>
-            <if test="chapter_id!=null">
-                and bq.chapter_id =#{chapter_id}
+            <if test="chapterId!=null">
+                and bq.chapter_id =#{chapterId}
             </if>
             <if test="keyword!=null">
                 and (bq.keyword_one = #{keyword} or bq.keyword_two = #{keyword})
