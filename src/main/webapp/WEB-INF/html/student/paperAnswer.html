@@ -27,6 +27,36 @@
     <!--  Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="../../assets/css/themify-icons.css" rel="stylesheet">
+    <style type="text/css">
+        .top {
+            width: 1000px;
+            border: 0px;
+            text-align: center;
+            margin: 0 auto
+        }
+
+        .top1 {
+            width: 1000px;
+            border: 0px;
+            text-align: center;
+            margin: 0 auto
+        }
+
+        .left {
+            width: 207px;
+            float: left;
+        }
+
+        .middle {
+            width: 553px;
+            float: left;
+        }
+
+        .right {
+            width: 240px;
+        }
+
+    </style>
 
 </head>
 <body>
@@ -133,24 +163,32 @@
         </center>
 
 
-        <div>
-            <div class="container-fluid" style="height: 1000px">
-                <div class="col-md-12" style="width: 1583px; height: auto">
-                    <div class="card">
-                        <div class="header">
-                            <h4 class="title">作答试卷</h4>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <span id="answer1">
 
-                            <p class="category">24 Hours performance</p>
-                        </div>
-                        <div class="content" style="height:auto">
-                            <div id="answer1">
-                            </div>
-                        </div>
-                    </div>
+                    </span>
                 </div>
             </div>
-
         </div>
+
+
+        <footer class="footer">
+            <div class="container-fluid">
+                <nav class="pull-left">
+                    <ul>
+
+                        <li>
+                            <a href="#">
+                                Home
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                电路原理题库系统
+            </div>
+        </footer>
 
     </div>
 </div>
@@ -211,15 +249,18 @@
             $.post("/paper/getPaperContent",
                 function (data) {
                     $.each(data, function (index, obj) {
-                        $("#answer1").append('第' + (index + 1) + '题:' + obj.questionText +
-                            '<span><image src ="' + obj.picOneUrl + '" width="250px" height="250px"><span>' +
-                            '<input type="button" name="button" class="ButtonStyle" id="selectBtn" value="作答该题" onclick="showCommentDiv(this,' + obj.id + ');" onmouseout="hideCommentDiv();"/><br/></br>');
+                        $("#answer1").append('<div style="width: 1003px; float:left">' +
+                            '<div>第' + (index + 1) + '题:' + obj.questionText + '</h3></div>'+
+                            '<span class="right"><image src ="' + obj.picOneUrl + '" width="250px" height="250px"></span>'+
+                        '<span class="right"><textarea style="height: 100;width: 300px;" id="answerText'+obj.questionId+'"/></textarea><input type="button" name="button" class="ButtonStyle" id="selectBtn" value="作答该题" onclick="showCommentDiv(this,' + obj.id + ');" onmouseout="hideCommentDiv();"/></span></div><br clear="all">');
+
                     });
                 });
         }
     });
 
     <!--获取session信息-->
+
 
     /*  function getCookie(cookieName){
      var cookieValue="";
@@ -244,6 +285,7 @@
         $.post("/paper/setAnswer", {"questionId": questionId, "answer": answer},
             function (data) {
                 alert("答题成功!");
+                $("#answerText"+questionId).val(answer);
             });
     }
 </script>
