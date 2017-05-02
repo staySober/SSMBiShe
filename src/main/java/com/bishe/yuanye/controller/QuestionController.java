@@ -16,6 +16,7 @@ import com.bishe.yuanye.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,16 +49,16 @@ public class QuestionController {
         HttpServletRequest request) {
 
         SavePictureResponse response = new SavePictureResponse();
-        String fileName = file.getOriginalFilename();
-        if (CommonUtil.isRightPictureFormat(fileName)) {
-            String path = request.getSession().getServletContext().getRealPath(saveImageUrl) + "/" + fileName;
+        String newFileName = CommonUtil.getNewRandomName(file.getOriginalFilename());
+        if (CommonUtil.isRightPictureFormat(newFileName)) {
+            String path = request.getSession().getServletContext().getRealPath(saveImageUrl) + "/" + newFileName;
             File newFile = new File(path);
             if (newFile.exists()) {
                 response.errorMsg = "文件已存在,请重命名";
             } else {
                 try {
                     file.transferTo(newFile);
-                    response.fileName = fileName;
+                    response.fileName = newFileName;
                 } catch (Exception e) {
                     response.errorMsg = "文件保存失败";
                 }
@@ -78,15 +79,16 @@ public class QuestionController {
 
     @RequestMapping(value = "/createQuestion")
     @ResponseBody
-    public String createQuestion(Question question, HttpServletRequest request) throws Exception {
+    public int createQuestion(Question question, HttpServletRequest request, Model model) throws Exception {
 
         User user = (User)request.getSession().getAttribute("user");
         question.teacherId = user.getId();
         int i = questionService.createQuestion(question);
         if (i == 1) {
-            return "redirect:/teacher/createquestion";
+            return i;
         } else {
             throw new Exception();
         }
     }
+
 }

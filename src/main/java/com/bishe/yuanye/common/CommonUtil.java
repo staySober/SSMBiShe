@@ -1,5 +1,7 @@
 package com.bishe.yuanye.common;
 
+import java.util.Random;
+
 /**
  * Created by yuanye on 2017/4/28.
  *
@@ -16,5 +18,13 @@ public class CommonUtil {
         } else {
             return false;
         }
+    }
+
+    public static String getNewRandomName(String oldFileName) {
+
+        String num = System.currentTimeMillis() + "";
+        int index = oldFileName.lastIndexOf(".");
+        String format = oldFileName.substring(index, oldFileName.length());
+        return num + format;
     }
 }
