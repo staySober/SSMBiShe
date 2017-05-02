@@ -22,6 +22,7 @@ public class MyHandlerInterceptor implements HandlerInterceptor {
         // a)拦截用户请求，判断用户是否登录
         Object user = request.getSession().getAttribute("user");
         if (user!=null){
+            //根据用户类型拦截请求
            return true ;
         }
         // c)如果用户未登录，跳转到登录页面。

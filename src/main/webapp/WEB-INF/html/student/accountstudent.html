@@ -191,7 +191,12 @@
         });
 
         if(userType != 3){
-            alert("您不是超级管理员,无法查看该页面");
+            if (userType == 1){
+                window.location.href ="shiroPage.html";
+            }
+            if(userType ==2){
+                window.location.href ="../teacher/shiroPage.html";
+            }
         }else {
 
             var className = '';

@@ -129,7 +129,7 @@
                         </div>
                         <div class="content" style="height: 1000px">
                             <div id="chartHours" class="ct-chart">
-                                <div id="answer" contentEditable="false" class="editDemo"
+                                <div id="answer"
                                      style="width: 1000px;height: auto">
 
                                 </div>
@@ -186,7 +186,12 @@
 
 
         if (userType != 3  && userType != 1) {
-            alert("您不是学生用户或超级管理员,无法查看该页面");
+            if (userType == 1){
+                window.location.href ="shiroPage.html";
+            }
+            if(userType ==2){
+                window.location.href ="../teacher/shiroPage.html";
+            }
         } else {
             $.post("/paper/getStudentAnswerInfo",
                 function (data) {

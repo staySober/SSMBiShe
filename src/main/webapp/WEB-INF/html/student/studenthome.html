@@ -223,7 +223,12 @@
         });
 
         if (userType != 3 && userType != 1) {
-            alert("您不是学生用户或超级管理员,无法查看该页面");
+            if (userType == 1){
+                window.location.href ="shiroPage.html";
+            }
+            if(userType ==2){
+                window.location.href ="../teacher/shiroPage.html";
+            }
         } else {
 
             $.post("/paper/getPaperList?studentId=" + studentId,
