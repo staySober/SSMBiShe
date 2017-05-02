@@ -176,19 +176,19 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="teacherName">创建人</label>
+                                <label for="teacherName">创建人:</label>
                                 <input id="teacherName" type="text" class="form-control border-input"/>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="startTime">开始创建时间</label>
+                                <label for="startTime">开始创建时间:</label>
                                 <input id="startTime" type="date" class="form-control border-input"/>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="endTime">结束创建时间</label>
+                                <label for="endTime">结束创建时间:</label>
                                 <input id="endTime" type="date" class="form-control border-input"/>
                             </div>
                         </div>
@@ -319,7 +319,15 @@
                 endTime: endTime
             },
             success: function (data) {
-
+                if (data.errorMsg != null) {
+                    alert(data.errorMsg);
+                } else {
+                    $.each(data.questionList, function (index, obj) {
+                        $("#questionList").append('<div class="card"><div class="row" style="margin-left: 10px">' +
+                            '<span>' + (index + 1) + '.</span><span><b>创建人:</b></span><span>' + obj.teacherName + '</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><b>创建时间:</b></span><span>' + obj.createdAt + '</span></div>' +
+                            '<div id="content" contentEditable="false" class="editDemo">' + obj.questionText + '</div></div>');
+                    })
+                }
             }
         })
     }

@@ -21,7 +21,6 @@ import java.util.Date;
  */
 public class BuilderHelper {
 
-
     public static QuestionDTO buildQuestionDTO(Question question) {
 
         QuestionDTO questionDTO = new QuestionDTO();
@@ -90,6 +89,7 @@ public class BuilderHelper {
         questionWithDetail.teacherName = questionDTO.getTeacherName();
         questionWithDetail.picOneUrl = "../../files/" + questionDTO.getPicOneUrl();
         questionWithDetail.answer = questionDTO.getAnswer();
+        questionWithDetail.createdAt = CommonUtil.formatDateToString(questionDTO.getCreatedAt());
         questionWithDetail.allKeyword = questionDTO.getKeywordOne();
         if (!StringUtils.isEmpty(questionDTO.getKeywordTwo())) {
             questionWithDetail.allKeyword += ("," + questionDTO.getKeywordTwo());

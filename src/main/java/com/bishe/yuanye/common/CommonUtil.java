@@ -1,5 +1,7 @@
 package com.bishe.yuanye.common;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -26,5 +28,11 @@ public class CommonUtil {
         int index = oldFileName.lastIndexOf(".");
         String format = oldFileName.substring(index, oldFileName.length());
         return num + format;
+    }
+
+    public static String formatDateToString(Date date) {
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return format.format(date);
     }
 }
