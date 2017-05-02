@@ -147,6 +147,7 @@
                     <p>关键词一:<input type="text" id="keywordOne"/></p>
                     <p>关键词二:<input type="text" id="keywordTwo"/></p>
                     <p>题目类型:<select id="type">
+                        <option selected value="">请选择</option>
                         <option>选择题</option>
                         <option>填空题</option>
                         <option>计算题</option>
@@ -161,7 +162,8 @@
                     <p id="fileName" style="display:block"></p>
                     <input type="button" onclick="savePicture()" value="上传文件">
                     <div style="text-align: center">
-                        <button type="submit" class="btn btn-info btn-fill btn-wd" onclick="createQuestion()">新建题目
+                        <button type="submit" class="btn btn-info btn-fill btn-wd" onclick="return createQuestion()">
+                            新建题目
                         </button>
                     </div>
                 </div>
@@ -230,11 +232,11 @@
 
         if (userType != 3 && userType != 2) {
 
-            if (userType == 2){
-                window.location.href ="shiroPage.html";
+            if (userType == 2) {
+                window.location.href = "shiroPage.html";
             }
-            if(userType ==1){
-                window.location.href ="../student/shiroPage.html";
+            if (userType == 1) {
+                window.location.href = "../student/shiroPage.html";
             }
         } else {
             //todo js业务逻辑在这个里面写
@@ -243,6 +245,7 @@
                 url: '/questionBase/getAllChapters',
                 dataType: 'json',
                 success: function (list) {
+                    $("#chapter").append('<option selected value="">请选择</option>');
                     $.each(list, function (index, obj) {
                         $("#chapter").append('<option value="' + obj.id + '">' + obj.chapterName + '</option>')
                     })
@@ -286,6 +289,15 @@
         var questionText = $("#content1").html();
         var answer = $("#content2").html();
         var picOneUrl = $("#fileName").val();
+
+        if ($("#chapter option:selected").val() == "") {
+            alert("请选择章节");
+            return false;
+        }
+        if ($("#type option:selected").val() == "") {
+            alert("请选择题目类型");
+            return false;
+        }
         $.ajax({
                 async: true,
                 url: '/questionBase/createQuestion',
