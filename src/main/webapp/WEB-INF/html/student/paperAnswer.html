@@ -251,8 +251,9 @@
                     $.each(data, function (index, obj) {
                         $("#answer1").append(
                             '<div>第' + (index + 1) + '题:' + obj.questionText + '</h3></div>'+
-                            '<div style="width: 1003px; float:left"><span class="right"><image src ="' + obj.picOneUrl + '" width="250px" height="250px"></span>'+
-                        '<span class="right"><input type="button" name="button" class="ButtonStyle" id="selectBtn" value="作答该题" onclick="showCommentDiv(this,' + obj.id + ');" onmouseout="hideCommentDiv();"/><textarea style="height: 100;width: 300px;" id="answerText'+obj.questionId+'"/></textarea></span></div><br clear="all">');
+                            '<div style="width: 1003px; float:left"><span class="left" style="width: 500px;"><image src ="' + obj.picOneUrl + '" width="230px" height="230px"></span>'+
+                        '<input type="text" readonly="true" class="form-control border-input" style="height: 200;width: 330px;" id="answerText'+obj.id+'"/>' +
+                            '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="right"><input type="button" name="button" class="btn btn-info btn-fill btn-wd"  id="selectBtn" value="作答该题" onclick="showCommentDiv(this,' + obj.id + ');" onmouseout="hideCommentDiv();"/></span></div><br clear="all">');
 
                     });
                 });
@@ -308,6 +309,7 @@
     /*隐藏浮动框*/
     function hideCommentDiv() {
         $("#editCourseDiv").hide();
+        $("#answer").empty();
     }
     function hideThis(obj) {
         $(obj).hide();

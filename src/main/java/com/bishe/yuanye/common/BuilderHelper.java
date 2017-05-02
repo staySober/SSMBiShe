@@ -54,7 +54,7 @@ public class BuilderHelper {
 
     public static QueryConditionDTO buildQueryCondition(QueryQuestionRequest request) throws Exception {
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         QueryConditionDTO conditionDTO = new QueryConditionDTO();
         if (request.chapterId > 0) {
             conditionDTO.setChapterId(request.chapterId);

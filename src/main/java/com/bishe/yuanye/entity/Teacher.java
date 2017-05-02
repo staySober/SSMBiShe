@@ -12,9 +12,19 @@ public class Teacher {
 
       private String username;
 
+      private String password;
+
       private String name;
 
       private String telephone;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Integer getId() {
         return id;
