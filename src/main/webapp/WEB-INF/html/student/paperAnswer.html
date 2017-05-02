@@ -43,7 +43,7 @@
             </div>
 
             <ul class="nav">
-                <li  class="active">
+                <li class="active">
                     <a href="/html/student/studenthome.html">
                         <i class="ti-comment"></i>
                         <p>待完成试卷</p>
@@ -71,10 +71,6 @@
         </div>
     </div>
     <div class="copyrights">Collect from <a href="#" title="电路原理题库系统">电路原理题库系统</a></div>
-
-
-
-
 
 
     <div class="main-panel">
@@ -125,6 +121,18 @@
         </nav>
 
 
+        <!--浮动窗口-->
+        <center>
+            <div align="left" id="commentListDiv" onmouseover="showThis(this);" onmouseout="hideThis(this);"
+                 style="width:500px;height:300px;border:solid 1px #a1bece;position:absolute;z-index:10000;display:none;background-color:#EEF7EA;margin: 0 auto;">
+                <p><b>在下面填入答案并提交</b></p>
+                <input type="hidden" name="questionId" id="questionId"/>
+                <div id="answer" name="answer" contentEditable="true" class="editDemo"></div>
+                <input type="button" value="提交答案" onclick="submitAnswer()">
+            </div>
+        </center>
+
+
         <div>
             <div class="container-fluid" style="height: 1000px">
                 <div class="col-md-12" style="width: 1583px; height: auto">
@@ -132,22 +140,11 @@
                         <div class="header">
                             <h4 class="title">作答试卷</h4>
 
-
-
-                            <!--浮动窗口-->
-                            <div align="left" id="commentListDiv" onmouseover="showThis(this);" onmouseout="hideThis(this);" style="width:500px;height:300px;border:solid 1px #a1bece;position:absolute;z-index:10000;display:none;background-color:#EEF7EA;">
-                                <p><b>在下面填入答案并提交</b></p>
-                                    <input type="hidden" name="questionId" id="questionId"/>
-                                    <div id="answer"  name="answer" contentEditable="true" class="editDemo"></div>
-                                    <input type="button" value="提交答案" onclick="submitAnswer()">
-                            </div>
-
-
                             <p class="category">24 Hours performance</p>
                         </div>
-                        <div class="content" style="height: 1000px">
-                                <div id="answer1">
-                                </div>
+                        <div class="content" style="height:auto">
+                            <div id="answer1">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -201,12 +198,12 @@
         });
 
 
-        if (userType != 3 && userType!= 1) {
-            if (userType == 1){
-                window.location.href ="shiroPage.html";
+        if (userType != 3 && userType != 1) {
+            if (userType == 1) {
+                window.location.href = "shiroPage.html";
             }
-            if(userType ==2){
-                window.location.href ="../teacher/shiroPage.html";
+            if (userType == 2) {
+                window.location.href = "../teacher/shiroPage.html";
             }
         } else {
 
@@ -215,7 +212,8 @@
                 function (data) {
                     $.each(data, function (index, obj) {
                         $("#answer1").append('第' + (index + 1) + '题:' + obj.questionText +
-                            '<input type="button" name="button" class="ButtonStyle" id="selectBtn" value="作答该题" onclick="showCommentDiv(this,'+obj.id+');" onmouseout="hideCommentDiv();"/><br/></br>');
+                            '<span><image src ="' + obj.picOneUrl + '" width="250px" height="250px"><span>' +
+                            '<input type="button" name="button" class="ButtonStyle" id="selectBtn" value="作答该题" onclick="showCommentDiv(this,' + obj.id + ');" onmouseout="hideCommentDiv();"/><br/></br>');
                     });
                 });
         }
@@ -243,7 +241,7 @@
         var questionId = $("#questionId").val();
         var answer = $("#answer").html();
 
-        $.post("/paper/setAnswer",{"questionId":questionId,"answer":answer},
+        $.post("/paper/setAnswer", {"questionId": questionId, "answer": answer},
             function (data) {
                 alert("答题成功!");
             });
@@ -255,11 +253,11 @@
     //浮动窗口的显示隐藏是通过js实现的
 
     /*显示浮动框*/
-    function showCommentDiv(obj,questionId) {
+    function showCommentDiv(obj, questionId) {
         var top = $(obj).offset().top;
         var left = $(obj).offset().left + $(obj).width() - 7;
-        $("#commentListDiv").css({'top':top + "px",'left':left+"px"}).show("slow");
-        $("#questionId").attr("value",questionId);
+        $("#commentListDiv").css({'top': top + "px", 'left': left + "px"}).show("slow");
+        $("#questionId").attr("value", questionId);
     }
 
     function showThis(obj) {
