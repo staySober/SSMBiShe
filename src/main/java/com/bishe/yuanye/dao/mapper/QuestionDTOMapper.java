@@ -34,4 +34,6 @@ public interface QuestionDTOMapper {
     int updateByPrimaryKey(QuestionDTO record);
 
     List<QuestionDTO> queryQuestionByCondition(QueryConditionDTO queryConditionDTO);
+
+    int countQuestionByCondition(QueryConditionDTO queryConditionDTO);
 }

@@ -11,6 +11,8 @@ public class QueryQuestionResponse {
 
     public List<QuestionWithDetail> questionList = new ArrayList<>();
 
+    public int totalNum;
+
     public String errorMsg;
 
     public QueryQuestionResponse() {

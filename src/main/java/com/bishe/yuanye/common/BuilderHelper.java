@@ -6,6 +6,7 @@ import com.bishe.yuanye.dao.dto.QuestionDTO;
 import com.bishe.yuanye.entity.ChapterInfo;
 import com.bishe.yuanye.entity.Question;
 import com.bishe.yuanye.entity.QuestionQueryCondition;
+import com.bishe.yuanye.entity.request.QueryQuestionRequest;
 import com.bishe.yuanye.entity.response.QuestionWithDetail;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
@@ -20,8 +21,6 @@ import java.util.Date;
  */
 public class BuilderHelper {
 
-    @Value("imageUrl")
-    private static String imageUrl;
 
     public static QuestionDTO buildQuestionDTO(Question question) {
 
@@ -54,30 +53,27 @@ public class BuilderHelper {
         return question;
     }
 
-    public static QueryConditionDTO buildQueryCondition(QuestionQueryCondition condition) throws Exception {
+    public static QueryConditionDTO buildQueryCondition(QueryQuestionRequest request) throws Exception {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         QueryConditionDTO conditionDTO = new QueryConditionDTO();
-        if (condition.id > 0) {
-            conditionDTO.setId(condition.id);
+        if (request.chapterId > 0) {
+            conditionDTO.setChapterId(request.chapterId);
         }
-        if (condition.chapterId > 0) {
-            conditionDTO.setChapterId(condition.chapterId);
+        if (!StringUtils.isEmpty(request.keyword)) {
+            conditionDTO.setKeyword(request.keyword);
         }
-        if (!StringUtils.isEmpty(condition.keyword)) {
-            conditionDTO.setKeyword(condition.keyword);
+        if (!StringUtils.isEmpty(request.type)) {
+            conditionDTO.setType(request.type);
         }
-        if (!StringUtils.isEmpty(condition.type)) {
-            conditionDTO.setType(condition.type);
+        if (!StringUtils.isEmpty(request.teacherName)) {
+            conditionDTO.setTeacherName(request.teacherName);
         }
-        if (!StringUtils.isEmpty(condition.teacherName)) {
-            conditionDTO.setTeacherName(condition.teacherName);
+        if (!StringUtils.isEmpty(request.startTime)) {
+            conditionDTO.setStartTime(format.parse(request.startTime));
         }
-        if (!StringUtils.isEmpty(condition.startTime)) {
-            conditionDTO.setStartTime(format.parse(condition.startTime));
-        }
-        if (!StringUtils.isEmpty(condition.endTime)) {
-            conditionDTO.setEndTime(format.parse(condition.endTime));
+        if (!StringUtils.isEmpty(request.endTime)) {
+            conditionDTO.setEndTime(format.parse(request.endTime));
         }
         return conditionDTO;
     }
@@ -92,7 +88,7 @@ public class BuilderHelper {
         questionWithDetail.questionText = questionDTO.getQuestionText();
         questionWithDetail.teacherId = questionDTO.getTeacherId();
         questionWithDetail.teacherName = questionDTO.getTeacherName();
-        questionWithDetail.picOneUrl = imageUrl + questionDTO.getPicOneUrl();
+        questionWithDetail.picOneUrl = "../../files/" + questionDTO.getPicOneUrl();
         questionWithDetail.answer = questionDTO.getAnswer();
         questionWithDetail.allKeyword = questionDTO.getKeywordOne();
         if (!StringUtils.isEmpty(questionDTO.getKeywordTwo())) {

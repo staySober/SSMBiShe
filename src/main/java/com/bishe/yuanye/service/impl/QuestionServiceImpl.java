@@ -43,10 +43,13 @@ public class QuestionServiceImpl implements QuestionService {
     public QueryQuestionResponse queryQuestion(QueryQuestionRequest request) {
         try {
             QueryQuestionResponse response = new QueryQuestionResponse();
-            QueryConditionDTO queryConditionDTO = BuilderHelper.buildQueryCondition(request.questionQueryCondition);
+            QueryConditionDTO queryConditionDTO = BuilderHelper.buildQueryCondition(request);
             queryConditionDTO.setPageSize(request.pageSize);
             queryConditionDTO.setOffset((request.pageIndex - 1) * request.pageSize);
             List<QuestionDTO> questionDTOList = questionDTOMapper.queryQuestionByCondition(queryConditionDTO);
+            if (questionDTOList.isEmpty()) {
+                return response;
+            }
             response.questionList = questionDTOList.stream().map(
                 questionDTO -> BuilderHelper.buildQuestionWithDetail(questionDTO)).collect(Collectors.toList());
             return response;

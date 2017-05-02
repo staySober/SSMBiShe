@@ -370,7 +370,8 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
     <select id="queryQuestionByCondition" resultType="com.bishe.yuanye.dao.dto.QuestionDTO">
-        select bq.id, bq.chapter_id as chapterId, bc.name as chapterName, bq.keyword_one as keywordOne, bq.keyword_two as keywordTwo,
+        select bq.id, bq.chapter_id as chapterId, bc.name as chapterName, bq.keyword_one as keywordOne, bq.keyword_two
+        as keywordTwo,
         bq.type, bq.pic_one_url as picOneUrl, bq.pic_two_url as picTwoUrl, bq.answer, bq.teacher_id as teacherId,
         bt.name as teacherName, bq.created_at as createdAt, bq.question_text as questionText
         from bishe_question bq
@@ -381,7 +382,7 @@
                 bq.id = #{id}
             </if>
             <if test="chapterId!=null">
-                and bq.chapter_id ={chapterId}
+                and bq.chapter_id =#{chapterId}
             </if>
             <if test="keyword!=null">
                 and (bq.keyword_one = #{keyword} or bq.keyword_two = #{keyword})
@@ -389,15 +390,47 @@
             <if test="type!=null">
                 and bq.type = #{type}
             </if>
-            <if test="teacherName">
+            <if test="teacherName!=null">
+                and bt.name = #{teacherName}
+            </if>
+            <if test="startTime!=null">
+                and bt.created_at > #{startTime}
+            </if>
+            <if test="endTime!=null">
+                and bt.created_at <![CDATA[<]]> #{endTime}
+            </if>
+            and bq.is_deleted = 0
+            order by bq.created_at desc
+            limit #{offset},#{pageSize}
+        </where>
+    </select>
+
+    <select id="countQuestionByCondition" resultType="int">
+        select count(1)
+        from bishe_question bq
+        <if test="teacherName!=null">
+            inner join bishe_teacher bt on bq.teacher_id= bt.id
+        </if>
+        <where>
+            <if test="id!=null">
+                bq.id = #{id}
+            </if>
+            <if test="chapterId!=null">
+                and bq.chapter_id =#{chapterId}
+            </if>
+            <if test="keyword!=null">
+                and (bq.keyword_one = #{keyword} or bq.keyword_two = #{keyword})
+            </if>
+            <if test="type!=null">
+                and bq.type = #{type}
+            </if>
+            <if test="teacherName!=null">
                 and bt.name = #{teacherName}
             </if>
             <if test="startTime!=null">
                 and bt.created_at between #{startTime} and #{endTime}
             </if>
             and bq.is_deleted = 0
-            order by bq.created_at desc
-            limit #{offset},#{pageSize}
         </where>
     </select>
 </mapper>

@@ -200,6 +200,8 @@
                     </div>
                 </div>
                 <hr style="filter: alpha(opacity=100, finishopacity=0, style=3);border-color:#666967" SIZE=3>
+                <div id="questionList"></div>
+                <div id="page"></div>
             </div>
         </div>
 
@@ -286,5 +288,40 @@
             });
         }
     })
+
+    function queryQuestion() {
+        var chapterId = $("#chapter option:selected").val();
+        var keyword = $("#keyword").val();
+        if ($("#type option:selected").val() != "") {
+            var type = $("#type option:selected").text();
+        } else {
+            var type = "";
+        }
+        var teacherName = $("#teacherName").val();
+        var startTime = $("#startTime").val();
+        var endTime = $("#endTime").val();
+        if (startTime > endTime) {
+            alert("开始时间不能晚于结束时间");
+            return false;
+        }
+        $.ajax({
+            async: false,
+            url: '/questionBase/queryQuestion',
+            dataType: 'json',
+            data: {
+                pageIndex: 1,
+                pageSize: 10,
+                chapterId: chapterId,
+                keyword: keyword,
+                type: type,
+                teacherName: teacherName,
+                startTime: startTime,
+                endTime: endTime
+            },
+            success: function (data) {
+
+            }
+        })
+    }
 </script>
 </html>
