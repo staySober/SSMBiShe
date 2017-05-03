@@ -99,6 +99,7 @@ public class StudentServiceImpl implements StudentService {
             t.setName(x.getName());
             t.setUsername(x.getUsername());
             t.setTelephone(x.getTelephone());
+            t.setPassword(x.getPassword());
             return t;
         }).collect(Collectors.toList());
         return collect;
