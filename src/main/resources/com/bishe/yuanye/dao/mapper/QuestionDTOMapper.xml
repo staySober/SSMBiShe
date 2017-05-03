@@ -385,7 +385,7 @@
                 and bq.chapter_id =#{chapterId}
             </if>
             <if test="keyword!=null">
-                and (bq.keyword_one = #{keyword} or bq.keyword_two = #{keyword})
+                and (bq.keyword_one like CONCAT('%',#{keyword},'%') or bq.keyword_two like CONCAT('%',#{keyword},'%'))
             </if>
             <if test="type!=null">
                 and bq.type = #{type}
@@ -419,7 +419,7 @@
                 and bq.chapter_id =#{chapterId}
             </if>
             <if test="keyword!=null">
-                and (bq.keyword_one = #{keyword} or bq.keyword_two = #{keyword})
+                and (bq.keyword_one like CONCAT('%',#{keyword},'%')  or bq.keyword_two = CONCAT('%',#{keyword},'%') )
             </if>
             <if test="type!=null">
                 and bq.type = #{type}

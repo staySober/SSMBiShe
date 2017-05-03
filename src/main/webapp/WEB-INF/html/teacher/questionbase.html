@@ -11,7 +11,6 @@
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
     <meta name="viewport" content="width=device-width"/>
 
-
     <!-- Bootstrap core CSS     -->
     <link href="../../assets/css/bootstrap.min.css" rel="stylesheet"/>
 
@@ -28,6 +27,22 @@
 
     <link href="../../assets/css/themify-icons.css" rel="stylesheet">
 
+    <style type="text/css">
+        .questionInfo {
+            height: auto;
+            overflow: hidden
+        }
+
+        .questionInfo .card {
+            width: 66.7%;
+            float: left;
+        }
+
+        .questionInfo .buttons {
+            width: 33.3%;
+            float: right;
+        }
+    </style>
 </head>
 <body>
 
@@ -232,6 +247,9 @@
 
 <!--   Core JS Files   -->
 <script src="../../assets/js/jquery-1.10.2.js" type="text/javascript"></script>
+<!-- 编辑器js-->
+<script src="../../js/JMEditor/JMEditor.js" type="text/javascript"></script>
+
 <script src="../../assets/js/bootstrap.min.js" type="text/javascript"></script>
 
 <!--  Checkbox, Radio & Switch Plugins -->
@@ -290,7 +308,12 @@
     })
 
     function queryQuestion() {
-        var chapterId = $("#chapter option:selected").val();
+
+        if ($("#chapter option:selected").val() == "") {
+            var chapterId = 0;
+        } else {
+            var chapterId = $("#chapter option:selected").val();
+        }
         var keyword = $("#keyword").val();
         if ($("#type option:selected").val() != "") {
             var type = $("#type option:selected").text();
@@ -303,6 +326,10 @@
         if (startTime > endTime) {
             alert("开始时间不能晚于结束时间");
             return false;
+        }
+
+        if ($("#questionList").html() != "") {
+            $("#questionList").html("");
         }
         $.ajax({
             async: false,
@@ -323,10 +350,23 @@
                     alert(data.errorMsg);
                 } else {
                     $.each(data.questionList, function (index, obj) {
-                        $("#questionList").append('<div class="card"><div class="row" style="margin-left: 10px">' +
+                        $("#questionList").append('<div class="questionInfo"><div class="card"><div class="row" style="margin:10px">' +
                             '<span>' + (index + 1) + '.</span><span><b>创建人:</b></span><span>' + obj.teacherName + '</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><b>创建时间:</b></span><span>' + obj.createdAt + '</span></div>' +
-                            '<div id="content">' + obj.questionText + '</div></div>');
+                            '<div id="content' + (index + 1) + '" class="editor" align= "center" style="margin:10px">' + obj.questionText + '</h3></div>' +
+                            '<div align="center"><image src ="' + obj.picOneUrl + '" width="250px" height="250px"></div>' +
+                            '<hr>' +
+                            '<div class="text-center"><div class="row">' +
+                            '<div class="col-md-3 col-md-offset-1"><h5>' + obj.chapterName + '<br/><small>章节</small></h5></div>' +
+                            '<div class="col-md-4"><h5>' + obj.allKeyword + '<br/><small>关键词</small></h5></div>' +
+                            '<div class="col-md-3"><h5>' + obj.type + '<br/><small>题型</small></h5></div></div></div></div>' +
+                            '<div class="buttons">' +
+                            '<div style="text-align: center;height: 33.3%"><button class="btn btn-info btn-fill btn-wd" onclick="">查看答案</button></div>' +
+                            '<div style="text-align: center;height: 33.3%"><button class="btn btn-info btn-fill btn-wd" onclick="">加入到试卷</button></div>' +
+                            '<div style="text-align: center;height: 33.3%"><button class="btn btn-info btn-fill btn-wd" onclick="">编辑题目</button></div>' +
+                            '</div></div>');
                     })
+                    $(".editor").addClass('row');
+                    var b = $(".qusetionInfo").height();
                 }
             }
         })

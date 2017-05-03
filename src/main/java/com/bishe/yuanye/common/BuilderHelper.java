@@ -69,10 +69,10 @@ public class BuilderHelper {
             conditionDTO.setTeacherName(request.teacherName);
         }
         if (!StringUtils.isEmpty(request.startTime)) {
-            conditionDTO.setStartTime(format.parse(request.startTime));
+            conditionDTO.setStartTime(format.parse(request.startTime+" 00:00:00"));
         }
         if (!StringUtils.isEmpty(request.endTime)) {
-            conditionDTO.setEndTime(format.parse(request.endTime));
+            conditionDTO.setEndTime(format.parse(request.endTime+" 00:00:00"));
         }
         return conditionDTO;
     }

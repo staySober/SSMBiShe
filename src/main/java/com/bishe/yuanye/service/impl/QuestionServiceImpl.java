@@ -97,4 +97,16 @@ public class QuestionServiceImpl implements QuestionService {
         }
     }
 
+    public static void main(String[] args) {
+        String a = "<p><span class=\"mathquill-rendered-math\" style=\"font-size:20px;\"><span "
+            + "class=\"textarea\"><textarea data-cke-editable=\"1\" contenteditable=\"false\"></textarea></span><var "
+            + "mathquill-command-id=\"4\">x</var><sup class=\"non-leaf\" mathquill-command-id=\"6\" "
+            + "mathquill-block-id=\"7\"><span mathquill-command-id=\"9\">2</span><span "
+            + "mathquill-command-id=\"10\">2</span></sup></span><span>&nbsp;</span>+<span "
+            + "class=\"mathquill-rendered-math\" style=\"font-size:20px;\"><span class=\"textarea\"><textarea "
+            + "data-cke-editable=\"1\" contenteditable=\"false\"></textarea></span><var "
+            + "mathquill-command-id=\"21\">u</var><sub class=\"non-leaf\" mathquill-command-id=\"18\" "
+            + "mathquill-block-id=\"19\"><var mathquill-command-id=\"22\">s</var></sub></span><span>&nbsp;"
+            + "</span>\u200B<br></p>";
+    }
 }

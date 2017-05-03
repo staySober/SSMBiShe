@@ -80,7 +80,7 @@ a.menuFocusBg{
 .topline{border-top:solid #CADDFF 1px;}
 .bottomline{border-bottom:solid #CADDFF 1px;}
 
-.content{
+.editcontent{
 	width:580px;
 	height:auto;
 	min-height:350px;
@@ -88,12 +88,12 @@ a.menuFocusBg{
 	margin:2px;
 }
 
-.content h1{
+.editcontent h1{
 	font-size:24px;
 	width:100%;
 }
 
-.content .mark{
+.editcontent .mark{
 	background-color:#DDDDDD;
 	font-family:Symbola, serif;
 	padding:2px;
@@ -106,7 +106,7 @@ a.menuFocusBg{
 	padding:10px;
 }
 
-.contentArea{
+.editcontentArea{
 	height:100px;
 	width:90%;
 }
