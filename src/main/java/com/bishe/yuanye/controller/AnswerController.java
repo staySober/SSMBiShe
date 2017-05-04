@@ -68,6 +68,7 @@ public class AnswerController {
             q.setQuestion(x);
             String answer = answerService.queryAnswer(x.id, Integer.parseInt(cookie.getValue()),user.getId());
             q.setStudentAnswer(answer == null ? "" : answer);
+            q.setQeustionId(x.getId());
             return q;
         }).collect(Collectors.toList());
         return collect;

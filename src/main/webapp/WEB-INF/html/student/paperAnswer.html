@@ -256,9 +256,21 @@
                             '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="right"><input type="button" name="button" class="btn btn-info btn-fill btn-wd"  id="selectBtn" value="作答该题" onclick="showCommentDiv(this,' + obj.id + ');" onmouseout="hideCommentDiv();"/></span></div><br clear="all">');
 
                     });
+                    $("#answer1").append('</br></br><button name="submitPaper" id="submitPaper" onclick="submitPaper()" width="100px" height="60px">提交试卷</button> ');
                 });
         }
     });
+
+    function submitPaper(){
+        if(confirm("是否确认要提交试卷？如果提交了试卷，试卷将被完成作答，未答的题目将无法作答！")){
+            $.post("/paper/submitPaper",
+                function (data) {
+                    window.location.href = "./studenthome.html";
+                });
+        }
+    }
+
+
 
     <!--获取session信息-->
 

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bishe.yuanye.dao.dto.PaperDTO;
 import com.bishe.yuanye.dao.dto.StudentAnswerMapDTO;
+import com.bishe.yuanye.dao.dto.StudentCompletePaperDTO;
 import com.bishe.yuanye.entity.Paper;
 import com.bishe.yuanye.entity.Question;
 import com.bishe.yuanye.entity.User;
@@ -66,13 +67,14 @@ public class PageController {
 			}
 		).collect(Collectors.toList());
 
+		//查询题目作答情况
+		List<StudentCompletePaperDTO> paperDTOS = paperService.getPaperCompleteInfo(studentId);
+		List<Integer> paperIdList = paperDTOS.stream().mapToInt(x -> x.getPaperId()).boxed().collect(Collectors.toList());
 		paperList.forEach(paper->{
 			//todo 重构已完成为完成试卷判断逻辑
-			List<Integer> questionIds = questionService.getQuestionIdListByPaperId(paper.getId());
-			long paperAnswerCount = answerMapDTOS.stream().filter(x -> x.getPaperId() == paper.getId() && paper.getStudentId() ==x.getStudentId()).count();
-			if (questionIds.size() <= paperAnswerCount){
-				paper.setAnswer(true);
-			}
+				if (paperIdList.contains(paper.getPaperId())){
+					paper.setAnswer(true);
+				}
 		});
 		return paperList;
 	}
@@ -118,4 +120,13 @@ public class PageController {
 		return "student/trueAnswer";
 	}
 
+	@RequestMapping("/submitPaper")
+	public String submitPaper(HttpServletRequest request){
+		Cookie cookie = Arrays.stream(request.getCookies()).filter(x -> x.getName().equals("paperId")).findAny().get();
+		Integer paperId = Integer.parseInt(cookie.getValue());
+		User user = (User)request.getSession().getAttribute("user");
+		Integer studentId = user.getId();
+		paperService.submitPaper(studentId,paperId);
+		return "success";
+	}
 }
