@@ -41,7 +41,28 @@
         .questionInfo .buttons {
             width: 33.3%;
             float: right;
+            padding: 60px 0
         }
+
+        .buttonElement {
+            text-align: center;
+            height: 33.3%;
+            padding: 0 0 30px
+        }
+
+        .answerdiv {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 500px;
+            height: 300px;
+            border: solid 1px #a1bece;
+            z-index: 10000;
+            display: none;
+            background-color: #EEF7EA;
+            margin: 0 auto
+        }
+
     </style>
 </head>
 <body>
@@ -217,6 +238,7 @@
                 <hr style="filter: alpha(opacity=100, finishopacity=0, style=3);border-color:#666967" SIZE=3>
                 <div id="questionList"></div>
                 <div id="page"></div>
+
             </div>
         </div>
 
@@ -242,6 +264,12 @@
     </div>
 </div>
 
+<!--显示答案浮动窗口 -->
+<div class="alert alert-info answerdiv">
+    <button id="divButton" type="button" aria-hidden="true" class="close" onclick="closeDiv(this.value)">×</button>
+    <p><b>答案如下:</b></p>
+    <div id="answer" name="answer" contentEditable="false" class="editDemo"></div>
+</div>
 
 </body>
 
@@ -359,17 +387,43 @@
                             '<div class="col-md-3 col-md-offset-1"><h5>' + obj.chapterName + '<br/><small>章节</small></h5></div>' +
                             '<div class="col-md-4"><h5>' + obj.allKeyword + '<br/><small>关键词</small></h5></div>' +
                             '<div class="col-md-3"><h5>' + obj.type + '<br/><small>题型</small></h5></div></div></div></div>' +
+                            '<div id="answer' + obj.id + '" style="display: none">' + obj.answer + '</div>' +
                             '<div class="buttons">' +
-                            '<div style="text-align: center;height: 33.3%"><button class="btn btn-info btn-fill btn-wd" onclick="">查看答案</button></div>' +
-                            '<div style="text-align: center;height: 33.3%"><button class="btn btn-info btn-fill btn-wd" onclick="">加入到试卷</button></div>' +
-                            '<div style="text-align: center;height: 33.3%"><button class="btn btn-info btn-fill btn-wd" onclick="">编辑题目</button></div>' +
+                            '<div class="buttonElement"><button id="answerButton' + obj.id + '" class="btn btn-info btn-fill btn-wd" onclick="showAnswerDiv(this,' + obj.id + ')">查看答案</button></div>' +
+                            '<div class="buttonElement"><button class="btn btn-info btn-fill btn-wd" onclick="">加入到试卷</button></div>' +
+                            '<div class="buttonElement"><button class="btn btn-info btn-fill btn-wd" onclick="">编辑题目</button></div>' +
                             '</div></div>');
                     })
                     $(".editor").addClass('row');
-                    var b = $(".qusetionInfo").height();
                 }
             }
         })
+    }
+</script>
+<script type="text/javascript">
+    //浮动窗口的显示隐藏是通过js实现的
+
+    /*显示弹框*/
+    function showAnswerDiv(obj, id) {
+        obj.disabled = 'disabled';
+        var box = $('.answerdiv');
+        box.css({
+            'margin-top': box.height() / 2 * -1,
+            'margin-left': box.width() / 2 * -1
+        })
+        box.show();
+        var answerid = "#answer" + id;
+        var answer = $(answerid).text();
+        $("#answer").append(answer);
+        $("#divButton").val(id);
+    }
+
+    //关闭弹框
+    function closeDiv(val) {
+        $(".answerdiv").hide();
+        $("#answer").empty();
+        var buttonId = "#answerButton" + val;
+        $(buttonId).removeAttr("disabled");
     }
 </script>
 </html>

@@ -15,6 +15,14 @@ public class Paper {
 
 	private boolean isAnswer;
 
+	private String teacherName;
+
+	private int teacherId;
+
+	private int isShared;
+
+	private int isVisible;
+
 	public int getId() {
 		return id;
 	}
@@ -53,5 +61,37 @@ public class Paper {
 
 	public void setAnswer(boolean answer) {
 		isAnswer = answer;
+	}
+
+	public String getTeacherName() {
+		return teacherName;
+	}
+
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
+	}
+
+	public int getTeacherId() {
+		return teacherId;
+	}
+
+	public void setTeacherId(int teacherId) {
+		this.teacherId = teacherId;
+	}
+
+	public int getIsShared() {
+		return isShared;
+	}
+
+	public void setIsShared(int isShared) {
+		this.isShared = isShared;
+	}
+
+	public int getIsVisible() {
+		return isVisible;
+	}
+
+	public void setIsVisible(int isVisible) {
+		this.isVisible = isVisible;
 	}
 }

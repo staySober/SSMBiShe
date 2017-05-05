@@ -1,9 +1,11 @@
 package com.bishe.yuanye.common;
 
 import com.bishe.yuanye.dao.dto.ChapterDTO;
+import com.bishe.yuanye.dao.dto.PaperDTO;
 import com.bishe.yuanye.dao.dto.QueryConditionDTO;
 import com.bishe.yuanye.dao.dto.QuestionDTO;
 import com.bishe.yuanye.entity.ChapterInfo;
+import com.bishe.yuanye.entity.Paper;
 import com.bishe.yuanye.entity.Question;
 import com.bishe.yuanye.entity.QuestionQueryCondition;
 import com.bishe.yuanye.entity.request.QueryQuestionRequest;
@@ -54,7 +56,7 @@ public class BuilderHelper {
 
     public static QueryConditionDTO buildQueryCondition(QueryQuestionRequest request) throws Exception {
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         QueryConditionDTO conditionDTO = new QueryConditionDTO();
         if (request.chapterId > 0) {
             conditionDTO.setChapterId(request.chapterId);
@@ -69,10 +71,10 @@ public class BuilderHelper {
             conditionDTO.setTeacherName(request.teacherName);
         }
         if (!StringUtils.isEmpty(request.startTime)) {
-            conditionDTO.setStartTime(format.parse(request.startTime+" 00:00:00"));
+            conditionDTO.setStartTime(format.parse(request.startTime + " 00:00:00"));
         }
         if (!StringUtils.isEmpty(request.endTime)) {
-            conditionDTO.setEndTime(format.parse(request.endTime+" 00:00:00"));
+            conditionDTO.setEndTime(format.parse(request.endTime + " 23:59:59"));
         }
         return conditionDTO;
     }

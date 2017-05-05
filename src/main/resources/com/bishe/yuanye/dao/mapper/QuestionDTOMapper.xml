@@ -394,10 +394,10 @@
                 and bt.name = #{teacherName}
             </if>
             <if test="startTime!=null">
-                and bt.created_at > #{startTime}
+                and bq.created_at > #{startTime}
             </if>
             <if test="endTime!=null">
-                and bt.created_at <![CDATA[<]]> #{endTime}
+                and bq.created_at <![CDATA[<]]> #{endTime}
             </if>
             and bq.is_deleted = 0
             order by bq.created_at desc
@@ -428,7 +428,10 @@
                 and bt.name = #{teacherName}
             </if>
             <if test="startTime!=null">
-                and bt.created_at between #{startTime} and #{endTime}
+                and bq.created_at > #{startTime}
+            </if>
+            <if test="endTime!=null">
+                and bq.created_at <![CDATA[<]]> #{endTime}
             </if>
             and bq.is_deleted = 0
         </where>
