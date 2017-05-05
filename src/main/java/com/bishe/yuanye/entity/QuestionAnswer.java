@@ -5,6 +5,7 @@ package com.bishe.yuanye.entity;
  */
 public class QuestionAnswer {
 
+    private Integer qeustionId;
     private Question question;
 
     private String studentAnswer;
@@ -22,6 +23,15 @@ public class QuestionAnswer {
     }
 
     public void setStudentAnswer(String studentAnswer) {
+
         this.studentAnswer = studentAnswer;
+    }
+
+    public Integer getQeustionId() {
+        return qeustionId;
+    }
+
+    public void setQeustionId(Integer qeustionId) {
+        this.qeustionId = qeustionId;
     }
 }

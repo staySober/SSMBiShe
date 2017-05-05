@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.bishe.yuanye.dao.dto.PaperDTO;
 import com.bishe.yuanye.dao.dto.StudentAnswerMapDTO;
+import com.bishe.yuanye.dao.dto.StudentCompletePaperDTO;
 import com.bishe.yuanye.entity.Question;
 
 /**
@@ -20,4 +21,8 @@ public interface PaperService {
      List<StudentAnswerMapDTO> getStudentAnswerRelation(Integer studentId);
 
      List<Question> getQuestionByPaperId(Integer teacherId,Integer paperId);
+
+    void submitPaper(Integer studentId, Integer paperId);
+
+    List<StudentCompletePaperDTO> getPaperCompleteInfo(Integer studentId);
 }

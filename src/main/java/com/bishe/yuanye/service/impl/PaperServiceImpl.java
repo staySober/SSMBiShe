@@ -4,21 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.bishe.yuanye.dao.dto.PaperDTO;
-import com.bishe.yuanye.dao.dto.PaperDTOExample;
-import com.bishe.yuanye.dao.dto.PaperQuestionMapDTO;
-import com.bishe.yuanye.dao.dto.PaperQuestionMapDTOExample;
-import com.bishe.yuanye.dao.dto.QuestionDTO;
-import com.bishe.yuanye.dao.dto.QuestionDTOExample;
-import com.bishe.yuanye.dao.dto.StudentAnswerMapDTO;
-import com.bishe.yuanye.dao.dto.StudentAnswerMapDTOExample;
-import com.bishe.yuanye.dao.dto.TeacherPaperMapDTO;
-import com.bishe.yuanye.dao.dto.TeacherPaperMapDTOExample;
-import com.bishe.yuanye.dao.mapper.PaperDTOMapper;
-import com.bishe.yuanye.dao.mapper.PaperQuestionMapDTOMapper;
-import com.bishe.yuanye.dao.mapper.QuestionDTOMapper;
-import com.bishe.yuanye.dao.mapper.StudentAnswerMapDTOMapper;
-import com.bishe.yuanye.dao.mapper.TeacherPaperMapDTOMapper;
+import com.bishe.yuanye.dao.dto.*;
+import com.bishe.yuanye.dao.mapper.*;
 import com.bishe.yuanye.entity.Question;
 import com.bishe.yuanye.service.PaperService;
 import org.apache.commons.collections.CollectionUtils;
@@ -48,6 +35,9 @@ public class PaperServiceImpl implements PaperService {
 
     @Autowired
     private TeacherPaperMapDTOMapper teacherPaperDTOMapper;
+
+    @Autowired
+    private StudentCompletePaperDTOMapper studentCompletePaperMapper;
 
     @Override
     public List<PaperDTO> getPaperByTeacherId(int id) {
@@ -99,6 +89,23 @@ public class PaperServiceImpl implements PaperService {
             return q;
         }).collect(Collectors.toList());
         return collect;
+    }
+
+    @Override
+    public void submitPaper(Integer studentId, Integer paperId) {
+        StudentCompletePaperDTO dto = new StudentCompletePaperDTO();
+        dto.setIsDeleted((short)0);
+        dto.setStudentId(studentId);
+        dto.setPaperId(paperId);
+        studentCompletePaperMapper.insert(dto);
+    }
+
+    @Override
+    public List<StudentCompletePaperDTO> getPaperCompleteInfo(Integer studentId) {
+        StudentCompletePaperDTOExample example = new StudentCompletePaperDTOExample();
+        example.createCriteria().andIsDeletedEqualTo((short)0).andStudentIdEqualTo(studentId);
+        List<StudentCompletePaperDTO> paperDTOS = studentCompletePaperMapper.selectByExample(example);
+        return paperDTOS;
     }
 
 }
