@@ -21,6 +21,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.javassist.ClassMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by sober on 2017/4/14.
@@ -39,6 +40,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private TeacherDTOMapper teacherMapper;
+
 
     @Override
     public Integer getTeacherIdByStudentId(Integer studentId) {
@@ -148,5 +150,41 @@ public class StudentServiceImpl implements StudentService {
         dto.setIsDeleted((short)1);
         dto.setId(studentId);
         studentMapper.updateByPrimaryKeySelective(dto);
+    }
+
+    @Override
+    @Transactional
+    public void createClassAndImportStu(String className, String majorName,Integer teacherId, List<StudentDTO> list)throws Exception {
+        Integer classId = null;
+        ClassDTOExample example = new ClassDTOExample();
+        example.createCriteria().andIsDeletedEqualTo((short)0);
+        List<ClassDTO> classDTOS = classMapper.selectByExample(example);
+        List<String> classNameList = classDTOS.stream().map(x -> x.getName()).collect(Collectors.toList());
+
+        if (classNameList.contains(className)){
+            throw new Exception("create Class Failed");
+        }else {
+            ClassDTO dtoClass = new ClassDTO();
+            dtoClass.setIsDeleted((short)0);
+            dtoClass.setName(className);
+            dtoClass.setMajor(majorName);
+            dtoClass.setTeacherId(teacherId);
+            classMapper.insert(dtoClass);
+            example.clear();
+            example.createCriteria().andNameEqualTo(className).andIsDeletedEqualTo((short)0);
+            List<ClassDTO> classDTOS1 = classMapper.selectByExample(example);
+            classId = classDTOS1.get(0).getId();
+        }
+
+        for (StudentDTO dto : list) {
+            try{
+                dto.setClassId(classId);
+                dto.setTeacherId(teacherId);
+                studentMapper.insert(dto);
+            }catch (Exception e){
+                throw new Exception("student_num duplicate!");
+            }
+        }
+
     }
 }

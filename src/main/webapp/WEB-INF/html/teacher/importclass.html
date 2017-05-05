@@ -103,7 +103,7 @@
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#">题库</a>
+                    <a class="navbar-brand" href="#">导入班级</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -144,7 +144,15 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-
+                    <div>
+                        <a href="/table/downloadModel">下载导入班级(学生)模板</a>
+                    </div>
+                    <div>
+                        <form action="/table/importTable" method="post" enctype="multipart/form-data">
+                                <input type="file" id="file" name="file">
+                                <input type="submit" id="sbmitTable" value="上传班级(学生)">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

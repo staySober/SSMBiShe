@@ -2,6 +2,7 @@ package com.bishe.yuanye.service;
 
 import java.util.List;
 
+import com.bishe.yuanye.dao.dto.StudentDTO;
 import com.bishe.yuanye.entity.Class;
 import com.bishe.yuanye.entity.Student;
 import com.bishe.yuanye.entity.Teacher;
@@ -30,4 +31,6 @@ public interface StudentService {
     List<Student> getAllStudent();
 
     void delStudent(Integer studentId);
+
+    void createClassAndImportStu(String className, String majorName,Integer teacherId, List<StudentDTO> list) throws Exception ;
 }
