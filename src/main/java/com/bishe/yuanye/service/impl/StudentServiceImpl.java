@@ -52,7 +52,7 @@ public class StudentServiceImpl implements StudentService {
                .stream()
                .findAny()
                .get()
-               .getId();
+               .getTeacherId();
         }
         return null;
     }

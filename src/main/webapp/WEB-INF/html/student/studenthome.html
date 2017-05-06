@@ -235,7 +235,7 @@
                 function (data) {
                     $.each(data, function (index, obj) {
                         if (obj.answer == false) {
-                            $("#paper").append('<tr>...<td>第' + index + '题' + '试卷名称:' + obj.paperName +
+                            $("#paper").append('<tr>...<td>第' + (index +1) + '题' + '试卷名称:' + obj.paperName +
                                 '</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作答情况:否</td>' +
                                 '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/paper/getPaper?paperId=' + obj.paperId + '">作答试卷</a></td></tr>');
                         }
