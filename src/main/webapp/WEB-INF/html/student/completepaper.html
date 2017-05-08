@@ -126,11 +126,17 @@
                             <p class="category">24 Hours performance</p>
                         </div>
                         <div class="content">
-                            <div id="chartHours" class="ct-chart">
-                                <table id="paper"
-                                       style="width: auto;height: auto;color:cornflowerblue;font-size: 20px;border-style: dashed"
-                                       border="1px" align="left">
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-striped" id="paper">
+                                    <thead>
+                                    <th>序号</th>
+                                    <th>试卷名称</th>
+                                    <th>作答情况</th>
+                                    <th>参考答案</th>
+                                    </thead>
+                                    <tbody id="classBody">
 
+                                    </tbody>
                                 </table>
                             </div>
                             <div class="footer">
@@ -230,15 +236,17 @@
                 window.location.href ="../teacher/shiroPage.html";
             }
         } else {
+            var flag = 1;
             $.post("/paper/getPaperList?studentId=" + studentId,
                 function (data) {
                     $.each(data, function (index, obj) {
                         if (obj.answer == true) {
-                            $("#paper").append('<tr>...<td>第' + (index + 1) + '题:  试卷名称:' + obj.paperName +
+                            $("#paper").append('<tr>...<td>' + flag +'</td><td>题' + obj.paperName +
                                 '</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
                                 '<a href="/paper/getStudentAnswer?paperId=' + obj.paperId + '">作答情况</a></td>' +
                                 '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
                                 '<a href="/paper/getTrueAnswer?paperId=' + obj.paperId + '">参考答案</a>' + '</td></tr>');
+                            flag += 1;
                         }
                     });
                 });
