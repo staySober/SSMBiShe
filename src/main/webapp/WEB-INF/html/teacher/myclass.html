@@ -103,7 +103,7 @@
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#">题库</a>
+                    <a class="navbar-brand" href="#">我的班级</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -121,7 +121,7 @@
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                               <li><a href="../student/studenthome.html">学生管理系统</a></li>
+                                <li><a href="../student/studenthome.html">学生管理系统</a></li>
                                 <li><a href="#">Notification 2</a></li>
                                 <li><a href="#">Notification 3</a></li>
                                 <li><a href="#">Notification 4</a></li>
@@ -144,6 +144,23 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
+                    <div class="header">
+                        <h4 class="title">我的班级</h4>
+                        <p class="category">Here is my Class</p>
+                    </div>
+                </div>
+
+                <div class="content table-responsive table-full-width">
+                    <table class="table table-striped">
+                        <thead>
+                        <th>序号</th>
+                        <th>班级名</th>
+                        <th>主修</th>
+                        </thead>
+                        <tbody id="classBody">
+
+                        </tbody>
+                    </table>
 
                 </div>
             </div>
@@ -203,23 +220,32 @@
             url: url,
             dataType: 'json',
             success: function (user) {
-                    userType = user.userType;
-                    $("#userInfo").append("欢迎您:" + user.name);
+                userType = user.userType;
+                $("#userInfo").append("欢迎您:" + user.name);
             }
         });
 
 
         if (userType != 3 && userType != 2) {
 
-            if (userType == 2){
-                window.location.href ="shiroPage.html";
+            if (userType == 2) {
+                window.location.href = "shiroPage.html";
             }
-            if(userType ==1){
-                window.location.href ="../student/shiroPage.html";
+            if (userType == 1) {
+                window.location.href = "../student/shiroPage.html";
             }
         } else {
             //todo js业务逻辑在这个里面写
-
+            $.ajax({
+                async: false,
+                url: "/class/getMyClass",
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data,function (index, obj) {
+                        $("#classBody").append('<tr><td>'+(index+1)+'</td><td>'+obj.name+'</td><td>'+obj.major+'</td></tr>');
+                    })
+                }
+            });
 
         }
     })

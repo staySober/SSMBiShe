@@ -14,6 +14,16 @@ public class Class {
 
     private String major;
 
+    private Integer teacherId;
+
+    public Integer getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(Integer teacherId) {
+        this.teacherId = teacherId;
+    }
+
     public Integer getId() {
         return id;
     }

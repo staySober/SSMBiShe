@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.bishe.yuanye.dao.dto.*;
 import com.bishe.yuanye.dao.mapper.*;
+import com.bishe.yuanye.entity.Paper;
 import com.bishe.yuanye.entity.Question;
 import com.bishe.yuanye.service.PaperService;
 import org.apache.commons.collections.CollectionUtils;
@@ -19,7 +20,8 @@ import org.springframework.stereotype.Service;
  * @date 2017/04/14
  */
 @Service
-public class PaperServiceImpl implements PaperService {
+public class
+PaperServiceImpl implements PaperService {
 
     @Autowired
     PaperDTOMapper paperMapper;
@@ -38,6 +40,9 @@ public class PaperServiceImpl implements PaperService {
 
     @Autowired
     private StudentCompletePaperDTOMapper studentCompletePaperMapper;
+
+    @Autowired
+    private TeacherDTOMapper teacherMapper;
 
     @Override
     public List<PaperDTO> getPaperByTeacherId(int id) {
@@ -106,6 +111,22 @@ public class PaperServiceImpl implements PaperService {
         example.createCriteria().andIsDeletedEqualTo((short)0).andStudentIdEqualTo(studentId);
         List<StudentCompletePaperDTO> paperDTOS = studentCompletePaperMapper.selectByExample(example);
         return paperDTOS;
+    }
+
+    @Override
+    public List<Paper> getOtherPaper(int teacherId) {
+        PaperDTOExample example = new PaperDTOExample();
+        example.createCriteria().andIsDeletedEqualTo((short)0).andTeacherIdNotEqualTo(teacherId).andIsVisibleEqualTo((short)1).andIsSharedEqualTo((short)1);
+        List<PaperDTO> paperDTOS = paperMapper.selectByExample(example);
+        return paperDTOS.stream().map(x->{
+            Paper p = new Paper();
+            p.setId(x.getId());
+                p.setPaperName(x.getName());
+                p.setPaperId(x.getId());
+                p.setTeacherId(x.getTeacherId());
+                p.setTeacherName(teacherMapper.selectByPrimaryKey(x.getTeacherId()).getName());
+                return p;
+        }).collect(Collectors.toList());
     }
 
 }

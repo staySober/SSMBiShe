@@ -31,102 +31,109 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/paper")
 public class PageController {
 
-	@Autowired
-	private PaperService paperService;
+    @Autowired
+    private PaperService paperService;
 
-	@Autowired
-	private StudentService studentService;
+    @Autowired
+    private StudentService studentService;
 
-	@Autowired
-	private QuestionService questionService;
+    @Autowired
+    private QuestionService questionService;
 
-	@Value("${saveImageUrl}")
+    @Value("${saveImageUrl}")
     private String saveImageUrl;
 
-	/**
-	 * 获取试卷集的方法
-	 */
-	@ResponseBody
-	@RequestMapping(value = "/getPaperList")
-	public List<Paper> getPaperList(HttpServletRequest request) {
-		Integer studentId = Integer.valueOf(request.getParameter("studentId"));
-		//通过studentId 找到对应teacherId
-		Integer teacherId = studentService.getTeacherIdByStudentId(studentId);
-		//通过teacherId 找到对应paperId
-		List<PaperDTO> paperDTOList = paperService.getPaperByTeacherId(teacherId);
-		//通过student_answer_map 判断是否已答题该试卷
-		List<StudentAnswerMapDTO> answerMapDTOS = paperService.getStudentAnswerRelation(studentId);
-		//结果集封装
-		List<Paper> paperList = paperDTOList.stream().map(x -> {
-				Paper paper = new Paper();
-				paper.setId(x.getId());
-				paper.setPaperName(x.getName());
-				paper.setPaperId(x.getId());
-				paper.setStudentId(studentId);
-				return paper;
-			}
-		).collect(Collectors.toList());
+    /**
+     * 获取试卷集的方法
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getPaperList")
+    public List<Paper> getPaperList(HttpServletRequest request) {
+        Integer studentId = Integer.valueOf(request.getParameter("studentId"));
+        //通过studentId 找到对应teacherId
+        Integer teacherId = studentService.getTeacherIdByStudentId(studentId);
+        //通过teacherId 找到对应paperId
+        List<PaperDTO> paperDTOList = paperService.getPaperByTeacherId(teacherId);
+        //通过student_answer_map 判断是否已答题该试卷
+        List<StudentAnswerMapDTO> answerMapDTOS = paperService.getStudentAnswerRelation(studentId);
+        //结果集封装
+        List<Paper> paperList = paperDTOList.stream().map(x -> {
+                Paper paper = new Paper();
+                paper.setId(x.getId());
+                paper.setPaperName(x.getName());
+                paper.setPaperId(x.getId());
+                paper.setStudentId(studentId);
+                return paper;
+            }
+        ).collect(Collectors.toList());
 
-		//查询题目作答情况
-		List<StudentCompletePaperDTO> paperDTOS = paperService.getPaperCompleteInfo(studentId);
-		List<Integer> paperIdList = paperDTOS.stream().mapToInt(x -> x.getPaperId()).boxed().collect(Collectors.toList());
-		paperList.forEach(paper->{
-			//todo 重构已完成为完成试卷判断逻辑
-				if (paperIdList.contains(paper.getPaperId())){
-					paper.setAnswer(true);
-				}
-		});
-		return paperList;
-	}
+        //查询题目作答情况
+        List<StudentCompletePaperDTO> paperDTOS = paperService.getPaperCompleteInfo(studentId);
+        List<Integer> paperIdList = paperDTOS.stream().mapToInt(x -> x.getPaperId()).boxed().collect(
+            Collectors.toList());
+        paperList.forEach(paper -> {
+            //todo 重构已完成为完成试卷判断逻辑
+            if (paperIdList.contains(paper.getPaperId())) {
+                paper.setAnswer(true);
+            }
+        });
+        return paperList;
+    }
 
+    @RequestMapping("/getPaper")
+    public String getPaper(Integer paperId, HttpServletResponse response) {
+        Cookie cookie = new Cookie("paperId", paperId.toString());
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return "student/paperAnswer";
+    }
 
+    @RequestMapping("/getPaperContent")
+    @ResponseBody
+    public List<Question> getPaperContent(HttpServletRequest request) {
+        User user = (User)request.getSession().getAttribute("user");
+        Cookie cookie = Arrays.stream(request.getCookies()).filter(x -> "paperId".equals(x.getName())).findAny().get();
+        List<Question> questions = paperService.getQuestionByPaperId(user.getTeacherId(),
+            Integer.parseInt(cookie.getValue()));
+        questions.stream().forEach(x -> {
+            x.setPicOneUrl("../../files/" + x.getPicOneUrl());
+        });
+        return questions;
+    }
 
-	@RequestMapping("/getPaper")
-	public String getPaper(Integer paperId,HttpServletResponse response){
-		Cookie cookie = new Cookie("paperId", paperId.toString());
-		cookie.setPath("/");
-		response.addCookie(cookie);
-		return "student/paperAnswer";
-	}
+    @RequestMapping("/getStudentAnswer")
+    public String getStudentAnswer(HttpServletRequest request, HttpServletResponse response) {
+        String paperId = request.getParameter("paperId");
+        Cookie cookie = new Cookie("paperId", paperId.toString());
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return "student/answerInfo";
+    }
 
-	@RequestMapping("/getPaperContent")
-	@ResponseBody
-	public List<Question> getPaperContent(HttpServletRequest request){
-		User user = (User)request.getSession().getAttribute("user");
-		Cookie cookie = Arrays.stream(request.getCookies()).filter(x -> "paperId".equals(x.getName())).findAny().get();
-		List<Question> questions = paperService.getQuestionByPaperId(user.getTeacherId(),Integer.parseInt(cookie.getValue()));
-		questions.stream().forEach(x->{
-			x.setPicOneUrl("../../files/" + x.getPicOneUrl());
-		});
-		return questions;
-	}
+    @RequestMapping("/getTrueAnswer")
+    public String getTrueAnswer(HttpServletRequest request, HttpServletResponse response) {
+        String paperId = request.getParameter("paperId");
+        Cookie cookie = new Cookie("paperId", paperId.toString());
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return "student/trueAnswer";
+    }
 
+    @RequestMapping("/submitPaper")
+    public String submitPaper(HttpServletRequest request) {
+        Cookie cookie = Arrays.stream(request.getCookies()).filter(x -> x.getName().equals("paperId")).findAny().get();
+        Integer paperId = Integer.parseInt(cookie.getValue());
+        User user = (User)request.getSession().getAttribute("user");
+        Integer studentId = user.getId();
+        paperService.submitPaper(studentId, paperId);
+        return "success";
+    }
 
-	@RequestMapping("/getStudentAnswer")
-	public String getStudentAnswer(HttpServletRequest request,HttpServletResponse response){
-		String paperId = request.getParameter("paperId");
-		Cookie cookie = new Cookie("paperId", paperId.toString());
-		cookie.setPath("/");
-		response.addCookie(cookie);
-		return "student/answerInfo";
-	}
-
-	@RequestMapping("/getTrueAnswer")
-	public String getTrueAnswer(HttpServletRequest request,HttpServletResponse response){
-		String paperId = request.getParameter("paperId");
-		Cookie cookie = new Cookie("paperId", paperId.toString());
-		cookie.setPath("/");
-		response.addCookie(cookie);
-		return "student/trueAnswer";
-	}
-
-	@RequestMapping("/submitPaper")
-	public String submitPaper(HttpServletRequest request){
-		Cookie cookie = Arrays.stream(request.getCookies()).filter(x -> x.getName().equals("paperId")).findAny().get();
-		Integer paperId = Integer.parseInt(cookie.getValue());
-		User user = (User)request.getSession().getAttribute("user");
-		Integer studentId = user.getId();
-		paperService.submitPaper(studentId,paperId);
-		return "success";
-	}
+    @RequestMapping("/getOtherPaper")
+    @ResponseBody
+    public List<Paper> getOtherPaper(HttpServletRequest request) {
+        User user = (User)request.getSession().getAttribute("user");
+        int teacherId = user.getId();
+        return paperService.getOtherPaper(teacherId);
+    }
 }
