@@ -13,6 +13,7 @@ import com.bishe.yuanye.service.StudentService;
 import com.bishe.yuanye.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -87,15 +88,23 @@ public class UserController {
         //不刷新 session
         return "redirect:/html/student/accountstudent.html";
     }
+    @RequestMapping("/updateInfoSuperTeacher")
+    public String updateInfoSuperTeacher(String username,String name,String password,String telephone, Integer teacherId,HttpServletRequest request){
+        teacherService.updateInfo(username,password,name,teacherId,telephone);
+        //不刷新 session
+        return "redirect:/html/teacher/accountTeacher.html";
+    }
 
     @RequestMapping("/delUser")
+    @ResponseBody
     public String delUser(Integer studentId){
         studentService.delStudent(studentId);
         return "success";
     }
 
-    @RequestMapping("/delTeacher")
-    public String delTeacher(Integer teacherId){
+    @RequestMapping("/delTeacherAccount")
+    @ResponseBody
+    public String delTeacherAccount(Integer teacherId){
         teacherService.delTeacher(teacherId);
         return "success";
     }

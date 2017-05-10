@@ -69,9 +69,11 @@ public class StudentServiceImpl implements StudentService {
 
         ClassDTO classDTO = classMapper.selectByPrimaryKey(studentDTO.getClassId());
         student.setStClass(classDTO.getName());
+        student.setStClassId(classDTO.getId());
 
         TeacherDTO teacherDTO = teacherMapper.selectByPrimaryKey(studentDTO.getTeacherId());
         student.setTeacher(teacherDTO.getName());
+        student.setTeacherId(teacherDTO.getId());
         return student;
     }
 
@@ -136,9 +138,10 @@ public class StudentServiceImpl implements StudentService {
 
             ClassDTO classDTO = classMapper.selectByPrimaryKey(x.getClassId());
             student.setStClass(classDTO.getName());
-
+            student.setStClassId(x.getClassId());
             TeacherDTO teacherDTO = teacherMapper.selectByPrimaryKey(x.getTeacherId());
             student.setTeacher(teacherDTO.getName());
+            student.setTeacherId(x.getTeacherId());
             return student;
         }).collect(Collectors.toList());
         return collect;
