@@ -133,19 +133,17 @@
                         </select>
                        </span>
                         <span style="width:300px;float:left;display:block;margin:20px;"><form method="post"
-                                                                                              action="/user/updateInfoSuper">
-                            用户名:<input type="text" name="username" class="form-control border-input">
-                            密码:<input type="text" class="form-control border-input" name="password">
-                            姓名:<input type="text" class="form-control border-input" name="name">
-                            班级:<select name="stClass" class="form-control border-input" id="stClass"><option value="">--默认--</option></select>
-                            老师:<select name="teacher" class="form-control border-input" id="teacher"><option value="">--默认--</option></select>
-                            学号:<input type="text" name="studentNum" class="form-control border-input">
+                                                                                              action="/user/updateInfo">
+                            用户名:<input type="text" name="username" id="username" class="form-control border-input" readonly="true">
+                            密码:<input type="text" class="form-control border-input" id="password" name="password">
+                            姓名:<input type="text" class="form-control border-input" name="name" id="name">
+                            班级:<select name="stClass" class="form-control border-input" id="stClass"></select>
+                            老师:<select name="teacher" class="form-control border-input" id="teacher"></select>
+                            学号:<input type="text" name="studentNum" class="form-control border-input" id="studentNum">
                             <input type="submit" value="提交修改" class="btn btn-info btn-fill btn-wd">
-                            <input type="button" value="删除用户" class="btn btn-info btn-fill btn-wd"
-                                   onclick="confirmDel('+data[index].id+')">
-                            <input type="hidden" name="studentId" value='+data[index].id+'><input type="hidden"
-                                                                                                  name="userType"
-                                                                                                  value="'+data[index].userType+'">
+                            <input  id="delButton" type="button" value="删除用户" class="btn btn-info btn-fill btn-wd" onclick="confirmDel($('#studentId').val())">
+                            <input type="hidden" name="studentId" id="studentId">
+                            <input type="hidden" name="userType" id="userType">
                             </form>
                         </span>
                     </div>
@@ -224,51 +222,18 @@
             }
         } else {
 
-            var className = '';
-            var teacher = '';
             $.ajax({
                 async: false,
                 url: "/user/getAllStudentInfo",
                 dataType: 'json',
                 success: function (data) {
                     $.each(data, function (index, obj) {
-                        $("#accounts").append('<option><option value="' + obj.id + '">' + obj.name + '</option>');
-                        className = data.stClass;
-                        teacher = data.teacher;
+                        $("#accounts").append('<option value="' + obj.id + '">' + obj.name + '</option>');
                         datas = data;
                     })
                 }
             });
 
-
-            $.ajax({
-                async: false,
-                url: "/user/getAllClass",
-                dataType: 'json',
-                success: function (data) {
-                    $.each(data, function (index, obj) {
-                        $("#stClass").append('<option value="' + obj.id + '">' + obj.name + '</option>');
-                        if (className == obj.name) {
-                            $('#stClass').val(obj.id);
-                        }
-                    });
-                }
-            });
-
-
-            $.ajax({
-                async: false,
-                url: "/user/getAllTeacher",
-                dataType: 'json',
-                success: function (data) {
-                    $.each(data, function (index, obj) {
-                        $("#teacher").append('<option value="' + obj.id + '">' + obj.name + '</option>');
-                        if (teacher == obj.name) {
-                            $('#teacher').val(obj.id);
-                        }
-                    });
-                }
-            });
 
         }
     });
@@ -293,13 +258,47 @@
 
 
     function changeAccount() {
-        alert(datas);
         $.each(datas, function (index, obj) {
-           var options=$("#accounts option:selected");
-           var thisValue = options.val();
-           if (thisValue == obj.id) {
-               alert(thisValue);
-           }
+            var options = $("#accounts option:selected");
+            var thisValue = options.val();
+            if (thisValue == obj.id) {
+                $("#username").attr('value', obj.username);
+                $("#password").attr('value', obj.password);
+                $("#name").attr('value', obj.name);
+                $("#studentNum").attr('value', obj.studentNum);
+                $("#studentId").attr('value',obj.id);
+                $("#userType").attr('value',1);
+
+                $("#stClass").empty();
+                $("#stClass").append('<option value="">-请选择-</option>');
+                $("#teacher").empty();
+                $("#teacher").append('<option value="">-请选择-</option>');
+
+                $.ajax({
+                    async: false,
+                    url: "/user/getAllClass",
+                    dataType: 'json',
+                    success: function (data2) {
+                        $.each(data2, function (index2, obj2) {
+                            $("#stClass").append('<option value="' + obj2.id + '">' + obj2.name + '</option>');
+                            $('#stClass').val(obj.stClassId);
+                        });
+                    }
+                });
+
+
+                $.ajax({
+                    async: false,
+                    url: "/user/getAllTeacher",
+                    dataType: 'json',
+                    success: function (data2) {
+                        $.each(data2, function (index2, obj2) {
+                            $("#teacher").append('<option value="' + obj2.id + '">' + obj2.name + '</option>');
+                            $('#teacher').val(obj.teacherId);
+                        });
+                    }
+                });
+            }
         });
     }
 

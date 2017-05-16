@@ -17,4 +17,6 @@ public interface TeacherService {
     List<Paper> getTeacherPapers(int teacherId);
 
     CountInfoResponse getCountInfo(int teacherId);
+
+    void updateInfo(String username, String password, String name, Integer teacherId, String telephone);
 }

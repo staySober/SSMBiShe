@@ -20,9 +20,29 @@ public class Student {
 
     private String stClass;
 
+    private Integer stClassId;
+
+    private Integer teacherId;
+
     private String teacher;
 
     private boolean isDeleted;
+
+    public Integer getStClassId() {
+        return stClassId;
+    }
+
+    public void setStClassId(Integer stClassId) {
+        this.stClassId = stClassId;
+    }
+
+    public Integer getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(Integer teacherId) {
+        this.teacherId = teacherId;
+    }
 
     public Integer getId() {
         return id;

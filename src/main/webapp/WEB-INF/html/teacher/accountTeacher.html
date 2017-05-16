@@ -70,7 +70,7 @@
                         <p>其他试卷</p>
                     </a>
                 </li>
-                <li >
+                <li>
                     <a href="myclass.html">
                         <i class="ti-user"></i>
                         <p>我的班级</p>
@@ -82,7 +82,7 @@
                         <p>导入班级</p>
                     </a>
                 </li>
-                 <li class="active">
+                <li class="active">
                     <a href="accountTeacher.html">
                         <i class="ti-import"></i>
                         <p>教师账号管理</p>
@@ -143,7 +143,24 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <span  id="content"></span>
+                    <div id="content">
+                         <span style="width:300px;float:left;display:block;margin:20px;">
+                            选择教师:<select id="accounts" onchange="changeAccount()">
+                            <option value="">-请选择-</option>
+                        </select>
+                       </span>
+                        <span style="width:300px;float:left;display:block;margin:20px;">
+                            <form method="post" action="/user/updateInfoSuperTeacher">
+                            用户名:<input type="text"  class="form-control border-input" id="username"  name="username">
+                            密码:<input type="text"   class="form-control border-input" id="password" name="password" >
+                            姓名:<input type="text"   class="form-control border-input" id="name" name="name">
+                            电话:<input type="text"  class="form-control border-input"  id="telephone" name="telephone">
+                            <input type="submit"  class="btn btn-info btn-fill btn-wd" value="提交修改" style="color: whitesmoke;">
+                            <input type="button"  id="delButton" class="btn btn-info btn-fill btn-wd" value="删除用户"  onclick="confirmDel($('#teacherId').val())">
+                            <input type="hidden"  id="teacherId" name="teacherId"><input type="hidden" name="userType" value="2">
+                            </form>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -193,42 +210,39 @@
 <script src="../../assets/js/demo.js"></script>
 
 <script type="text/javascript">
+    var datas = '';
+
     $(function () {
         <!--获取session信息  ajax异步请求(jquery不能直接操作session)-->
-        var url="/user/getUserSession";
+        var url = "/user/getUserSession";
         var userType = '';
         $.ajax({
             async: false,
             url: url,
             dataType: 'json',
             success: function (user) {
-                    $("#userInfo").append("欢迎您:"+user.name);
-                    userType = user.userType;
+                $("#userInfo").append("欢迎您:" + user.name);
+                userType = user.userType;
             }
         });
 
-        if(userType != 3){
-            if (userType == 2){
-                window.location.href ="shiroPage.html";
+        if (userType != 3) {
+            if (userType == 2) {
+                window.location.href = "shiroPage.html";
             }
-            if(userType ==1){
-                window.location.href ="../student/shiroPage.html";
+            if (userType == 1) {
+                window.location.href = "../student/shiroPage.html";
             }
-        }else {
+        } else {
             $.ajax({
                 async: false,
                 url: "/user/getAllTeacher",
                 dataType: 'json',
                 success: function (data) {
-                   $.each(data,function (index,obj) {
-
-                       $("#content").append('<span style="width:180px;float:left;border-left: 20px"><form method="post" action="/user/updateInfoSuper">用户名:&nbsp;&nbsp;<input type="text"  class="form-control border-input"  name="username" value="' +obj.username + '"></br>' +
-                           '密码:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text"   class="form-control border-input" name="password" value="' + obj.password + '"></br>' +
-                           '姓名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text"   class="form-control border-input" name="name" value="' +obj.name + '"></br>' +
-                           '电话:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text"  class="form-control border-input"  name="telephone" value="' + obj.telephone + '"></br>' +
-                           '<input type="submit"  class="btn btn-info btn-fill btn-wd" value="提交修改" style="color: whitesmoke;">&nbsp;<input type="button"  class="btn btn-info btn-fill btn-wd" value="删除用户" style="color: whitesmoke; " onclick="confirmDel('+obj.id+')"><input type="hidden" name="teacherId" value='+obj.id+'><input type="hidden" name="userType" value="2"></form></span>');
-
-                   })
+                    $.each(data, function (index, obj) {
+                         $("#accounts").append('<option value="' + obj.id + '">' + obj.name + '</option>');
+                        datas = data;
+                    })
                 }
             });
 
@@ -236,22 +250,36 @@
         }
     });
 
-    function confirmDel(id){
+    function confirmDel(id) {
         var flag = confirm("确定要删除该用户吗？(由于浏览器兼容性问题，如果发现确认删除没有刷新页面，请手动刷新!)");
-        if(flag) {
+        if (flag) {
             $.ajax({
                 async: false,
-                url: "/user/delTeacher",
-                data:{teacherId:id},
+                url: "/user/delTeacherAccount",
+                data: {teacherId: id},
                 dataType: 'json',
                 success: function (data) {
-                       if (data == "success"){
-                           history.go(0);
-                       }
+                    if (data == "success") {
+                        history.go(0);
+                    }
                 }
             });
         }
     };
+
+    function changeAccount() {
+        $.each(datas, function (index, obj) {
+            var options = $("#accounts option:selected");
+            var thisValue = options.val();
+            if (thisValue == obj.id) {
+                $("#username").attr('value', obj.username);
+                $("#password").attr('value', obj.password);
+                $("#name").attr('value', obj.name);
+                $("#telephone").attr('value',obj.telephone);
+                $("#teacherId").attr('value',obj.id);
+            }
+        });
+    }
 
 
 </script>

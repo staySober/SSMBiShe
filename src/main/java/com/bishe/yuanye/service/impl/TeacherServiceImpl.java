@@ -11,6 +11,7 @@ import com.bishe.yuanye.dao.dto.QuestionDTO;
 import com.bishe.yuanye.dao.dto.QuestionDTOExample;
 import com.bishe.yuanye.dao.dto.StudentDTOExample;
 import com.bishe.yuanye.dao.dto.TeacherDTO;
+import com.bishe.yuanye.dao.dto.TeacherDTOExample;
 import com.bishe.yuanye.dao.mapper.ClassDTOMapper;
 import com.bishe.yuanye.dao.mapper.PaperDTOMapper;
 import com.bishe.yuanye.dao.mapper.QuestionDTOMapper;
@@ -50,7 +51,7 @@ public class TeacherServiceImpl implements TeacherService {
     public void delTeacher(Integer teacherId) {
         TeacherDTO dto = new TeacherDTO();
         dto.setId(teacherId);
-        dto.setIsDeleted((short)0);
+        dto.setIsDeleted((short)1);
         teacherDTOMapper.updateByPrimaryKeySelective(dto);
     }
 
@@ -87,6 +88,17 @@ public class TeacherServiceImpl implements TeacherService {
         example4.createCriteria().andTeacherIdEqualTo(teacherId).andIsDeletedEqualTo((short)0);
         response.classCount = classDTOMapper.countByExample(example4);
         return response;
+    }
+
+    @Override
+    public void updateInfo(String username, String password, String name, Integer teacherId, String telephone) {
+        TeacherDTO dto = new TeacherDTO();
+        dto.setId(teacherId);
+        dto.setName(name);
+        dto.setPassword(password);
+        dto.setTelephone(telephone);
+        dto.setUsername(username);
+        teacherDTOMapper.updateByPrimaryKeySelective(dto);
     }
 
     private Paper buildTeacherPaper(PaperDTO paperDTO) {
