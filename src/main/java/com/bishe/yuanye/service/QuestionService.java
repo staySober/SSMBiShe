@@ -20,4 +20,8 @@ public interface QuestionService {
     List<ChapterInfo> getAllChapters();
 
     int createQuestion(Question question);
+
+    int updateQuestion(Question question);
+
+    Question queryQuestionById(int id);
 }

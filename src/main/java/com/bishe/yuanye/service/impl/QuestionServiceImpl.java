@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -95,6 +96,25 @@ public class QuestionServiceImpl implements QuestionService {
             logger.error("新建题目失败,题目:{}", JSON.toJSONString(question), e);
             return 0;
         }
+    }
+
+    @Override
+    public int updateQuestion(Question question) {
+        try {
+            QuestionDTO questionDTO = BuilderHelper.buildQuestionDTOForUpdate(question);
+            return questionDTOMapper.updateByPrimaryKeySelective(questionDTO);
+        } catch (Exception e) {
+            logger.error("更新题目失败,题目:{}", JSON.toJSONString(question), e);
+            return 0;
+        }
+    }
+
+    @Override
+    public Question queryQuestionById(int id) {
+
+        QuestionDTO questionDTO = questionDTOMapper.selectByPrimaryKey(id);
+
+        return BuilderHelper.buildQuestion(questionDTO);
     }
 
 }

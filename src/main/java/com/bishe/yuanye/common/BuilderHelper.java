@@ -58,6 +58,9 @@ public class BuilderHelper {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         QueryConditionDTO conditionDTO = new QueryConditionDTO();
+        if (request.id > 0) {
+            conditionDTO.setId(request.id);
+        }
         if (request.chapterId > 0) {
             conditionDTO.setChapterId(request.chapterId);
         }
@@ -105,5 +108,33 @@ public class BuilderHelper {
         chapterInfo.id = chapterDTO.getId();
         chapterInfo.chapterName = chapterDTO.getName();
         return chapterInfo;
+    }
+
+    public static QuestionDTO buildQuestionDTOForUpdate(Question question) {
+
+        QuestionDTO questionDTO = new QuestionDTO();
+        questionDTO.setId(question.id);
+        if (question.chapterId > 0) {
+            questionDTO.setChapterId(question.chapterId);
+        }
+        if (!StringUtils.isEmpty(question.type)) {
+            questionDTO.setType(question.type);
+        }
+        if (!StringUtils.isEmpty(question.keywordOne)) {
+            questionDTO.setKeywordOne(question.keywordOne);
+        }
+        if (!StringUtils.isEmpty(question.keywordTwo)) {
+            questionDTO.setKeywordTwo(question.keywordTwo);
+        }
+        if (!StringUtils.isEmpty(question.picOneUrl)) {
+            questionDTO.setPicOneUrl(question.picOneUrl);
+        }
+        if (!StringUtils.isEmpty(question.questionText)) {
+            questionDTO.setQuestionText(question.questionText);
+        }
+        if (!StringUtils.isEmpty(question.answer)) {
+            questionDTO.setAnswer(question.answer);
+        }
+        return questionDTO;
     }
 }

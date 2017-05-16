@@ -11,6 +11,8 @@ public class QueryQuestionRequest {
 
     public int pageSize = 5;
 
+    public int id;
+
     public int chapterId;
 
     public String keyword;
@@ -85,5 +87,13 @@ public class QueryQuestionRequest {
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -27,6 +27,9 @@
 
     <link href="../../assets/css/themify-icons.css" rel="stylesheet">
 
+    <!-- 弹层 -->
+    <link href="../../css/layer.css" rel="stylesheet">
+
     <style type="text/css">
         .questionInfo {
             height: auto;
@@ -264,13 +267,44 @@
     </div>
 </div>
 
-<!--显示答案浮动窗口 -->
+<!--查看答案弹窗 -->
 <div class="alert alert-info answerdiv">
     <button id="divButton" type="button" aria-hidden="true" class="close" onclick="closeDiv(this.value)">×</button>
     <p><b>答案如下:</b></p>
     <div id="answer" name="answer" contentEditable="false" class="editDemo"></div>
 </div>
 
+<!-- 遮罩层-->
+<div id="goodcover"></div>
+<!--编辑题目弹窗-->
+<div id="code">
+    <div class="close1"><a href="javascript:void(0)" id="closebt"><img src="../../images/close.gif"></a></div>
+    <div class="updatediv">
+        <p>章节:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select id="chapterUpdate"></select></p>
+        <p>关键词一:<input type="text" id="keywordOne"/></p>
+        <p>关键词二:<input type="text" id="keywordTwo"/></p>
+        <p>题目类型:<select id="typeUpdate">
+            <option selected value="">请选择</option>
+            <option>选择题</option>
+            <option>填空题</option>
+            <option>计算题</option>
+        </select></p>
+        <p>题目内容:
+        <div id="questionTextUpdate" contentEditable="true" class="editDemo"></div>
+        </p>
+        <p>题目答案:
+        <div id="answerUpdate" contentEditable="true" class="editDemo"></div>
+        </p>
+        <p>更改题目配图:<input type="file" id="file" name="file"/></p>
+        <p id="fileName" style="display:block"></p>
+        <input type="button" onclick="savePicture()" value="上传文件">
+        <div style="text-align: center">
+            <button type="submit" class="btn btn-info btn-fill btn-wd" onclick="return createQuestion()">
+                更改题目
+            </button>
+        </div>
+    </div>
+</div>
 </body>
 
 <!--   Core JS Files   -->
@@ -295,7 +329,9 @@
 <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
 <script src="../../assets/js/demo.js"></script>
 
-<script type="text/javascript">
+<script src="../../js/layer.js"></script>
+
+<script>
 
     $(function () {
 
@@ -321,19 +357,29 @@
             }
         } else {
             //todo js业务逻辑在这个里面写
-            $.ajax({
-                async: false,
-                url: '/questionBase/getAllChapters',
-                dataType: 'json',
-                success: function (list) {
-                    $("#chapter").append('<option selected value="">请选择</option>');
-                    $.each(list, function (index, obj) {
-                        $("#chapter").append('<option value="' + obj.id + '">' + obj.chapterName + '</option>')
-                    })
-                }
-            });
+            getAllChapters();
+            queryQuestion();
         }
     })
+
+    function getAllChapters() {
+
+        $.ajax({
+            async: false,
+            url: '/questionBase/getAllChapters',
+            dataType: 'json',
+            success: function (list) {
+                $("#chapter").empty();
+                $("#chapterUpdate").empty();
+                $("#chapter").append('<option selected value="">请选择</option>');
+                $("#chapterUpdate").append('<option selected value="">请选择</option>');
+                $.each(list, function (index, obj) {
+                    $("#chapter").append('<option value="' + obj.id + '">' + obj.chapterName + '</option>')
+                    $("#chapterUpdate").append('<option value="' + obj.id + '">' + obj.chapterName + '</option>')
+                })
+            }
+        });
+    }
 
     function queryQuestion() {
 
@@ -380,7 +426,7 @@
                     $.each(data.questionList, function (index, obj) {
                         $("#questionList").append('<div class="questionInfo"><div class="card"><div class="row" style="margin:10px">' +
                             '<span>' + (index + 1) + '.</span><span><b>创建人:</b></span><span>' + obj.teacherName + '</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><b>创建时间:</b></span><span>' + obj.createdAt + '</span></div>' +
-                            '<div id="content' + (index + 1) + '" class="editor" align= "center" style="margin:10px">' + obj.questionText + '</h3></div>' +
+                            '<div id="content' + obj.id + '" class="editor" align= "center" style="margin:10px">' + obj.questionText + '</h3></div>' +
                             '<div align="center"><image src ="' + obj.picOneUrl + '" width="250px" height="250px"></div>' +
                             '<hr>' +
                             '<div class="text-center"><div class="row">' +
@@ -391,7 +437,7 @@
                             '<div class="buttons">' +
                             '<div class="buttonElement"><button id="answerButton' + obj.id + '" class="btn btn-info btn-fill btn-wd" onclick="showAnswerDiv(this,' + obj.id + ')">查看答案</button></div>' +
                             '<div class="buttonElement"><button class="btn btn-info btn-fill btn-wd" onclick="">加入到试卷</button></div>' +
-                            '<div class="buttonElement"><button class="btn btn-info btn-fill btn-wd" onclick="">编辑题目</button></div>' +
+                            '<div class="buttonElement"><button class="btn btn-info btn-fill btn-wd" onclick="showUpdateDiv(' + obj.id + ')">编辑题目</button></div>' +
                             '</div></div>');
                     })
                     $(".editor").addClass('row');
@@ -400,9 +446,8 @@
         })
     }
 </script>
-<script type="text/javascript">
-    //浮动窗口的显示隐藏是通过js实现的
-
+<script>
+    /*以下为"查看答案"按钮的js*/
     /*显示弹框*/
     function showAnswerDiv(obj, id) {
         obj.disabled = 'disabled';
@@ -424,6 +469,29 @@
         $("#answer").empty();
         var buttonId = "#answerButton" + val;
         $(buttonId).removeAttr("disabled");
+    }
+</script>
+<script>
+    /*以下为编辑题目弹框js*/
+    function showUpdateDiv(id) {
+        $('#code').center();
+        $('#goodcover').show();
+        $('#code').fadeIn();
+        $.ajax({
+            async: false,
+            url: '/questionBase/queryQuestionById',
+            dataType: 'json',
+            data: {
+                id: id
+            },
+            success: function (data) {
+                getAllChapters();
+                $("#chapterUpdate").val(data.chapterId)
+                var type = data.type;
+                $("#typeUpdate").find("option[text=]").attr("selected",true);
+            }
+        })
+
     }
 </script>
 </html>

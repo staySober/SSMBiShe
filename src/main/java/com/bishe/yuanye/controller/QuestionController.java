@@ -6,11 +6,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.bishe.yuanye.common.CommonUtil;
+import com.bishe.yuanye.dao.mapper.QuestionDTOMapper;
 import com.bishe.yuanye.entity.ChapterInfo;
 import com.bishe.yuanye.entity.Question;
 import com.bishe.yuanye.entity.User;
 import com.bishe.yuanye.entity.request.QueryQuestionRequest;
 import com.bishe.yuanye.entity.response.QueryQuestionResponse;
+import com.bishe.yuanye.entity.response.QuestionWithDetail;
 import com.bishe.yuanye.entity.response.SavePictureResponse;
 import com.bishe.yuanye.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,16 @@ public class QuestionController {
 
         QueryQuestionResponse response = questionService.queryQuestion(request);
         return response;
+    }
+
+    @RequestMapping(value = "/queryQuestionById")
+    @ResponseBody
+    public QuestionWithDetail queryQuestionById(int id) {
+
+        QueryQuestionRequest request = new QueryQuestionRequest();
+        request.id = id;
+        QueryQuestionResponse response = questionService.queryQuestion(request);
+        return response.questionList.get(0);
     }
 
     @RequestMapping(value = "/savePicture")
@@ -79,7 +91,7 @@ public class QuestionController {
 
     @RequestMapping(value = "/createQuestion")
     @ResponseBody
-    public int createQuestion(Question question, HttpServletRequest request, Model model) throws Exception {
+    public int createQuestion(Question question, HttpServletRequest request) throws Exception {
 
         User user = (User)request.getSession().getAttribute("user");
         question.teacherId = user.getId();
@@ -90,5 +102,17 @@ public class QuestionController {
             throw new Exception();
         }
     }
-    
+
+    @RequestMapping(value = "/updateQuestion")
+    @ResponseBody
+    public int updateQuestion(Question question) throws Exception {
+
+        int i = questionService.updateQuestion(question);
+        if (i == 1) {
+            return i;
+        } else {
+            throw new Exception();
+        }
+    }
+
 }
