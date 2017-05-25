@@ -24,7 +24,7 @@
 
     <context:property-placeholder location="classpath:properties/resource.properties"/>
     <!--扫描controller层的包-->
-    <context:component-scan base-package="com.bishe">
+    <context:component-scan base-package="com.bishe.yuanye.controller">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 

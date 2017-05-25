@@ -397,7 +397,7 @@
         var teacherName = $("#teacherName").val();
         var startTime = $("#startTime").val();
         var endTime = $("#endTime").val();
-        if (startTime > endTime) {
+        if (startTime != "" && endTime != "" && startTime > endTime) {
             alert("开始时间不能晚于结束时间");
             return false;
         }
@@ -488,7 +488,7 @@
                 getAllChapters();
                 $("#chapterUpdate").val(data.chapterId)
                 var type = data.type;
-                $("#typeUpdate").find("option[text=]").attr("selected",true);
+                $("#typeUpdate").find("option[text=]").attr("selected", true);
             }
         })
 

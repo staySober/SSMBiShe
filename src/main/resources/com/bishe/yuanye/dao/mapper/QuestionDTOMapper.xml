@@ -371,9 +371,8 @@
   </update>
     <select id="queryQuestionByCondition" resultType="com.bishe.yuanye.dao.dto.QuestionDTO">
         select bq.id, bq.chapter_Id as chapterId, bc.name as chapterName, bq.keyword_one as keywordOne, bq.keyword_two
-        as keywordTwo,
-        bq.type, bq.pic_one_url as picOneUrl, bq.pic_two_url as picTwoUrl, bq.answer, bq.teacher_id as teacherId,
-        bt.name as teacherName, bq.created_at as createdAt, bq.question_text as questionText
+        as keywordTwo, bq.type, bq.pic_one_url as picOneUrl, bq.pic_two_url as picTwoUrl, bq.answer, bq.teacher_id as
+        teacherId, bt.name as teacherName, bq.created_at as createdAt, bq.question_text as questionText
         from bishe_question bq
         inner join bishe_teacher bt on bq.teacher_id = bt.id
         inner join bishe_chapter bc on bq.chapter_id = bc.id
@@ -419,7 +418,7 @@
                 and bq.chapter_id =#{chapterId}
             </if>
             <if test="keyword!=null">
-                and (bq.keyword_one like CONCAT('%',#{keyword},'%')  or bq.keyword_two = CONCAT('%',#{keyword},'%') )
+                and (bq.keyword_one like CONCAT('%',#{keyword},'%') or bq.keyword_two = CONCAT('%',#{keyword},'%') )
             </if>
             <if test="type!=null">
                 and bq.type = #{type}
