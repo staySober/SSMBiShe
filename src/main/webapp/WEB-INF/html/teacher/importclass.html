@@ -148,10 +148,8 @@
                         <a href="/table/downloadModel">下载导入班级(学生)模板</a>
                     </div>
                     <div>
-                        <form action="/table/importTable" method="post" enctype="multipart/form-data">
-                                <input type="file" id="file" name="file">
-                                <input type="submit" id="sbmitTable" value="上传班级(学生)">
-                        </form>
+                        <input type="file" id="file" name="file">
+                        <input type="button" onclick="saveClassExcel()" value="创建班级(学生)">
                     </div>
                 </div>
             </div>
@@ -201,6 +199,9 @@
 <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
 <script src="../../assets/js/demo.js"></script>
 
+<!--上传文件js-->
+<script src="../../js/ajaxfileupload.js" type="text/javascript"></script>
+
 <script type="text/javascript">
 
     $(function () {
@@ -220,11 +221,11 @@
 
         if (userType != 3 && userType != 2) {
 
-            if (userType == 2){
-                window.location.href ="shiroPage.html";
+            if (userType == 2) {
+                window.location.href = "shiroPage.html";
             }
-            if(userType ==1){
-                window.location.href ="../student/shiroPage.html";
+            if (userType == 1) {
+                window.location.href = "../student/shiroPage.html";
             }
         } else {
             //todo js业务逻辑在这个里面写
@@ -232,6 +233,31 @@
 
         }
     })
+
+    function saveClassExcel() {
+        var excelFile = $("#file").val();
+        if (excelFile == null || excelFile == "") {
+            alert("请先选择要上传的excel");
+        } else {
+            $.ajaxFileUpload(
+                {
+                    url: '/table/importTable', //用于文件上传的服务器端请求地址
+                    secureuri: false, //是否需要安全协议，一般设置为false
+                    fileElementId: 'file', //文件上传域的ID
+                    dataType: 'json', //返回值类型 一般设置为json
+                    success: function (data)  //服务器成功响应处理函数
+                    {
+                        if (data) {
+                            alert('创建成功');
+                        } else {
+                            alert('创建失败');
+                        }
+                    }
+                }
+            )
+            return false;
+        }
+    }
 </script>
 
 </html>
