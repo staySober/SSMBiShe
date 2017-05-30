@@ -14,6 +14,8 @@
     <meta name="viewport" content="width=device-width"/>
     <link href="../../css/default.css" rel="stylesheet" media="screen" type="text/css"/>
     <script src="../../assets/js/jquery-1.10.2.js" type="text/javascript"></script>
+
+
     <!-- Bootstrap core CSS     -->
     <link href="../../assets/css/bootstrap.min.css" rel="stylesheet"/>
 
@@ -23,6 +25,8 @@
     <!--  Paper Dashboard core CSS    -->
     <link href="../../assets/css/paper-dashboard.css" rel="stylesheet"/>
 
+    <!-- 弹层 -->
+    <link href="../../css/layer.css" rel="stylesheet">
 
     <!--  Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -151,18 +155,6 @@
         </nav>
 
 
-        <!--浮动窗口-->
-        <center>
-            <div align="left" id="commentListDiv" onmouseover="showThis(this);" onmouseout="hideThis(this);"
-                 style="width:500px;height:300px;border:solid 1px #a1bece;position:absolute;z-index:10000;display:none;background-color:#EEF7EA;margin: 0 auto;">
-                <p><b>在下面填入答案并提交</b></p>
-                <input type="hidden" name="questionId" id="questionId"/>
-                <div id="answer" name="answer" contentEditable="true" class="editDemo"></div>
-                <input type="button" value="提交答案" onclick="submitAnswer()">
-            </div>
-        </center>
-
-
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
@@ -191,6 +183,21 @@
         </footer>
 
     </div>
+
+
+    <!-- 遮罩层-->
+    <div id="goodcover"></div>
+    <!--编辑题目弹窗-->
+    <div id="code">
+        <div class="close1"><a href="javascript:void(0)" id="closebt"><img src="../../images/close.gif"></a></div>
+        <div class="updatediv">
+            <p><b>在下面填入答案并提交</b></p>
+            <input type="hidden" name="questionId" id="questionId"/>
+            <div id="answer" name="answer" contentEditable="true" class="editDemo"></div>
+            <input type="button" value="提交答案" onclick="submitAnswer()">
+        </div>
+    </div>
+
 </div>
 
 
@@ -215,7 +222,7 @@
 
 <script src="../../js/JMEditor/JMEditor.js" type="text/javascript"></script>
 
-
+<script src="../../js/layer.js"></script>
 <script type="text/javascript">
     $(function () {
         <!--获取cookie信息  ajax异步请求(jquery不能直接操作session)-->
@@ -250,10 +257,10 @@
                 function (data) {
                     $.each(data, function (index, obj) {
                         $("#answer1").append(
-                            '<div>第' + (index + 1) + '题:' + obj.questionText + '</h3></div>'+
-                            '<div style="width: 1003px; float:left"><span class="left" style="width: 500px;"><image src ="' + obj.picOneUrl + '" width="230px" height="230px"></span>'+
-                        '<input type="text" readonly="true" class="form-control border-input" style="height: 200;width: 330px;" id="answerText'+obj.id+'"/>' +
-                            '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="right"><input type="button" name="button" class="btn btn-info btn-fill btn-wd"  id="selectBtn" value="作答该题" onclick="showCommentDiv(this,' + obj.id + ');"onmouseout="hideCommentDiv();"/></span></div><br clear="all">');
+                            '<div>第' + (index + 1) + '题:' + obj.questionText + '</h3></div>' +
+                            '<div style="width: 1003px; float:left"><span class="left" style="width: 500px;"><image src ="' + obj.picOneUrl + '" width="230px" height="230px"></span>' +
+                            '<input type="text" readonly="true" class="form-control border-input" style="height: 200;width: 330px;" id="answerText' + obj.id + '"/>' +
+                            '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="right"><input type="button" name="button" class="btn btn-info btn-fill btn-wd"  id="selectBtn" value="作答该题" onclick="showUpdateDiv(' + obj.id + ');"/></span></div><br clear="all">');
 
                     });
                     $("#answer1").append('</br></br><button name="submitPaper" id="submitPaper" onclick="submitPaper()" width="100px" height="60px">提交试卷</button> ');
@@ -261,15 +268,14 @@
         }
     });
 
-    function submitPaper(){
-        if(confirm("是否确认要提交试卷？如果提交了试卷，试卷将被完成作答，未答的题目将无法作答！")){
+    function submitPaper() {
+        if (confirm("是否确认要提交试卷？如果提交了试卷，试卷将被完成作答，未答的题目将无法作答！")) {
             $.post("/paper/submitPaper",
                 function (data) {
                     window.location.href = "./studenthome.html";
                 });
         }
     }
-
 
 
     <!--获取session信息-->
@@ -298,33 +304,19 @@
         $.post("/paper/setAnswer", {"questionId": questionId, "answer": answer},
             function (data) {
                 alert("答题成功!");
-                $("#answerText"+questionId).val(answer);
+                $("#answerText" + questionId).val(answer);
             });
     }
 </script>
 
 
-<script type="text/javascript">
-    //浮动窗口的显示隐藏是通过js实现的
-
-    /*显示浮动框*/
-    function showCommentDiv(obj, questionId) {
-        var top = $(obj).offset().top;
-        var left = $(obj).offset().left + $(obj).width() - 7;
-        $("#commentListDiv").css({'top': top + "px", 'left': left + "px"}).show("slow");
+<script>
+    /*以下为编辑题目弹框js*/
+    function showUpdateDiv(questionId) {
+        $('#code').center();
+        $('#goodcover').show();
+        $('#code').fadeIn();
         $("#questionId").attr("value", questionId);
-    }
-
-    function showThis(obj) {
-        $(obj).show();
-    }
-    /*隐藏浮动框*/
-    function hideCommentDiv() {
-        $("#editCourseDiv").hide();
-        $("#answer").empty();
-    }
-    function hideThis(obj) {
-        $(obj).hide();
     }
 </script>
 
