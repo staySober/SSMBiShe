@@ -18,6 +18,7 @@ import com.bishe.yuanye.service.AnswerService;
 import com.bishe.yuanye.service.PaperService;
 import com.bishe.yuanye.service.QuestionService;
 import com.bishe.yuanye.service.StudentService;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;

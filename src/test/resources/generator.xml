@@ -46,18 +46,20 @@
         <table tableName="bishe_question" domainObjectName="QuestionDTO" enableDeleteByPrimaryKey="false" enableDeleteByExample="false"/>
 
         <table tableName="bishe_paper" domainObjectName="PaperDTO" enableDeleteByPrimaryKey="false" enableDeleteByExample="false"/>
-        <table tableName="bishe_paper_question_map" domainObjectName="PaperQuestionMapDTO" enableDeleteByPrimaryKey="false" enableDeleteByExample="false"/>
+
         <table tableName="bishe_student"  domainObjectName="StudentDTO" enableDeleteByPrimaryKey="false" enableDeleteByExample="false"/>
         <table tableName="bishe_teacher" domainObjectName="TeacherDTO" enableDeleteByPrimaryKey="false" enableDeleteByExample="false"/>
         <table tableName="bishe_teacher_paper_map" domainObjectName="TeacherPaperMapDTO" enableDeleteByPrimaryKey="false" enableDeleteByExample="false"/>
         <table tableName="bishe_student_answer_map" domainObjectName="StudentAnswerMapDTO" enableDeleteByPrimaryKey="false" enableDeleteByExample="false"/>
         <table tableName="bishe_chapter" domainObjectName="ChapterDTO" enableDeleteByExample="false" enableDeleteByPrimaryKey="false"/>
          <table tableName="bishe_student_complete_paper_map" domainObjectName="StudentCompletePaperDTO" enableDeleteByExample="false" enableDeleteByPrimaryKey="false"/>
+          <table tableName="bishe_class" domainObjectName="ClassDTO" enableDeleteByPrimaryKey="false" enableDeleteByExample="false">
+        </table>
         -->
 
             <!--<columnRenamingRule searchString="^D_"
                                 replaceString=""/>-->
-        <table tableName="bishe_class" domainObjectName="ClassDTO" enableDeleteByPrimaryKey="false" enableDeleteByExample="false">
-        </table>
+
+         <table tableName="bishe_paper_question_map" domainObjectName="PaperQuestionMapDTO" enableDeleteByPrimaryKey="false" enableDeleteByExample="false"/>
     </context>
 </generatorConfiguration>

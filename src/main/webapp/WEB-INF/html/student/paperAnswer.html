@@ -255,6 +255,9 @@
 
             $.post("/paper/getPaperContent",
                 function (data) {
+                if (data.length <= 0) {
+                    alert("该试卷没有关联任何题目,请联系相应老师进行试题关联!");
+                }
                     $.each(data, function (index, obj) {
                         $("#answer1").append(
                             '<div>第' + (index + 1) + '题:' + obj.questionText + '</h3></div>' +

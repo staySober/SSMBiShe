@@ -85,16 +85,16 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from bishe_paper_question_map
     where id = #{id,jdbcType=INTEGER}
   </select>
   <insert id="insert" parameterType="com.bishe.yuanye.dao.dto.PaperQuestionMapDTO" >
-    insert into bishe_paper_question_map (id, paper_id, question_id, 
+    insert into bishe_paper_question_map (id, paper_id, question_id,
       score, created_at, is_deleted
       )
-    values (#{id,jdbcType=INTEGER}, #{paperId,jdbcType=INTEGER}, #{questionId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{paperId,jdbcType=INTEGER}, #{questionId,jdbcType=INTEGER},
       #{score,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=SMALLINT}
       )
   </insert>

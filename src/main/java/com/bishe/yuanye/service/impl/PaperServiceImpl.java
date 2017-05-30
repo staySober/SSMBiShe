@@ -70,11 +70,19 @@ PaperServiceImpl implements PaperService {
         ex1.createCriteria().andTeacherIdEqualTo(teacherId).andPaperIdEqualTo(paperId).andIsDeletedEqualTo((short)0);
         List<TeacherPaperMapDTO> teacherPaperMapDTOS = teacherPaperDTOMapper.selectByExample(ex1);
         List<Integer> refPaperId = teacherPaperMapDTOS.stream().map(x -> x.getPaperId()).collect(Collectors.toList());
+
+        if(CollectionUtils.isEmpty(refPaperId)) {
+            return new ArrayList<Question>();
+        }
         //paper和question的关系
         PaperQuestionMapDTOExample ex2 = new PaperQuestionMapDTOExample();
         ex2.createCriteria().andPaperIdIn(refPaperId).andIsDeletedEqualTo((short)0);
         List<PaperQuestionMapDTO> paperQuestionMapDTOS = paperQuestionDTOMapper.selectByExample(ex2);
         List<Integer> questionIds = paperQuestionMapDTOS.stream().map(x -> x.getQuestionId()).collect(Collectors.toList());
+
+         if(CollectionUtils.isEmpty(questionIds)) {
+            return new ArrayList<Question>();
+        }
         //获取question
         QuestionDTOExample example = new QuestionDTOExample();
         example.createCriteria().andIdIn(questionIds).andIsDeletedEqualTo((short)0);
