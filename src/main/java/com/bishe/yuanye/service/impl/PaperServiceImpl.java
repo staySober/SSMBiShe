@@ -47,7 +47,7 @@ PaperServiceImpl implements PaperService {
     @Override
     public List<PaperDTO> getPaperByTeacherId(int id) {
         PaperDTOExample example =new PaperDTOExample();
-        example.createCriteria().andTeacherIdEqualTo(id).andIsDeletedEqualTo((short)0);
+        example.createCriteria().andTeacherIdEqualTo(id).andIsSharedEqualTo((short)1).andIsVisibleEqualTo((short)1).andIsDeletedEqualTo((short)0);
         List<PaperDTO> paperDTOS = paperMapper.selectByExample(example);
         return paperDTOS;
     }
