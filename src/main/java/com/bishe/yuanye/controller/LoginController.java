@@ -38,7 +38,7 @@ public class LoginController {
                 == Type.ADMIN) {
                 return "redirect:/html/student/studenthome.html";
             } else if (User.Type.getType(user.getUserType()) == User.Type.TEACHER) {
-                return "redirect:/html/teacher/teacherboard.html";
+                return "redirect:/html/teacher/teacherIndex.html";
             } else {
                 return "redirect:/html/errorLogin.html";
             }

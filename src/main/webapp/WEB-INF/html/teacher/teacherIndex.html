@@ -43,7 +43,7 @@
         -->
         <div class="sidebar-wrapper">
             <div class="logo">
-                <a href="#" class="simple-text">
+                <a href="##" class="simple-text">
                     电路原理题库系统
                 </a>
             </div>
@@ -56,37 +56,37 @@
                     </a>
                 </li>
                 <li>
-                    <a href="createquestion.html">
+                    <a class="bar2" onclick="skip(2)" href="##">
                         <i class="ti-pencil-alt2"></i>
                         <p>新建题目</p>
                     </a>
                 </li>
                 <li>
-                    <a href="mypaper.html">
+                    <a class="bar3" onclick="skip(3)" href="##">
                         <i class="ti-map"></i>
                         <p>我的试卷</p>
                     </a>
                 </li>
                 <li>
-                    <a href="otherpaper.html">
+                    <a class="bar4" onclick="skip(4)" href="##">
                         <i class="ti-list-ol"></i>
                         <p>其他试卷</p>
                     </a>
                 </li>
                 <li>
-                    <a href="myclass.html">
+                    <a class="bar5" onclick="skip(5)" href="##">
                         <i class="ti-user"></i>
                         <p>我的班级</p>
                     </a>
                 </li>
                 <li>
-                    <a href="importclass.html">
+                    <a class="bar6" onclick="skip(6)" href="##">
                         <i class="ti-import"></i>
                         <p>导入班级</p>
                     </a>
                 </li>
                 <li>
-                    <a href="accountTeacher.html">
+                    <a class="bar7" onclick="skip(7)" href="##">
                         <i class="ti-import"></i>
                         <p>教师账号管理</p>
                     </a>
@@ -111,11 +111,25 @@
 
 <script>
 
-    function skip(index){
-        if(index==1){
-            document.getElementById("ifr").src="questionbase.html";
-            $(".bar1").parent().addClass("active")
+    function skip(index) {
+        var barIndex = ".bar" + index;
+        if (index == 1) {
+            document.getElementById("ifr").src = "questionbase.html";
+        } else if (index == 2) {
+            document.getElementById("ifr").src = "createquestion.html";
+        } else if (index == 3) {
+            document.getElementById("ifr").src = "mypaper.html";
+        } else if (index == 4) {
+            document.getElementById("ifr").src = "otherpaper.html";
+        } else if (index == 5) {
+            document.getElementById("ifr").src = "myclass.html";
+        } else if (index == 6) {
+            document.getElementById("ifr").src = "importclass.html";
+        } else if (index == 7) {
+            document.getElementById("ifr").src = "accountTeacher.html";
         }
+        $(".active").removeClass("active");
+        $(barIndex).parent().addClass("active");
     }
 
 </script>

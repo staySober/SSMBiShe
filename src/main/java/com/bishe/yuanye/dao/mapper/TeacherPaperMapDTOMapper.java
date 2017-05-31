@@ -23,4 +23,5 @@ public interface TeacherPaperMapDTOMapper {
     int updateByPrimaryKeySelective(TeacherPaperMapDTO record);
 
     int updateByPrimaryKey(TeacherPaperMapDTO record);
+
 }
