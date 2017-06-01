@@ -166,7 +166,7 @@
                 success: function (data) {
                     $.each(data, function (index, obj) {
                         $("#classBody").append('<tr id="paper' + obj.id + '">' +
-                            '<td>' + (index + 1) + '</td><td><a href="##" onclick="lookQuestion(' + obj.id + ')">' + obj.paperName + '</a></td></tr>');
+                            '<td>' + (index + 1) + '</td><td><a href="##" onclick="lookQuestion(' + obj.id + ')">' + obj.paperName + '</a></td><td>' + obj.teacherName + '</td></tr>');
                     })
                 }
             });
@@ -177,6 +177,7 @@
 <script>
     function lookQuestion(id) {
         parent.selectPaperId = id;
+        parent.lastPage = 'otherpaper.html';
         window.location.href = 'paperquestion.html';
     }
 </script>

@@ -112,6 +112,8 @@
 
         <div class="content">
             <div class="container-fluid">
+                <div><a href="questionbase.html">前往题库加题</a>
+                     <a id="lastpage" href="##">返回试卷页</a></div>
                 <div id="questionList"></div>
                 <div id="page"></div>
 
@@ -231,6 +233,7 @@
         } else {
             //todo js业务逻辑在这个里面写
             getPaperQuestion();
+            $("#lastpage").attr('href', parent.lastPage);
         }
     })
 
@@ -239,23 +242,16 @@
         var paperId = parent.selectPaperId;
         $.ajax({
             async: false,
-            url: '//paper/selectPaperQuestion',
+            url: '/paper/selectPaperQuestion',
             dataType: 'json',
             data: {
-                pageIndex: 1,
-                pageSize: 10,
-                chapterId: chapterId,
-                keyword: keyword,
-                type: type,
-                teacherName: teacherName,
-                startTime: startTime,
-                endTime: endTime
+                paperId: paperId
             },
             success: function (data) {
                 if (data.errorMsg != null) {
                     alert(data.errorMsg);
                 } else {
-                    $.each(data.questionList, function (index, obj) {
+                    $.each(data, function (index, obj) {
                         $("#questionList").append('<div class="questionInfo"><div class="card"><div class="row" style="margin:10px">' +
                             '<span>' + (index + 1) + '.</span><span><b>创建人:</b></span><span>' + obj.teacherName + '</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><b>创建时间:</b></span><span>' + obj.createdAt + '</span></div>' +
                             '<div id="content' + obj.id + '" class="editor" align= "center" style="margin:10px">' + obj.questionText + '</h3></div>' +
