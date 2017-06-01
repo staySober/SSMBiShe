@@ -1,6 +1,7 @@
 package com.bishe.yuanye.dao.dto;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by yuanye on 2017/4/24.
@@ -24,6 +25,8 @@ public class QueryConditionDTO {
     private Integer pageSize;
 
     private Integer offset;
+
+    private List<Integer> questionIdList;
 
     public Integer getId() {
         return id;
@@ -95,5 +98,13 @@ public class QueryConditionDTO {
 
     public void setOffset(Integer offset) {
         this.offset = offset;
+    }
+
+    public List<Integer> getQuestionIdList() {
+        return questionIdList;
+    }
+
+    public void setQuestionIdList(List<Integer> questionIdList) {
+        this.questionIdList = questionIdList;
     }
 }

@@ -398,6 +398,13 @@
             <if test="endTime!=null">
                 and bq.created_at <![CDATA[<]]> #{endTime}
             </if>
+            <if test="questionIdList!=null">
+                and bq.id in
+                <foreach collection="questionIdList" item="item" index="index"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
             and bq.is_deleted = 0
             order by bq.created_at desc
             limit #{offset},#{pageSize}

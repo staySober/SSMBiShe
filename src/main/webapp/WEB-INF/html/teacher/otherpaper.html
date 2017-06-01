@@ -62,10 +62,6 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="../student/studenthome.html">学生管理系统</a></li>
-                                <li><a href="#">Notification 2</a></li>
-                                <li><a href="#">Notification 3</a></li>
-                                <li><a href="#">Notification 4</a></li>
-                                <li><a href="#">Another notification</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -170,12 +166,18 @@
                 success: function (data) {
                     $.each(data, function (index, obj) {
                         $("#classBody").append('<tr id="paper' + obj.id + '">' +
-                            '<td>' + (index + 1) + '</td><td>' + obj.paperName + '</td><td>' + obj.teacherName + '</td></tr>');
+                            '<td>' + (index + 1) + '</td><td><a href="##" onclick="lookQuestion(' + obj.id + ')">' + obj.paperName + '</a></td></tr>');
                     })
                 }
             });
 
         }
     })
+</script>
+<script>
+    function lookQuestion(id) {
+        parent.selectPaperId = id;
+        window.location.href = 'paperquestion.html';
+    }
 </script>
 </html>

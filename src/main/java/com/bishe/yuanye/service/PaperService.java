@@ -7,6 +7,7 @@ import com.bishe.yuanye.dao.dto.StudentAnswerMapDTO;
 import com.bishe.yuanye.dao.dto.StudentCompletePaperDTO;
 import com.bishe.yuanye.entity.Paper;
 import com.bishe.yuanye.entity.Question;
+import com.bishe.yuanye.entity.response.QuestionWithDetail;
 
 /**
  * Created by sober on 2017/4/14.
@@ -32,4 +33,6 @@ public interface PaperService {
     void setShared(int paperId, int isShared);
 
     void setVisible(int paperId, int isVisible);
+
+    List<QuestionWithDetail> getPaperQuestion(int paperId);
 }

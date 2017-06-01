@@ -62,14 +62,9 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="../student/studenthome.html">学生管理系统</a></li>
-                                <li><a href="#">Notification 2</a></li>
-                                <li><a href="#">Notification 3</a></li>
-                                <li><a href="#">Notification 4</a></li>
-                                <li><a href="#">Another notification</a></li>
                             </ul>
                         </li>
                     </ul>
-
                 </div>
             </div>
         </nav>
@@ -172,10 +167,10 @@
                 success: function (data) {
                     $.each(data, function (index, obj) {
                         $("#classBody").append('<tr id="paper' + obj.id + '">' +
-                            '<td>' + (index + 1) + '</td><td>' + obj.paperName + '</td>' +
+                            '<td>' + (index + 1) + '</td><td><a href="##" onclick="lookQuestion(' + obj.id + ')">' + obj.paperName + '</a></td>' +
                             '<td>' + obj.teacherName +
-                            '</td><td><input class="checkboxs" type="checkbox" onclick="setVisible(' + obj.id + ')" value="' + obj.isVisible + '">是否可见</input>' +
-                            '<input class="checkboxs" type="checkbox" value="' + obj.isShared + '">是否分享</input></td></tr>');
+                            '</td><td><input id="visiblecheckbox' + obj.id + '" class="checkboxs" type="checkbox" onclick="setVisible(' + obj.id + ')" value="' + obj.isVisible + '">是否可见</input>' +
+                            '<input id="sharedcheckbox' + obj.id + '" class="checkboxs" type="checkbox" onclick="setShared(' + obj.id + ')" value="' + obj.isShared + '">是否分享</input></td></tr>');
                     })
                     $.each($(".checkboxs"), function (index, obj) {
                         if (obj.value == 1) {
@@ -191,8 +186,61 @@
 <script>
 
     function setVisible(id) {
-          var1 = 'paper'+id+" [type=checkbox]";
-          alert($(var1).value);
+        var isVisible;
+        var paperId = id;
+        var1 = '#visiblecheckbox' + id
+        var value = $(var1).attr('value');
+        if (value == 1) {
+            $(var1).attr('value', 0);
+            isVisible = 0;
+        } else if (value == 0) {
+            $(var1).attr('value', 1);
+            isVisible = 1;
+        }
+        $.ajax({
+            async: false,
+            url: '/paper/setVisible',
+            dataType: 'json',
+            data: {
+                paperId: paperId,
+                isVisible: isVisible
+            },
+            success: function (data) {
+
+            }
+        });
+    }
+
+    function setShared(id) {
+        var isShared;
+        var paperId = id;
+        var1 = '#sharedcheckbox' + id
+        var value = $(var1).attr('value');
+        if (value == 1) {
+            $(var1).attr('value', 0);
+            isShared = 0;
+        } else if (value == 0) {
+            $(var1).attr('value', 1);
+            isShared = 1;
+        }
+        $.ajax({
+            async: false,
+            url: '/paper/setShared',
+            dataType: 'json',
+            data: {
+                paperId: paperId,
+                isShared: isShared
+            },
+            success: function (data) {
+
+            }
+        });
+    }
+</script>
+<script>
+    function lookQuestion(id) {
+        parent.selectPaperId = id;
+        window.location.href = 'paperquestion.html';
     }
 </script>
 </html>

@@ -112,63 +112,6 @@
 
         <div class="content">
             <div class="container-fluid">
-                <div id="queryCondition">
-                    <h3>
-                        <label>查询条件</label></br>
-                    </h3>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="chapter">章节:</label>
-                                <select id="chapter" class="form-control border-input">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="keyword">关键词:</label>
-                                <input id="keyword" type="text" class="form-control border-input"/>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="type">题目类型:</label>
-                                <select id="type" class="form-control border-input">
-                                    <option selected value="">请选择</option>
-                                    <option>选择题</option>
-                                    <option>填空题</option>
-                                    <option>计算题</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="teacherName">创建人:</label>
-                                <input id="teacherName" type="text" class="form-control border-input"/>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="startTime">开始创建时间:</label>
-                                <input id="startTime" type="date" class="form-control border-input"/>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="endTime">结束创建时间:</label>
-                                <input id="endTime" type="date" class="form-control border-input"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="text-align: center">
-                        <button type="submit" class="btn btn-info btn-fill btn-wd" onclick="queryQuestion()">
-                            查询
-                        </button>
-                    </div>
-                </div>
-                <hr style="filter: alpha(opacity=100, finishopacity=0, style=3);border-color:#666967" SIZE=3>
                 <div id="questionList"></div>
                 <div id="page"></div>
 
@@ -287,57 +230,16 @@
             }
         } else {
             //todo js业务逻辑在这个里面写
-            getAllChapters();
-            queryQuestion();
+            getPaperQuestion();
         }
     })
 
-    function getAllChapters() {
+    function getPaperQuestion() {
 
+        var paperId = parent.selectPaperId;
         $.ajax({
             async: false,
-            url: '/questionBase/getAllChapters',
-            dataType: 'json',
-            success: function (list) {
-                $("#chapter").empty();
-                $("#chapterUpdate").empty();
-                $("#chapter").append('<option selected value="">请选择</option>');
-                $("#chapterUpdate").append('<option selected value="">请选择</option>');
-                $.each(list, function (index, obj) {
-                    $("#chapter").append('<option value="' + obj.id + '">' + obj.chapterName + '</option>')
-                    $("#chapterUpdate").append('<option value="' + obj.id + '">' + obj.chapterName + '</option>')
-                })
-            }
-        });
-    }
-
-    function queryQuestion() {
-
-        if ($("#chapter option:selected").val() == "") {
-            var chapterId = 0;
-        } else {
-            var chapterId = $("#chapter option:selected").val();
-        }
-        var keyword = $("#keyword").val();
-        if ($("#type option:selected").val() != "") {
-            var type = $("#type option:selected").text();
-        } else {
-            var type = "";
-        }
-        var teacherName = $("#teacherName").val();
-        var startTime = $("#startTime").val();
-        var endTime = $("#endTime").val();
-        if (startTime != "" && endTime != "" && startTime > endTime) {
-            alert("开始时间不能晚于结束时间");
-            return false;
-        }
-
-        if ($("#questionList").html() != "") {
-            $("#questionList").html("");
-        }
-        $.ajax({
-            async: false,
-            url: '/questionBase/queryQuestion',
+            url: '//paper/selectPaperQuestion',
             dataType: 'json',
             data: {
                 pageIndex: 1,
@@ -366,7 +268,6 @@
                             '<div id="answer' + obj.id + '" style="display: none">' + obj.answer + '</div>' +
                             '<div class="buttons">' +
                             '<div class="buttonElement"><button id="answerButton' + obj.id + '" class="btn btn-info btn-fill btn-wd" onclick="showAnswerDiv(this,' + obj.id + ')">查看答案</button></div>' +
-                            '<div class="buttonElement"><button class="btn btn-info btn-fill btn-wd" onclick="">加入到试卷</button></div>' +
                             '<div class="buttonElement"><button class="btn btn-info btn-fill btn-wd" onclick="showUpdateDiv(' + obj.id + ')">编辑题目</button></div>' +
                             '</div></div>');
                     })

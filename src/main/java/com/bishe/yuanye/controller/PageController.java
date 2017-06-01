@@ -16,6 +16,7 @@ import com.bishe.yuanye.entity.Question;
 import com.bishe.yuanye.entity.User;
 import com.bishe.yuanye.entity.request.PaperSetSharedRequest;
 import com.bishe.yuanye.entity.request.PaperSetVisibleRequest;
+import com.bishe.yuanye.entity.response.QuestionWithDetail;
 import com.bishe.yuanye.service.AnswerService;
 import com.bishe.yuanye.service.PaperService;
 import com.bishe.yuanye.service.QuestionService;
@@ -156,5 +157,12 @@ public class PageController {
         int paperId = request.paperId;
         int isVisible = request.isVisible;
         paperService.setVisible(paperId, isVisible);
+    }
+
+    @RequestMapping("/selectPaperQuestion")
+    @ResponseBody
+    public List<QuestionWithDetail> selectPaperQuestion(int paperId) {
+
+        return paperService.getPaperQuestion(paperId);
     }
 }

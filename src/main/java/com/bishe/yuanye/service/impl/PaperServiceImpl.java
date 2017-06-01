@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.bishe.yuanye.common.BuilderHelper;
 import com.bishe.yuanye.dao.dto.*;
 import com.bishe.yuanye.dao.mapper.*;
 import com.bishe.yuanye.entity.Paper;
 import com.bishe.yuanye.entity.Question;
+import com.bishe.yuanye.entity.response.QuestionWithDetail;
 import com.bishe.yuanye.service.PaperService;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -157,4 +159,24 @@ public class PaperServiceImpl implements PaperService {
         paperMapper.updateByPrimaryKeySelective(paperDTO);
     }
 
+    @Override
+    public List<QuestionWithDetail> getPaperQuestion(int paperId) {
+
+        PaperQuestionMapDTOExample example1 = new PaperQuestionMapDTOExample();
+        example1.createCriteria().andPaperIdEqualTo(paperId);
+        List<PaperQuestionMapDTO> paperQuestionMapDTOList = paperQuestionDTOMapper.selectByExample(example1);
+        if (!paperQuestionMapDTOList.isEmpty()) {
+            List<Integer> questionIdList = paperQuestionMapDTOList.stream().map(
+                paperQuestionMapDTO -> paperQuestionMapDTO.getQuestionId()).collect(Collectors.toList());
+            QueryConditionDTO queryConditionDTO = new QueryConditionDTO();
+            queryConditionDTO.setQuestionIdList(questionIdList);
+            queryConditionDTO.setOffset(0);
+            queryConditionDTO.setPageSize(questionIdList.size());
+            List<QuestionDTO> questionDTOList = questionDTOMapper.queryQuestionByCondition(queryConditionDTO);
+            return questionDTOList.stream().map(questionDTO -> BuilderHelper.buildQuestionWithDetail(questionDTO))
+                .collect(Collectors.toList());
+        } else {
+            return new ArrayList<QuestionWithDetail>();
+        }
+    }
 }
