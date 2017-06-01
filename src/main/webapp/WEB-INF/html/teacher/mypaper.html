@@ -68,12 +68,6 @@
                                 <li><a href="#">Another notification</a></li>
                             </ul>
                         </li>
-                        <li>
-                            <a href="/user/logout">
-                                <i class="ti-settings"></i>
-                                <p>退出登录</p>
-                            </a>
-                        </li>
                     </ul>
 
                 </div>
@@ -84,7 +78,19 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
+                    <div class="content table-responsive table-full-width">
+                        <table class="table table-striped">
+                            <thead>
+                            <th>序号</th>
+                            <th>试卷名</th>
+                            <th>创建者</th>
+                            <th>属性</th>
+                            </thead>
+                            <tbody id="classBody">
 
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -143,25 +149,50 @@
             url: url,
             dataType: 'json',
             success: function (user) {
-                    userType = user.userType;
-                    $("#userInfo").append("欢迎您:" + user.name);
+                userType = user.userType;
+                $("#userInfo").append("欢迎您:" + user.name);
             }
         });
 
 
         if (userType != 3 && userType != 2) {
 
-            if (userType == 2){
-                window.location.href ="shiroPage.html";
+            if (userType == 2) {
+                window.location.href = "shiroPage.html";
             }
-            if(userType ==1){
-                window.location.href ="../student/shiroPage.html";
+            if (userType == 1) {
+                window.location.href = "../student/shiroPage.html";
             }
         } else {
             //todo js业务逻辑在这个里面写
-
+            $.ajax({
+                async: false,
+                url: "/teacher/getTeacherPapers",
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (index, obj) {
+                        $("#classBody").append('<tr id="paper' + obj.id + '">' +
+                            '<td>' + (index + 1) + '</td><td>' + obj.paperName + '</td>' +
+                            '<td>' + obj.teacherName +
+                            '</td><td><input class="checkboxs" type="checkbox" onclick="setVisible(' + obj.id + ')" value="' + obj.isVisible + '">是否可见</input>' +
+                            '<input class="checkboxs" type="checkbox" value="' + obj.isShared + '">是否分享</input></td></tr>');
+                    })
+                    $.each($(".checkboxs"), function (index, obj) {
+                        if (obj.value == 1) {
+                            obj.checked = true;
+                        }
+                    });
+                }
+            });
 
         }
     })
+</script>
+<script>
+
+    function setVisible(id) {
+          var1 = 'paper'+id+" [type=checkbox]";
+          alert($(var1).value);
+    }
 </script>
 </html>

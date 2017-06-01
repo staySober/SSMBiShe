@@ -56,7 +56,7 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<Paper> getTeacherPapers(int teacherId) {
+    public List<Paper> getTeacherPapers(int teacherId, String name) {
 
         PaperDTOExample example = new PaperDTOExample();
         example.createCriteria().andTeacherIdEqualTo(teacherId).andIsDeletedEqualTo((short)0);
@@ -64,7 +64,8 @@ public class TeacherServiceImpl implements TeacherService {
         if (paperDTOList.isEmpty()) {
             return new ArrayList<>();
         } else {
-            return paperDTOList.stream().map(paperDTO -> buildTeacherPaper(paperDTO)).collect(Collectors.toList());
+            return paperDTOList.stream().map(paperDTO -> buildTeacherPaper(paperDTO, name)).collect(
+                Collectors.toList());
         }
     }
 
@@ -101,12 +102,15 @@ public class TeacherServiceImpl implements TeacherService {
         teacherDTOMapper.updateByPrimaryKeySelective(dto);
     }
 
-    private Paper buildTeacherPaper(PaperDTO paperDTO) {
+    private Paper buildTeacherPaper(PaperDTO paperDTO, String name) {
 
         Paper paper = new Paper();
         paper.setId(paperDTO.getId());
         paper.setPaperName(paperDTO.getName());
         paper.setTeacherId(paperDTO.getTeacherId());
+        paper.setTeacherName(name);
+        paper.setIsShared(paperDTO.getIsShared());
+        paper.setIsVisible(paperDTO.getIsVisible());
         return paper;
     }
 }

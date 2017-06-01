@@ -14,7 +14,7 @@ import com.bishe.yuanye.entity.response.CountInfoResponse;
 public interface TeacherService {
     void delTeacher(Integer teacherId);
 
-    List<Paper> getTeacherPapers(int teacherId);
+    List<Paper> getTeacherPapers(int teacherId, String name);
 
     CountInfoResponse getCountInfo(int teacherId);
 

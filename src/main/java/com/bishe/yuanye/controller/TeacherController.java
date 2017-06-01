@@ -33,7 +33,7 @@ public class TeacherController {
 
         User user = (User)request.getSession().getAttribute("user");
         int teacherId = user.getId();
-        List<Paper> paperList = teacherService.getTeacherPapers(teacherId);
+        List<Paper> paperList = teacherService.getTeacherPapers(teacherId,user.getName());
         return paperList.isEmpty() ? new ArrayList<>() : paperList;
     }
 

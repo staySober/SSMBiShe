@@ -68,12 +68,6 @@
                                 <li><a href="#">Another notification</a></li>
                             </ul>
                         </li>
-                        <li>
-                            <a href="/user/logout">
-                                <i class="ti-settings"></i>
-                                <p>退出登录</p>
-                            </a>
-                        </li>
                     </ul>
 
                 </div>
@@ -175,7 +169,8 @@
                 dataType: 'json',
                 success: function (data) {
                     $.each(data, function (index, obj) {
-                        $("#classBody").append('<tr><td>' + (index + 1) + '</td><td>' + obj.paperName + '</td><td>' + obj.teacherName + '</td></tr>');
+                        $("#classBody").append('<tr id="paper' + obj.id + '">' +
+                            '<td>' + (index + 1) + '</td><td>' + obj.paperName + '</td><td>' + obj.teacherName + '</td></tr>');
                     })
                 }
             });

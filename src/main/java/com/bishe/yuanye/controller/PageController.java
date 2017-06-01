@@ -14,6 +14,8 @@ import com.bishe.yuanye.dao.dto.StudentCompletePaperDTO;
 import com.bishe.yuanye.entity.Paper;
 import com.bishe.yuanye.entity.Question;
 import com.bishe.yuanye.entity.User;
+import com.bishe.yuanye.entity.request.PaperSetSharedRequest;
+import com.bishe.yuanye.entity.request.PaperSetVisibleRequest;
 import com.bishe.yuanye.service.AnswerService;
 import com.bishe.yuanye.service.PaperService;
 import com.bishe.yuanye.service.QuestionService;
@@ -136,5 +138,23 @@ public class PageController {
         User user = (User)request.getSession().getAttribute("user");
         int teacherId = user.getId();
         return paperService.getOtherPaper(teacherId);
+    }
+
+    @RequestMapping("/setShared")
+    @ResponseBody
+    public void setShared(PaperSetSharedRequest request) {
+
+        int paperId = request.paperId;
+        int isShared = request.isShared;
+        paperService.setShared(paperId, isShared);
+    }
+
+    @RequestMapping("/setVisible")
+    @ResponseBody
+    public void setVisible(PaperSetVisibleRequest request) {
+
+        int paperId = request.paperId;
+        int isVisible = request.isVisible;
+        paperService.setVisible(paperId, isVisible);
     }
 }

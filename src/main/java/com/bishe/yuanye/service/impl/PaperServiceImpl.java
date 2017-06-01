@@ -20,14 +20,13 @@ import org.springframework.stereotype.Service;
  * @date 2017/04/14
  */
 @Service
-public class
-PaperServiceImpl implements PaperService {
+public class PaperServiceImpl implements PaperService {
 
     @Autowired
     PaperDTOMapper paperMapper;
 
     @Autowired
-	private StudentAnswerMapDTOMapper studentAnswerMapMapper;
+    private StudentAnswerMapDTOMapper studentAnswerMapMapper;
 
     @Autowired
     private QuestionDTOMapper questionDTOMapper;
@@ -46,8 +45,9 @@ PaperServiceImpl implements PaperService {
 
     @Override
     public List<PaperDTO> getPaperByTeacherId(int id) {
-        PaperDTOExample example =new PaperDTOExample();
-        example.createCriteria().andTeacherIdEqualTo(id).andIsSharedEqualTo((short)1).andIsVisibleEqualTo((short)1).andIsDeletedEqualTo((short)0);
+        PaperDTOExample example = new PaperDTOExample();
+        example.createCriteria().andTeacherIdEqualTo(id).andIsSharedEqualTo((short)1).andIsVisibleEqualTo((short)1)
+            .andIsDeletedEqualTo((short)0);
         List<PaperDTO> paperDTOS = paperMapper.selectByExample(example);
         return paperDTOS;
     }
@@ -57,30 +57,31 @@ PaperServiceImpl implements PaperService {
         StudentAnswerMapDTOExample example = new StudentAnswerMapDTOExample();
         example.createCriteria().andIsDeletedEqualTo((short)0).andStudentIdEqualTo(studentId);
         List<StudentAnswerMapDTO> answerMapDTOS = studentAnswerMapMapper.selectByExample(example);
-        if (CollectionUtils.isNotEmpty(answerMapDTOS)){
+        if (CollectionUtils.isNotEmpty(answerMapDTOS)) {
             return answerMapDTOS;
         }
         return new ArrayList<>();
     }
 
     @Override
-    public List<Question> getQuestionByPaperId(Integer teacherId,Integer paperId) {
+    public List<Question> getQuestionByPaperId(Integer teacherId, Integer paperId) {
         //paper和teacher的关系
         TeacherPaperMapDTOExample ex1 = new TeacherPaperMapDTOExample();
         ex1.createCriteria().andTeacherIdEqualTo(teacherId).andPaperIdEqualTo(paperId).andIsDeletedEqualTo((short)0);
         List<TeacherPaperMapDTO> teacherPaperMapDTOS = teacherPaperDTOMapper.selectByExample(ex1);
         List<Integer> refPaperId = teacherPaperMapDTOS.stream().map(x -> x.getPaperId()).collect(Collectors.toList());
 
-        if(CollectionUtils.isEmpty(refPaperId)) {
+        if (CollectionUtils.isEmpty(refPaperId)) {
             return new ArrayList<Question>();
         }
         //paper和question的关系
         PaperQuestionMapDTOExample ex2 = new PaperQuestionMapDTOExample();
         ex2.createCriteria().andPaperIdIn(refPaperId).andIsDeletedEqualTo((short)0);
         List<PaperQuestionMapDTO> paperQuestionMapDTOS = paperQuestionDTOMapper.selectByExample(ex2);
-        List<Integer> questionIds = paperQuestionMapDTOS.stream().map(x -> x.getQuestionId()).collect(Collectors.toList());
+        List<Integer> questionIds = paperQuestionMapDTOS.stream().map(x -> x.getQuestionId()).collect(
+            Collectors.toList());
 
-         if(CollectionUtils.isEmpty(questionIds)) {
+        if (CollectionUtils.isEmpty(questionIds)) {
             return new ArrayList<Question>();
         }
         //获取question
@@ -89,16 +90,16 @@ PaperServiceImpl implements PaperService {
         List<QuestionDTO> questionDTOS = questionDTOMapper.selectByExampleWithBLOBs(example);
         List<Question> collect = questionDTOS.stream().map(x -> {
             Question q = new Question();
-            q.teacherId=x.getTeacherId();
-            q.answer=x.getAnswer();
-            q.chapterId=x.getChapterId();
-            q.keywordOne=x.getKeywordOne();
-            q.keywordTwo=x.getKeywordTwo();
-            q.picOneUrl=x.getPicOneUrl();
-            q.picTwoUrl=x.getPicTwoUrl();
-            q.questionText=x.getQuestionText();
-            q.type=x.getType();
-            q.id=x.getId();
+            q.teacherId = x.getTeacherId();
+            q.answer = x.getAnswer();
+            q.chapterId = x.getChapterId();
+            q.keywordOne = x.getKeywordOne();
+            q.keywordTwo = x.getKeywordTwo();
+            q.picOneUrl = x.getPicOneUrl();
+            q.picTwoUrl = x.getPicTwoUrl();
+            q.questionText = x.getQuestionText();
+            q.type = x.getType();
+            q.id = x.getId();
             return q;
         }).collect(Collectors.toList());
         return collect;
@@ -124,17 +125,36 @@ PaperServiceImpl implements PaperService {
     @Override
     public List<Paper> getOtherPaper(int teacherId) {
         PaperDTOExample example = new PaperDTOExample();
-        example.createCriteria().andIsDeletedEqualTo((short)0).andTeacherIdNotEqualTo(teacherId).andIsSharedEqualTo((short)1);
+        example.createCriteria().andIsDeletedEqualTo((short)0).andTeacherIdNotEqualTo(teacherId).andIsSharedEqualTo(
+            (short)1);
         List<PaperDTO> paperDTOS = paperMapper.selectByExample(example);
-        return paperDTOS.stream().map(x->{
+        return paperDTOS.stream().map(x -> {
             Paper p = new Paper();
             p.setId(x.getId());
-                p.setPaperName(x.getName());
-                p.setPaperId(x.getId());
-                p.setTeacherId(x.getTeacherId());
-                p.setTeacherName(teacherMapper.selectByPrimaryKey(x.getTeacherId()).getName());
-                return p;
+            p.setPaperName(x.getName());
+            p.setPaperId(x.getId());
+            p.setTeacherId(x.getTeacherId());
+            p.setTeacherName(teacherMapper.selectByPrimaryKey(x.getTeacherId()).getName());
+            return p;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public void setShared(int paperId, int isShared) {
+
+        PaperDTO paperDTO = new PaperDTO();
+        paperDTO.setIsShared((short)isShared);
+        paperDTO.setId(paperId);
+        paperMapper.updateByPrimaryKeySelective(paperDTO);
+    }
+
+    @Override
+    public void setVisible(int paperId, int isVisible) {
+
+        PaperDTO paperDTO = new PaperDTO();
+        paperDTO.setId(paperId);
+        paperDTO.setIsVisible((short)isVisible);
+        paperMapper.updateByPrimaryKeySelective(paperDTO);
     }
 
 }

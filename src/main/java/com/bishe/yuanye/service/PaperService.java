@@ -29,4 +29,7 @@ public interface PaperService {
 
     List<Paper> getOtherPaper(int teacherId);
 
+    void setShared(int paperId, int isShared);
+
+    void setVisible(int paperId, int isVisible);
 }
