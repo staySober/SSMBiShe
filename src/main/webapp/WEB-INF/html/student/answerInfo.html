@@ -128,8 +128,7 @@
                         <div class="content" style="height: 1000px">
                             <div id="chartHours" class="ct-chart">
                                 <div id="answer" class="editDemo"
-                                     style="width: 1000px;height: auto">
-
+                                     style="width: 1000px;height: auto;border:0px">
                                 </div>
                             </div>
                         </div>
@@ -196,7 +195,7 @@
             $.post("/paper/getStudentAnswerInfo",
                 function (data) {
                     $.each(data, function (index, obj) {
-                        $("#answer").append('第' + (index + 1) + '题:' + obj.question.questionText + '你的答案:<div>' + obj.studentAnswer + '</div><br/>');
+                        $("#answer").append('第' + (index + 1) + '题:' + obj.question.questionText + '你的答案:<div style="color: dodgerblue">' + obj.studentAnswer + '</div><br/>');
 
                     });
                 });
