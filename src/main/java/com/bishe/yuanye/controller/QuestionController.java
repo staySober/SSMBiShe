@@ -115,4 +115,14 @@ public class QuestionController {
         }
     }
 
+    @RequestMapping(value = "/addToPaper")
+    @ResponseBody
+    public String addToPaper(int questionId, int paperId) {
+
+        try {
+            return questionService.addToPaper(questionId, paperId);
+        }catch(Exception e){
+            return "加入试卷失败";
+        }
+    }
 }

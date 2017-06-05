@@ -24,4 +24,6 @@ public interface QuestionService {
     int updateQuestion(Question question);
 
     Question queryQuestionById(int id);
+
+    String addToPaper(int questionId, int paperId) throws Exception;
 }

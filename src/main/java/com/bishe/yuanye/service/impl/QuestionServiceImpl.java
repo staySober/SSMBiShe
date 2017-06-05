@@ -20,6 +20,7 @@ import org.springframework.util.StringUtils;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -115,6 +116,26 @@ public class QuestionServiceImpl implements QuestionService {
         QuestionDTO questionDTO = questionDTOMapper.selectByPrimaryKey(id);
 
         return BuilderHelper.buildQuestion(questionDTO);
+    }
+
+    @Override
+    public String addToPaper(int questionId, int paperId) throws Exception{
+
+        PaperQuestionMapDTOExample example = new PaperQuestionMapDTOExample();
+        example.createCriteria().andQuestionIdEqualTo(questionId).andPaperIdEqualTo(paperId);
+        int num = paperQuestionDTOMapper.countByExample(example);
+        if (num == 0) {
+            PaperQuestionMapDTO dto = new PaperQuestionMapDTO();
+            dto.setQuestionId(questionId);
+            dto.setPaperId(paperId);
+            dto.setScore(0);
+            dto.setIsDeleted((short)0);
+            dto.setCreatedAt(new Date());
+            paperQuestionDTOMapper.insert(dto);
+            return "加入成功";
+        } else {
+            return "题目已存在于改试卷";
+        }
     }
 
 }
