@@ -440,6 +440,7 @@
         $('#code').fadeIn();
         $('.addToPaper').css('display', '');
         $('.updatediv').css('display', 'none');
+        $('#paperList').html('');
         parent.selectQuestionId = id;
 
         $.ajax({
@@ -459,6 +460,9 @@
         var paperId = $("#paperList option:selected").val()
         var questionId = parent.selectQuestionId
 
+        if(paperId==''){
+            alert('请选择试卷');
+        }
         $.ajax({
             async: false,
             url: '/questionBase/addToPaper',
@@ -469,6 +473,10 @@
             },
             success: function (data) {
                 alert(data.msg);
+                if (data.isSuccess == 1) {
+                    $('#goodcover').hide();
+                    $('#code').fadeOut();
+                }
             }
         })
     }
