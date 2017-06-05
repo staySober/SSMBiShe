@@ -128,8 +128,7 @@
                         <div class="content" style="height: 1000px">
                             <div id="chartHours" class="ct-chart">
                                 <div id="answer" class="editDemo"
-                                     style="width: 1000px;height: auto">
-
+                                     style="width: 1000px;height: auto;border:0px">
                                 </div>
                             </div>
                         </div>
@@ -184,19 +183,19 @@
         });
 
 
-        if (userType != 3 && userType!= 1) {
-            if (userType == 1){
-                window.location.href ="shiroPage.html";
+        if (userType != 3 && userType != 1) {
+            if (userType == 1) {
+                window.location.href = "shiroPage.html";
             }
-            if(userType ==2){
-                window.location.href ="../teacher/shiroPage.html";
+            if (userType == 2) {
+                window.location.href = "../teacher/shiroPage.html";
             }
         } else {
 
             $.post("/paper/getStudentAnswerInfo",
                 function (data) {
                     $.each(data, function (index, obj) {
-                        $("#answer").append('第' + (index + 1) + '题:' + obj.question.questionText +'<div> 你的答案: '+obj.studentAnswer+'</div><br/>');
+                        $("#answer").append('第' + (index + 1) + '题:' + obj.question.questionText + '你的答案:<div style="color: dodgerblue">' + obj.studentAnswer + '</div><br/>');
 
                     });
                 });

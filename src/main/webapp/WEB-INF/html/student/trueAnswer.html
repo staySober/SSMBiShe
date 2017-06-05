@@ -196,7 +196,7 @@
             $.post("/paper/getStudentAnswerInfo",
                 function (data) {
                     $.each(data, function (index, obj) {
-                        $("#answer").append('第' + (index + 1) + '题:' + obj.question.questionText + '<textarea  readonly="true" class="form-control border-input" contenteditable="false" style="width: 700px; height: 60px">' + obj.question.answer + '</textarea><br/>');
+                        $("#answer").append('第' + (index + 1) + '题:' + obj.question.questionText + '参考答案:<div style="color: red;">' + obj.question.answer + '</div><br/>');
                     });
                 });
         }

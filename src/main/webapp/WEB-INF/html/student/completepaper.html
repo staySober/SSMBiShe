@@ -241,7 +241,7 @@
                 function (data) {
                     $.each(data, function (index, obj) {
                         if (obj.answer == true) {
-                            $("#paper").append('<tr>...<td>' + flag +'</td><td>题' + obj.paperName +
+                            $("#paper").append('<tr>...<td>' + flag +'</td><td>' + obj.paperName +
                                 '</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
                                 '<a href="/paper/getStudentAnswer?paperId=' + obj.paperId + '">作答情况</a></td>' +
                                 '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
