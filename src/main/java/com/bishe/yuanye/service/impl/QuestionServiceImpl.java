@@ -10,6 +10,7 @@ import com.bishe.yuanye.dao.mapper.QuestionDTOMapper;
 import com.bishe.yuanye.entity.ChapterInfo;
 import com.bishe.yuanye.entity.Question;
 import com.bishe.yuanye.entity.request.QueryQuestionRequest;
+import com.bishe.yuanye.entity.response.AddToPaperResponse;
 import com.bishe.yuanye.entity.response.QueryQuestionResponse;
 import com.bishe.yuanye.service.QuestionService;
 import org.slf4j.Logger;
@@ -119,8 +120,9 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public String addToPaper(int questionId, int paperId) throws Exception{
+    public AddToPaperResponse addToPaper(int questionId, int paperId) throws Exception{
 
+        AddToPaperResponse response = new AddToPaperResponse();
         PaperQuestionMapDTOExample example = new PaperQuestionMapDTOExample();
         example.createCriteria().andQuestionIdEqualTo(questionId).andPaperIdEqualTo(paperId);
         int num = paperQuestionDTOMapper.countByExample(example);
@@ -132,10 +134,13 @@ public class QuestionServiceImpl implements QuestionService {
             dto.setIsDeleted((short)0);
             dto.setCreatedAt(new Date());
             paperQuestionDTOMapper.insert(dto);
-            return "加入成功";
+            response.isSuccess =1;
+            response.msg="加入成功";
         } else {
-            return "题目已存在于改试卷";
+            response.isSuccess = 0;
+            response.msg = "题目已在试卷当中";
         }
+        return response;
     }
 
 }

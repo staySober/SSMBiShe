@@ -4,6 +4,7 @@ import com.bishe.yuanye.entity.ChapterInfo;
 import com.bishe.yuanye.entity.Question;
 import com.bishe.yuanye.entity.QuestionQueryCondition;
 import com.bishe.yuanye.entity.request.QueryQuestionRequest;
+import com.bishe.yuanye.entity.response.AddToPaperResponse;
 import com.bishe.yuanye.entity.response.QueryQuestionResponse;
 
 import java.util.List;
@@ -25,5 +26,5 @@ public interface QuestionService {
 
     Question queryQuestionById(int id);
 
-    String addToPaper(int questionId, int paperId) throws Exception;
+    AddToPaperResponse addToPaper(int questionId, int paperId) throws Exception;
 }

@@ -11,6 +11,7 @@ import com.bishe.yuanye.entity.ChapterInfo;
 import com.bishe.yuanye.entity.Question;
 import com.bishe.yuanye.entity.User;
 import com.bishe.yuanye.entity.request.QueryQuestionRequest;
+import com.bishe.yuanye.entity.response.AddToPaperResponse;
 import com.bishe.yuanye.entity.response.QueryQuestionResponse;
 import com.bishe.yuanye.entity.response.QuestionWithDetail;
 import com.bishe.yuanye.entity.response.SavePictureResponse;
@@ -117,12 +118,15 @@ public class QuestionController {
 
     @RequestMapping(value = "/addToPaper")
     @ResponseBody
-    public String addToPaper(int questionId, int paperId) {
+    public AddToPaperResponse addToPaper(int questionId, int paperId) {
 
+        AddToPaperResponse response = new AddToPaperResponse();
         try {
-            return questionService.addToPaper(questionId, paperId);
-        }catch(Exception e){
-            return "加入试卷失败";
+            response = questionService.addToPaper(questionId, paperId);
+        } catch (Exception e) {
+            response.isSuccess = 0;
+            response.msg = "加入试卷失败";
         }
+        return response;
     }
 }
