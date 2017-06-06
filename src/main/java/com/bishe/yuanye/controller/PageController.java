@@ -46,8 +46,8 @@ public class PageController {
     @Autowired
     private QuestionService questionService;
 
-    @Value("${saveImageUrl}")
-    private String saveImageUrl;
+    @Value("${URL}")
+    private String URL;
 
     /**
      * 获取试卷集的方法
@@ -102,7 +102,7 @@ public class PageController {
         List<Question> questions = paperService.getQuestionByPaperId(user.getTeacherId(),
             Integer.parseInt(cookie.getValue()));
         questions.stream().forEach(x -> {
-            x.setPicOneUrl("../../files/" + x.getPicOneUrl());
+            x.setPicOneUrl(URL + x.getPicOneUrl());
         });
         return questions;
     }

@@ -23,6 +23,11 @@ import java.util.Date;
  */
 public class BuilderHelper {
 
+    /**
+     * 帮助类 静态的只能用魔法值..
+     */
+    private static String URL = "http://image.waitsober.com/";
+
     public static QuestionDTO buildQuestionDTO(Question question) {
 
         QuestionDTO questionDTO = new QuestionDTO();
@@ -92,7 +97,7 @@ public class BuilderHelper {
         questionWithDetail.questionText = questionDTO.getQuestionText();
         questionWithDetail.teacherId = questionDTO.getTeacherId();
         questionWithDetail.teacherName = questionDTO.getTeacherName();
-        questionWithDetail.picOneUrl = "../../files/" + questionDTO.getPicOneUrl();
+        questionWithDetail.picOneUrl = URL + questionDTO.getPicOneUrl();
         questionWithDetail.answer = questionDTO.getAnswer();
         questionWithDetail.createdAt = CommonUtil.formatDateToString(questionDTO.getCreatedAt());
         questionWithDetail.allKeyword = questionDTO.getKeywordOne();
