@@ -7,6 +7,7 @@ import com.bishe.yuanye.dao.dto.StudentAnswerMapDTO;
 import com.bishe.yuanye.dao.dto.StudentCompletePaperDTO;
 import com.bishe.yuanye.entity.Paper;
 import com.bishe.yuanye.entity.Question;
+import com.bishe.yuanye.entity.response.CreatePaperResponse;
 import com.bishe.yuanye.entity.response.QuestionWithDetail;
 
 /**
@@ -35,4 +36,6 @@ public interface PaperService {
     void setVisible(int paperId, int isVisible);
 
     List<QuestionWithDetail> getPaperQuestion(int paperId);
+
+    CreatePaperResponse createPaper(String paperName, int teacherId);
 }

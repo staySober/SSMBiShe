@@ -16,6 +16,7 @@ import com.bishe.yuanye.entity.Question;
 import com.bishe.yuanye.entity.User;
 import com.bishe.yuanye.entity.request.PaperSetSharedRequest;
 import com.bishe.yuanye.entity.request.PaperSetVisibleRequest;
+import com.bishe.yuanye.entity.response.CreatePaperResponse;
 import com.bishe.yuanye.entity.response.QuestionWithDetail;
 import com.bishe.yuanye.service.AnswerService;
 import com.bishe.yuanye.service.PaperService;
@@ -25,6 +26,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -164,5 +166,21 @@ public class PageController {
     public List<QuestionWithDetail> selectPaperQuestion(int paperId) {
 
         return paperService.getPaperQuestion(paperId);
+    }
+
+    @RequestMapping("/createPaper")
+    @ResponseBody
+    public CreatePaperResponse createPaper(String paperName, HttpServletRequest request) {
+        CreatePaperResponse response = new CreatePaperResponse();
+        try {
+            User user = (User)request.getSession().getAttribute("user");
+            int teacherId = user.getId();
+            response = paperService.createPaper(paperName, teacherId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.isSuccess = 0;
+            response.msg = "新建试卷失败";
+        }
+        return response;
     }
 }

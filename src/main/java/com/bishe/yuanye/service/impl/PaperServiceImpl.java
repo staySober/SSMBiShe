@@ -1,6 +1,7 @@
 package com.bishe.yuanye.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,6 +10,7 @@ import com.bishe.yuanye.dao.dto.*;
 import com.bishe.yuanye.dao.mapper.*;
 import com.bishe.yuanye.entity.Paper;
 import com.bishe.yuanye.entity.Question;
+import com.bishe.yuanye.entity.response.CreatePaperResponse;
 import com.bishe.yuanye.entity.response.QuestionWithDetail;
 import com.bishe.yuanye.service.PaperService;
 import org.apache.commons.collections.CollectionUtils;
@@ -25,7 +27,7 @@ import org.springframework.stereotype.Service;
 public class PaperServiceImpl implements PaperService {
 
     @Autowired
-    PaperDTOMapper paperMapper;
+    PaperDTOMapper paperDTOMapper;
 
     @Autowired
     private StudentAnswerMapDTOMapper studentAnswerMapMapper;
@@ -50,7 +52,7 @@ public class PaperServiceImpl implements PaperService {
         PaperDTOExample example = new PaperDTOExample();
         example.createCriteria().andTeacherIdEqualTo(id).andIsSharedEqualTo((short)1).andIsVisibleEqualTo((short)1)
             .andIsDeletedEqualTo((short)0);
-        List<PaperDTO> paperDTOS = paperMapper.selectByExample(example);
+        List<PaperDTO> paperDTOS = paperDTOMapper.selectByExample(example);
         return paperDTOS;
     }
 
@@ -129,7 +131,7 @@ public class PaperServiceImpl implements PaperService {
         PaperDTOExample example = new PaperDTOExample();
         example.createCriteria().andIsDeletedEqualTo((short)0).andTeacherIdNotEqualTo(teacherId).andIsSharedEqualTo(
             (short)1);
-        List<PaperDTO> paperDTOS = paperMapper.selectByExample(example);
+        List<PaperDTO> paperDTOS = paperDTOMapper.selectByExample(example);
         return paperDTOS.stream().map(x -> {
             Paper p = new Paper();
             p.setId(x.getId());
@@ -147,7 +149,7 @@ public class PaperServiceImpl implements PaperService {
         PaperDTO paperDTO = new PaperDTO();
         paperDTO.setIsShared((short)isShared);
         paperDTO.setId(paperId);
-        paperMapper.updateByPrimaryKeySelective(paperDTO);
+        paperDTOMapper.updateByPrimaryKeySelective(paperDTO);
     }
 
     @Override
@@ -156,7 +158,7 @@ public class PaperServiceImpl implements PaperService {
         PaperDTO paperDTO = new PaperDTO();
         paperDTO.setId(paperId);
         paperDTO.setIsVisible((short)isVisible);
-        paperMapper.updateByPrimaryKeySelective(paperDTO);
+        paperDTOMapper.updateByPrimaryKeySelective(paperDTO);
     }
 
     @Override
@@ -178,5 +180,29 @@ public class PaperServiceImpl implements PaperService {
         } else {
             return new ArrayList<QuestionWithDetail>();
         }
+    }
+
+    @Override
+    public CreatePaperResponse createPaper(String paperName, int teacherId) {
+
+        CreatePaperResponse response = new CreatePaperResponse();
+        PaperDTOExample example = new PaperDTOExample();
+        example.createCriteria().andNameEqualTo(paperName);
+        List<PaperDTO> paperDTOList = paperDTOMapper.selectByExample(example);
+        if (CollectionUtils.isEmpty(paperDTOList)) {
+            PaperDTO paperDTO = new PaperDTO();
+            paperDTO.setName(paperName);
+            paperDTO.setTeacherId(teacherId);
+            paperDTO.setCreatedAt(new Date());
+            paperDTO.setIsVisible((short)0);
+            paperDTO.setIsShared((short)0);
+            paperDTO.setIsDeleted((short)0);
+            paperDTOMapper.insert(paperDTO);
+            response.isSuccess = 1;
+        } else {
+            response.isSuccess = 0;
+            response.msg = "相同试卷名已存在，请重新输入";
+        }
+        return response;
     }
 }

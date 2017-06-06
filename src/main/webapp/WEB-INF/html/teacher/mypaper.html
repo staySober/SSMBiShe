@@ -21,12 +21,11 @@
     <!--  Paper Dashboard core CSS    -->
     <link href="../../assets/css/paper-dashboard.css" rel="stylesheet"/>
 
-    <!--  CSS for Demo Purpose, don't include it in your project     -->
-    <link href="../../assets/css/demo.css" rel="stylesheet"/>
-
     <!--  Fonts and icons     -->
-
     <link href="../../assets/css/themify-icons.css" rel="stylesheet">
+
+    <!-- 弹层 -->
+    <link href="../../css/layer.css" rel="stylesheet">
 
 </head>
 <body>
@@ -72,6 +71,8 @@
 
         <div class="content">
             <div class="container-fluid">
+                <div><a href="##" onclick="showCreatePaperDiv()">新建试卷</a></div>
+                <hr style="filter: alpha(opacity=100,finishopacity=0,style=3)" width="80%" color=#987cb9 SIZE=3>
                 <div class="row">
                     <div class="content table-responsive table-full-width">
                         <table class="table table-striped">
@@ -95,7 +96,6 @@
             <div class="container-fluid">
                 <nav class="pull-left">
                     <ul>
-
                         <li>
                             <a href="#">
                                 Home
@@ -104,14 +104,24 @@
                     </ul>
                 </nav>
                 <div class="copyright pull-right">
-
                 </div>
             </div>
         </footer>
 
     </div>
 </div>
-
+<!-- 遮罩层-->
+<div id="goodcover"></div>
+<!--新建试卷弹窗-->
+<div id="code" style="height: 250px">
+    <div class="close1"><a href="javascript:void(0)" id="closebt"><img src="../../images/close.gif"></a></div>
+    <div style="padding-left:100px"><input id="paperName" type="text" align="center">请输入试卷名称</div>
+    <div style="text-align: center;margin-top:30px">
+        <button type="submit" class="btn btn-info btn-fill btn-wd" onclick="return createPaper()">
+            创建试卷
+        </button>
+    </div>
+</div>
 
 </body>
 
@@ -131,8 +141,7 @@
 <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
 <script src="../../assets/js/paper-dashboard.js"></script>
 
-<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-<script src="../../assets/js/demo.js"></script>
+<script src="../../js/layer.js"></script>
 
 <script type="text/javascript">
     $(function () {
@@ -236,12 +245,37 @@
             }
         });
     }
-</script>
-<script>
+
     function lookQuestion(id) {
         parent.selectPaperId = id;
         parent.lastPage = 'mypaper.html';
         window.location.href = 'paperquestion.html';
+    }
+
+    function showCreatePaperDiv() {
+        $('#code').center();
+        $('#goodcover').show();
+        $('#code').fadeIn();
+    }
+
+    function createPaper() {
+        var paperName = $('#paperName').val();
+        $.ajax({
+            async: false,
+            url: '/paper/createPaper',
+            dataType: 'json',
+            data: {
+                paperName: paperName
+            },
+            success: function (data) {
+                if (data.isSuccess == 0) {
+                    alert(data.msg);
+                } else {
+                    alert("新建成功");
+                    window.location.href = "mypaper.html";
+                }
+            }
+        });
     }
 </script>
 </html>
